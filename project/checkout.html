@@ -165,14 +165,12 @@ html, body { overflow-x: hidden; }
 
 
 <script>
-/* API */
-const API_URL = (() => {
-  const { origin } = window.location;
-  if (origin.includes(".gitpod.io")) return origin.replace("https://5173-", "https://8000-") + "/api";
-  if (/^https?:\/\/(localhost|127\.0\.0\.1):5173$/i.test(origin)) return "http://localhost:8000/api";
-  return "https://8000-ryuuu69-kuistofood2-qkjphmgb0l2.ws-eu120.gitpod.io/api";
-})();
-const api = p => `${API_URL}${p}`;
+<!-- ==== API (via proxy Netlify) ==== -->
+
+  const API_URL = "/api";           // ✅ on passe par /api, Netlify proxy vers Render
+  const api = (p) => `${API_URL}${p}`;
+
+
 
 /* Stripe */
 const STRIPE_PUB_KEY = "pk_test_51RtFiNFLdf1kYep9hYhAvouGxNkEZ7FVZRlTiiy3XlZyPSAfeiu3NgC215VBkKZrKP1wfJHqydipRf2T1f6CgyGC00qZaj4V4M";
