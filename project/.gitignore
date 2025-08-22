@@ -1,0 +1,80 @@
+# === IDE / éditeurs ===
+.idea/
+.vscode/
+
+# === Node / front éventuel ===
+node_modules/
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# === Builds / dist / production ===
+/build
+dist/
+/.next/          # si tu n'utilises pas Next.js tu peux enlever
+/out/
+
+# === Environnements / secrets ===
+.env*
+*token.json*
+*credentials.json*
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*pyc*
+venv/
+.venv/
+
+# === Logs / debug ===
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dump.rdb
+
+# === Systèmes / OS ===
+.DS_Store
+*.pem
+
+# === Tests / coverage ===
+/coverage
+.htmlcov/
+.pytest_cache/
+
+# === Déploiement / plateformes ===
+.vercel
+
+# === Données / bases ===
+agenthub/agents/youtube/db
+*.sqlite3
+
+# === Divers / caches ===
+.cache/
+
+# === Fichiers secrets locaux ===
+
+.gitpod.env
+backend/.env
+
+# === Archives / binaires lourds ===
+**/*.zip
+**/*.tar.gz
+**/*.tar
+**/*.tgz
+*.pack
+*.deb
+*.dylib
+
+# === Outils dev non pertinents pour commit ===
+.chainlit
+chainlit.md
+.ipynb_checkpoints/
+.ac

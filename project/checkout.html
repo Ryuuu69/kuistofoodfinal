@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuisto - Validation de la commande</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background:#f5f6f7; font-family:'Montserrat',sans-serif; margin:0; }
+    header { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); }
+    .banner { height:180px; display:flex; align-items:center; justify-content:center; }
+    .checkout-container { min-height:80vh; display:flex; justify-content:center; align-items:flex-start; padding:40px 12px; }
+    .checkout-card { background:#fff; border-radius:32px; box-shadow:0 6px 36px rgba(0,0,0,0.10); padding:42px 38px 36px 38px; width:500px; max-width:100vw; display:flex; flex-direction:column; align-items:center; position:relative; }
+    .checkout-title { font-size:2rem; font-weight:700; margin-bottom:14px; text-align:center; }
+    .back-btn { position:absolute; top:0; right:0; background:#F18701; color:#fff; border-radius:0 32px 0 32px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; font-size:2rem; text-decoration:none; box-shadow:0 3px 14px rgba(0,0,0,0.06); transition:background .2s; z-index:2; }
+    .back-btn:hover { background:#e07600; }
+    #checkout-items-container { width:100%; margin-bottom:28px; }
+    .recap-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:1.05rem; }
+    .recap-item:last-child { border-bottom:none; }
+    .recap-item-main { display:flex; flex-direction:column; }
+    .recap-item-name { font-weight:600; }
+    .recap-item-qty { color:#A3A3A3; font-size:.95rem; }
+    .recap-item-price { font-weight:600; margin-left:16px; }
+    .recap-total { display:flex; justify-content:space-between; align-items:center; font-size:1.15rem; font-weight:700; padding-top:12px; margin-top:8px; border-top:2px solid #f0f0f0; }
+    form { width:100%; }
+    label { font-weight:600; font-size:.96rem; }
+    input[type="text"], input[type="tel"] { width:100%; border:1px solid #d1d5db; border-radius:10px; padding:10px; margin-top:5px; margin-bottom:15px; font-size:1rem; transition:border .2s; font-family:'Montserrat',sans-serif; }
+    input:focus { outline:none; border-color:#F18701; }
+    fieldset { border:none; margin:0 0 14px 0; padding:0; }
+    legend { font-size:.98rem; font-weight:600; margin-bottom:7px; }
+    .delivery-fee { font-size:1.1rem; font-weight:600; margin-bottom:15px; }
+    .big-btn { background:#F18701; color:#fff; border:none; border-radius:32px; font-family:'Montserrat',sans-serif; font-size:1.18rem; font-weight:600; padding:20px 0; width:100%; max-width:100%; box-shadow:0 4px 24px rgba(234,61,47,0.12); transition:background .2s; letter-spacing:.02em; cursor:pointer; margin-top:14px; }
+    .big-btn:hover { background:#e07600; }
+    .custom-radio-group { display:flex; gap:18px; margin-bottom:10px; }
+    .custom-radio-label { display:flex; align-items:center; cursor:pointer; font-weight:500; font-size:1.09rem; border-radius:999px; padding:10px 22px 10px 14px; border:2px solid #F18701; background:#faf4e7; transition:border .18s, box-shadow .18s, background .18s; position:relative; box-shadow:0 2px 6px rgba(241,135,1,0.06); user-select:none; margin-bottom:4px; }
+    .custom-radio-label:hover, .custom-radio-label:focus-within { border-color:#e07600; background:#f7e2c2; }
+    .custom-radio { position:absolute; opacity:0; pointer-events:none; }
+    .radio-custom-icon { width:24px; height:24px; border-radius:50%; border:2.3px solid #F18701; background:#fff; display:flex; align-items:center; justify-content:center; margin-right:13px; transition:border-color .18s; position:relative; }
+    .custom-radio:checked + .radio-custom-icon { background:#F18701; border-color:#F18701; }
+    .radio-custom-icon::after { content:''; display:block; width:14px; height:14px; border-radius:50%; background:transparent; transition:background .18s; }
+    .custom-radio:checked + .radio-custom-icon::after { background:#F18701; width:14px; height:14px; }
+    @media (max-width:640px){ .checkout-card { padding:20px 8px 24px 8px; border-radius:18px; } .banner { height:90px; } .back-btn { width:38px; height:38px; font-size:1.2rem; } }
+    /* Réduit la largeur visuelle des champs du formulaire (desktop) */
+#checkout-form input[type="text"],
+#checkout-form input[type="tel"],
+#checkout-form input[type="email"],
+#checkout-form input[type="number"],
+#checkout-form textarea,
+#checkout-form select {
+  width: 100%;          /* reste fluide */
+  max-width: 420px;     /* ⇠ ajuste la “longueur” ici (ex: 460px, 500px…) */
+  margin-left: auto;    /* centre le champ dans la carte */
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Option : réduit un peu la hauteur si tu veux */
+#checkout-form input[type="text"],
+#checkout-form input[type="tel"],
+#checkout-form input[type="email"],
+#checkout-form input[type="number"],
+#checkout-form select {
+  height: 44px;         /* ex: 40–48px */
+  padding: 10px 14px;
+}
+
+/* Mobile : on laisse la pleine largeur */
+@media (max-width: 640px) {
+  #checkout-form input[type="text"],
+  #checkout-form input[type="tel"],
+  #checkout-form input[type="email"],
+  #checkout-form input[type="number"],
+  #checkout-form textarea,
+  #checkout-form select {
+    max-width: 100%;
+  }
+}
+/* --- Fix overflow mobile pour la carte + champs --- */
+*,
+*::before,
+*::after { box-sizing: border-box; } /* évite les dépassements liés aux bordures/paddings */
+
+@media (max-width: 640px) {
+  /* La carte ne doit jamais dépasser le conteneur */
+  .checkout-card {
+    width: 100%;
+    max-width: 100%;                 /* au lieu de 100vw */
+    padding: 20px 12px 24px;         /* garde un peu d'air sans forcer un débordement */
+  }
+
+  /* Les blocs internes restent dans la carte */
+  #checkout-items-container,
+  #checkout-form { width: 100%; max-width: 100%; }
+
+  /* Les champs ne dépassent jamais */
+  #checkout-form input[type="text"],
+  #checkout-form input[type="tel"],
+  #checkout-form input[type="email"],
+  #checkout-form input[type="number"],
+  #checkout-form textarea,
+  #checkout-form select {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+}
+
+/* Petit filet de sécurité contre un éventuel scroll horizontal */
+html, body { overflow-x: hidden; }
+
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="banner">
+    <img src="images/banner.svg" alt="Kuisto Banner" style="max-height:100%; width:auto;">
+  </div>
+</header>
+
+<div class="checkout-container">
+  <div class="checkout-card">
+    <a href="panier.html" class="back-btn" title="Retour au panier">&#8592;</a>
+    <div class="checkout-title">Validation de la commande</div>
+
+    <div id="checkout-items-container"></div>
+
+    <form id="checkout-form" autocomplete="off">
+      <label for="name">Nom complet</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="address">Adresse de livraison</label>
+      <input type="text" id="address" name="address" required placeholder="Numéro + Rue, Ville, Code postal">
+
+      <label for="phone">Téléphone</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9\s\+\-]+">
+
+      <fieldset>
+        <legend>Mode de paiement</legend>
+        <div class="custom-radio-group">
+          <label class="custom-radio-label">
+            <input type="radio" name="payment" value="cb" class="custom-radio" checked>
+            <span class="radio-custom-icon"></span> Carte bancaire
+          </label>
+          <label class="custom-radio-label">
+            <input type="radio" name="payment" value="especes" class="custom-radio">
+            <span class="radio-custom-icon"></span> Espèces à la livraison
+          </label>
+        </div>
+      </fieldset>
+
+      <div id="stripe-container" style="display:none; margin-bottom:18px;">
+        <div id="payment-element"></div>
+      </div>
+
+      <div class="delivery-fee">Frais de livraison : €<span id="delivery-fee-amount">0.00</span></div>
+      <button type="submit" class="big-btn">Commander</button>
+    </form>
+  </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="products-data.js"></script>
+
+
+<script>
+/* API */
+const API_URL = (() => {
+  const { origin } = window.location;
+  if (origin.includes(".gitpod.io")) return origin.replace("https://5173-", "https://8000-") + "/api";
+  if (/^https?:\/\/(localhost|127\.0\.0\.1):5173$/i.test(origin)) return "http://localhost:8000/api";
+  return "https://8000-ryuuu69-kuistofood2-qkjphmgb0l2.ws-eu120.gitpod.io/api";
+})();
+const api = p => `${API_URL}${p}`;
+
+/* Stripe */
+const STRIPE_PUB_KEY = "pk_test_51RtFiNFLdf1kYep9hYhAvouGxNkEZ7FVZRlTiiy3XlZyPSAfeiu3NgC215VBkKZrKP1wfJHqydipRf2T1f6CgyGC00qZaj4V4M";
+let stripe=null, elements=null, paymentElement=null;
+let intentReady=false, intentCreating=false;
+
+/* Panier */
+function getCartItems(){
+  try { return JSON.parse(localStorage.getItem("bigsmash_cart")) || []; } catch { return []; }
+}
+
+/* ===== Helpers d'affichage (ne changent pas le fonctionnement) ===== */
+const fmtEUR = (n) => `${(Number(n)||0).toFixed(2).replace('.', ',')}€`;
+
+// Prix unitaire fiable (priorité à basePrice)
+function getUnitPrice(item){
+  if (typeof item.basePrice === 'number') return item.basePrice;
+  if (item?.options?.size?.price != null) return Number(item.options.size.price);
+  return Number(item.product?.price ?? item.price ?? 0);
+}
+
+// Recalcul de sécurité d'une ligne (si totalPrice absent)
+function computeLineTotal(item){
+  const q = Number(item.quantity || 1);
+  let line = Number(getUnitPrice(item)) * q;
+
+  const opt = item.options || {};
+  // Suppléments
+  if (opt.supplements){
+    Object.values(opt.supplements).forEach(s => {
+      const p = Number(s.price || 0);
+      const sq = Number(s.quantity || 0);
+      if (sq > 0) line += p * sq * q;
+    });
+  }
+  // Sauces payantes
+  if (opt.sauces){
+    Object.values(opt.sauces).forEach(s => {
+      const p = Number(s.price || 0);
+      if (p > 0) line += p * q;
+    });
+  }
+  // Boisson(s)
+  const hasMultiDrinks = !!(opt.drinks && Object.values(opt.drinks).length);
+  if (hasMultiDrinks){
+    const arr = Array.isArray(opt.drinks) ? opt.drinks : Object.values(opt.drinks);
+    arr.forEach(d => {
+      const p = Number(d?.price || 0);
+      if (p > 0) line += p * q;
+    });
+  } else if (opt.drink && Number(opt.drink.price) > 0){
+    line += Number(opt.drink.price) * q;
+  }
+  // Petit creux
+  if (opt.petitCreux && Number(opt.petitCreux.price) > 0){
+    line += Number(opt.petitCreux.price) * q;
+  }
+  return line;
+}
+
+// Texte options lisible (taille, burger, viandes, sauces, suppléments, retraits, boisson, petit creux)
+function formatOptionsForRecap(options, slug){
+  if (!options) return '';
+  const parts = [];
+
+  // Taille
+  if (options.size?.name) parts.push(options.size.name);
+
+  // Burger (menus) + delta éventuel
+  if (options.burger?.name){
+    const delta = (typeof options.burger.priceDelta === 'number' && options.burger.priceDelta > 0)
+      ? ` (+${options.burger.priceDelta.toFixed(2).replace('.', ',')}€)` : '';
+    parts.push(`Burger : ${options.burger.name}${delta}`);
+  }
+
+  // Taille tacos (nb de viandes)
+  if (options.meatCount){
+    if (typeof options.meatCount === 'object' && options.meatCount.label) {
+      parts.push(options.meatCount.label);
+    } else if (typeof options.meatCount === 'number') {
+      parts.push(options.meatCount > 1 ? `${options.meatCount} viandes` : `${options.meatCount} viande`);
+    }
+  }
+
+  // Viandes
+  if (options.meats && typeof options.meats === 'object'){
+    const meats = Object.values(options.meats).map(m => m?.name).filter(Boolean);
+    if (meats.length) parts.push(`Viande(s) : ${meats.join(', ')}`);
+  }
+
+  // Boisson(s) — gère boisson unique (options.drink) et multiples (options.drinks)
+  const drinkNames = [];
+  if (options.drink?.name) drinkNames.push(options.drink.name);
+  if (options.drinks){
+    const vals = Array.isArray(options.drinks) ? options.drinks : Object.values(options.drinks);
+    vals.forEach(d => { if (d?.name) drinkNames.push(d.name); });
+  }
+  if (drinkNames.length){
+    const label = drinkNames.length > 1 ? 'Boissons' : 'Boisson';
+    parts.push(`${label} : ${drinkNames.join(', ')}`);
+  }
+
+  // Sauces
+  if (options.sauces && typeof options.sauces === 'object'){
+    const sauces = Object.values(options.sauces).map(s => s?.name).filter(Boolean);
+    if (sauces.length) parts.push(`Sauce(s) : ${sauces.join(', ')}`);
+  }
+
+  // Suppléments
+  if (options.supplements && typeof options.supplements === 'object'){
+    const sups = Object.values(options.supplements)
+      .filter(s => Number(s.quantity||0) > 0)
+      .map(s => s.name + (s.quantity > 1 ? ` ×${s.quantity}` : ''));
+    if (sups.length) parts.push(`Supplément : ${sups.join(', ')}`);
+  }
+
+  // Retraits ("Sans ...") — même logique que dans le panier
+  if (options.remove){
+    const removeNames = [];
+    // Cherche la définition du produit pour mapper les index -> noms
+    const productDef = (typeof findProductBySlug === 'function' && slug) ? findProductBySlug(slug) : null;
+    const removeDefs  = productDef?.options?.remove || null;
+
+    Object.entries(options.remove)
+      .filter(([, v]) => v === true)
+      .forEach(([key, val]) => {
+        let name = key;
+
+        // 1) index numérique -> nom depuis products-data.js
+        const idx = Number(key);
+        if (removeDefs && Number.isInteger(idx) && removeDefs[idx]?.name) {
+          name = removeDefs[idx].name;
+        }
+        // 2) parfois la valeur est un objet { name: "..." }
+        else if (val && typeof val === 'object' && val.name){
+          name = val.name;
+        }
+
+        if (name.toLowerCase().startsWith('sans ')) name = name.slice(5);
+        removeNames.push(name);
+      });
+
+    if (removeNames.length) parts.push(`Sans ${removeNames.join(', ')}`);
+  }
+
+  // Petit creux
+  if (options.petitCreux?.name) parts.push(`Petit creux : ${options.petitCreux.name}`);
+
+  return parts.join(' – ');
+}
+
+/* Référence checkout : affiche toute la commande + totaux */
+function renderCartRecap(items){
+  const cont = document.getElementById("checkout-items-container");
+  cont.innerHTML = "";
+  if(!items.length){
+    cont.innerHTML = "<div style='color:#bbb;text-align:center;padding:30px 0'>Votre panier est vide.</div>";
+    return;
+  }
+
+  let subTotal = 0;
+
+  for (const it of items){
+    const qty    = Number(it.quantity || 1);
+    const unit   = getUnitPrice(it);
+    const line   = (typeof it.totalPrice === 'number') ? it.totalPrice : computeLineTotal(it);
+    const optTxt = formatOptionsForRecap(it.options, it.slug);
+
+    subTotal += Number(line) || 0;
+
+    cont.insertAdjacentHTML("beforeend", `
+      <div class="recap-item" style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #eee;padding:12px 0;">
+        <div class="recap-item-main" style="flex:1;min-width:0;">
+          <div class="recap-item-name" style="font-weight:600;">${it.name || "Produit"}</div>
+          ${optTxt ? `<div class="cart-options" style="font-style:italic;color:#666;margin-top:2px;">${optTxt}</div>` : ""}
+          <div class="recap-item-qty" style="color:#666;margin-top:4px;">Quantité : ${qty}</div>
+          <div class="recap-item-unit" style="color:#666;margin-top:2px;">Prix unitaire : ${fmtEUR(unit)}</div>
+        </div>
+        <div class="recap-item-total" style="min-width:90px;text-align:right;font-weight:600;">
+          ${fmtEUR(line)}
+        </div>
+      </div>
+    `);
+  }
+
+  // Frais de livraison (si affichés à l'écran)
+  const feeNum = parseFloat((document.getElementById("delivery-fee-amount")?.textContent || "0").replace(',', '.')) || 0;
+  const grandTotal = subTotal + feeNum;
+
+  // Bloc totaux
+  cont.insertAdjacentHTML("beforeend", `
+    <div class="recap-total-row" style="display:flex;justify-content:space-between;padding-top:10px;">
+      <span>Sous-total</span><span>${fmtEUR(subTotal)}</span>
+    </div>
+    <div class="recap-total-row" style="display:flex;justify-content:space-between;margin-top:4px;">
+      <span>Frais de livraison</span><span>${fmtEUR(feeNum)}</span>
+    </div>
+    <div class="recap-grand-total" style="display:flex;justify-content:space-between;margin-top:8px;font-weight:700;border-top:1px solid #eee;padding-top:8px;">
+      <span>Total à payer</span><span>${fmtEUR(grandTotal)}</span>
+    </div>
+  `);
+}
+
+/* Delivery fee (indicatif) */
+const RESTAURANT={lat:43.606206,lng:3.870316};
+async function getCoords(addr){
+  const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addr)}`);
+  const d = await r.json(); if(!d.length) throw 0;
+  return {lat:parseFloat(d[0].lat), lng:parseFloat(d[0].lon)};
+}
+function hav(a,b){ const toR=x=>x*Math.PI/180,R=6371; const dLat=toR(b.lat-a.lat), dLon=toR(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2 + Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h));}
+function calcFee(km){ return 2 + 1*km; }
+async function updateDeliveryFee(){
+  const address = document.getElementById("address")?.value?.trim();
+  document.getElementById("delivery-fee-amount").textContent = "—";
+  if(!address) return;
+  try {
+    const c=await getCoords(address);
+    document.getElementById("delivery-fee-amount").textContent = calcFee(hav(RESTAURANT,c)).toFixed(2);
+    // Rafraîchir l'affichage du total avec les frais actuels
+    renderCartRecap(getCartItems());
+  } catch {}
+}
+document.getElementById("address")?.addEventListener("blur", updateDeliveryFee);
+
+/* Map options → IDs */
+const productOptionCache = new Map();
+const norm = s => String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+async function loadProductOptions(productId){
+  if (productOptionCache.has(productId)) return productOptionCache.get(productId);
+  const res = await fetch(api(`/products/${productId}`), {mode:"cors"});
+  const map = new Map();
+  if (res.ok){
+    const p = await res.json();
+    (p.options||[]).forEach(opt => (opt.choice_options||[]).forEach(co =>
+      map.set(norm(co.name), { option_id: opt.id, choice_option_id: co.id })
+    ));
+  }
+  productOptionCache.set(productId, map);
+  return map;
+}
+
+// >>> ICI: on inclut le meatCount pour les MENUS TACOS (+3€ base côté BDD)
+// La BDD connaît déjà le +3€ via le produit "menu-tacos"; on lui envoie juste la TAILLE pour appliquer ses price modifiers.
+function extractSelectedNames(options){
+  if (!options) return [];
+  const names=[];
+  if (options.size?.name) names.push(options.size.name);
+
+  // Taille tacos (1/2/3 viandes)
+  if (options.meatCount){
+    if (typeof options.meatCount === 'object' && options.meatCount.label) {
+      names.push(options.meatCount.label);
+    } else if (typeof options.meatCount === 'number') {
+      names.push(options.meatCount > 1 ? `${options.meatCount} viandes` : `${options.meatCount} viande`);
+    }
+  }
+
+  if (options.sauces) Object.values(options.sauces).forEach(s=>{ if(s?.name) names.push(s.name); });
+  if (options.meats)  Object.values(options.meats).forEach(m=>{ if(m?.name) names.push(m.name); });
+  if (options.supplements) Object.values(options.supplements).forEach(s=>{
+    const q=Number(s?.quantity||0); if (s?.name && q>0) for(let i=0;i<q;i++) names.push(s.name);
+  });
+  if (options.remove) Object.entries(options.remove).forEach(([k,v])=>{ if(v===true) names.push(String(k)); });
+
+  // ✅ Boissons : priorise les multiples (buckets), sinon boisson unique
+  if (options.drinks && Object.values(options.drinks).length){
+    const vals = Array.isArray(options.drinks) ? options.drinks : Object.values(options.drinks);
+    vals.forEach(d => { if (d?.name) names.push(d.name); });
+  } else if (options.drink?.name){
+    names.push(options.drink.name);
+  }
+
+  if (options.petitCreux?.name) names.push(options.petitCreux.name);
+
+  // Menus burgers / combo
+  if (options.burger?.name) names.push(options.burger.name);
+
+  return names;
+}
+
+async function buildItemsPayloadFromCart(cart){
+  const ids = [...new Set(cart.map(it => Number(it.id || it.product_id)).filter(Boolean))];
+  await Promise.all(ids.map(loadProductOptions));
+  const items=[];
+  for (const it of cart){
+    const product_id = Number(it.id || it.product_id);
+    const quantity   = Number(it.quantity || 1);
+    const names      = extractSelectedNames(it.options);
+    const nameMap    = productOptionCache.get(product_id) || new Map();
+    const choices=[];
+    for (const label of names){
+      const hit = nameMap.get(norm(label));
+      if (hit) choices.push(hit);
+    }
+    items.push({ product_id, quantity, ...(choices.length?{choices}:{}) });
+  }
+  return items;
+}
+
+/* Stripe element mount */
+function showStripeLoading(){
+  const box=document.getElementById("stripe-container");
+  const pe=document.getElementById("payment-element");
+  if (box) box.style.display = "";
+  if (pe) { pe.style.display=""; pe.innerHTML='<div style="font-size:.95rem;color:#666;padding:12px 0;">Préparation du paiement sécurisé…</div>'; }
+}
+async function buildIntentPayload(){
+  const name=document.getElementById('name').value.trim();
+  const address=document.getElementById('address').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const cart=getCartItems();
+  const items=await buildItemsPayloadFromCart(cart);
+  const fee=parseFloat((document.getElementById("delivery-fee-amount").textContent||"0").replace(",", "."))||0;
+  return { name, address, phone, delivery_mode:"delivery", payment_mode:"cb", fee, items };
+}
+function formReadyForCB(p){ return p.name && p.address && p.phone && Array.isArray(p.items) && p.items.length>0; }
+
+let currentClientSecret=null;
+async function createIntentOnce(){
+  if (intentCreating || intentReady) return;
+  if (document.querySelector('input[name="payment"]:checked')?.value !== "cb") return;
+
+  const payload = await buildIntentPayload();
+  if (!formReadyForCB(payload)) return;
+
+  showStripeLoading();
+  intentCreating = true;
+  try{
+    const res = await fetch(api("/orders/stripe-intent"), {
+      method:"POST", headers:{"Content-Type":"application/json"}, mode:"cors",
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error("HTTP "+res.status);
+    const data = await res.json();
+    if (!data.client_secret) throw new Error("Pas de client_secret");
+
+    currentClientSecret = data.client_secret;
+    if (!stripe) stripe = Stripe(STRIPE_PUB_KEY);
+    if (elements && paymentElement) paymentElement.unmount();
+    elements = stripe.elements({ clientSecret: currentClientSecret });
+    paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+    intentReady = true;
+  } catch(e){
+    console.error(e);
+    const pe = document.getElementById("payment-element");
+    if (pe) pe.innerHTML = '<div style="font-size:.95rem;color:#b91c1c;padding:12px 0;">Impossible de préparer le paiement. Réessayez.</div>';
+  } finally {
+    intentCreating = false;
+  }
+}
+function resetIntent(){
+  intentReady=false; currentClientSecret=null;
+  if (paymentElement) paymentElement.unmount();
+  document.getElementById("payment-element").innerHTML="";
+  document.getElementById("stripe-container").style.display="none";
+}
+
+/* Radio + inputs */
+function debounce(fn, d=300){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; }
+const debouncedPrepare = debounce(createIntentOnce, 300);
+
+document.querySelectorAll('input[name="payment"]').forEach(r=>{
+  r.addEventListener("change", ()=>{ if (r.checked && r.value==="cb") createIntentOnce(); else resetIntent(); });
+});
+["name","address","phone"].forEach(id=>{
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener("input", ()=>{ if(document.querySelector('input[name="payment"]:checked')?.value==="cb") debouncedPrepare(); });
+});
+
+/* Submit */
+document.getElementById("checkout-form")?.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const name=document.getElementById("name").value.trim();
+  const address=document.getElementById("address").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const payment=document.querySelector('input[name="payment"]:checked')?.value || "especes";
+  const cart=getCartItems();
+  if (!name || !address || !phone){ alert("Nom, adresse et téléphone requis."); return; }
+  if (!cart.length){ alert("Panier vide."); return; }
+
+  if (payment === "cb"){
+    if (!intentReady) await createIntentOnce();
+    if (!stripe || !elements || !intentReady){ alert("Paiement en ligne indisponible, réessayez."); return; }
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams:{ return_url: `${window.location.origin}/confirmation.html` }
+    });
+    if (error) alert(error.message || "Erreur lors du paiement.");
+    if (paymentIntent?.id && paymentIntent.status === "succeeded"){
+      await fetch(api("/orders/capture"), { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ payment_intent_id: paymentIntent.id }) });
+      window.location.href = `confirmation.html?payment_intent=${paymentIntent.id}`;
+    }
+    return;
+  }
+
+  // Espèces
+  try{
+    const items = await buildItemsPayloadFromCart(cart);
+    const fee = parseFloat((document.getElementById("delivery-fee-amount").textContent||"0").replace(",", "."))||0;
+    const res = await fetch(api("/orders/"),{
+      method:"POST", headers:{ "Content-Type":"application/json" }, mode:"cors",
+      body: JSON.stringify({ name,address,phone, delivery_mode:"delivery", payment_mode:"especes", fee, items })
+    });
+    if(!res.ok){ const t=await res.text(); alert(t || `Erreur ${res.status}`); return; }
+    const order = await res.json();
+    localStorage.removeItem("cart"); localStorage.removeItem("bigsmash_cart");
+    window.location.href = `confirmation.html?orderId=${order.id}`;
+  }catch{ alert("Erreur de connexion."); }
+});
+
+/* Init */
+document.addEventListener("DOMContentLoaded", async ()=>{
+  const cart=getCartItems();
+  renderCartRecap(cart);
+  const ids=[...new Set(cart.map(it => Number(it.id || it.product_id)).filter(Boolean))];
+  await Promise.all(ids.map(loadProductOptions));
+});
+</script>
+
+
+</body>
+</html>

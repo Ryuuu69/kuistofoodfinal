@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Big Cheese</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        .add-btn { background-color: #DC2626; color: white; padding: 0.5rem 1rem; border-radius: 9999px; }
+        .qty-btn { background-color: #DC2626; color: white; border-radius: 9999px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="max-w-4xl mx-auto p-4">
+        <!-- Bouton retour -->
+        <a href="produits.html" class="text-red-600 font-bold text-xl">&larr; Retour</a>
+
+        <!-- Image + description -->
+        <div class="bg-white rounded-3xl shadow-md mt-4 p-6">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" alt="Big Cheese Menu" class="rounded-xl mx-auto mb-6">
+            <h1 class="text-2xl font-bold text-center">Menu Big Cheese</h1>
+            <p class="text-center text-red-600 font-semibold mb-4">MENU</p>
+            <p class="text-center text-lg mb-2">11.90€</p>
+            <p class="text-center text-sm text-gray-600">Potato bun, double steak haché smashé, oignons frais, pickles, salade, double cheddar, sauce big smash. Servi avec frites et boisson.</p>
+
+            <!-- Quantité -->
+            <div class="flex justify-center items-center mt-6 space-x-4">
+                <button class="qty-btn">-</button>
+                <span class="text-lg font-semibold">1</span>
+                <button class="qty-btn">+</button>
+            </div>
+
+            <!-- Ajouter au panier -->
+            <div class="flex justify-center mt-6">
+                <button class="add-btn px-8 py-3 text-lg font-semibold">AJOUTER AU PANIER 11.90€</button>
+            </div>
+        </div>
+
+        <!-- Suppléments -->
+        <div class="bg-white rounded-3xl shadow-md mt-6 p-6">
+            <h2 class="text-xl font-bold mb-4">BIG CHEESE : SOUHAITEZ-VOUS UN SUPPLÉMENT ?</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" class="w-20 h-20 mb-2">
+                    <p>CHEDDAR +1.00€</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/806/806001.png" class="w-20 h-20 mb-2">
+                    <p>SUPPLÉMENT STEAK +2.50€</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Éléments à retirer -->
+        <div class="bg-white rounded-3xl shadow-md mt-6 p-6">
+            <h2 class="text-xl font-bold mb-4">BIG CHEESE : ON ENLÈVE QUELQUE CHOSE ?</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" class="w-20 h-20 mb-2">
+                    <p>SANS CHEDDAR</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2813/2813317.png" class="w-20 h-20 mb-2">
+                    <p>SANS OIGNONS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

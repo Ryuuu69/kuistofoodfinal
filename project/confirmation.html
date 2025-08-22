@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuisto - Confirmation de commande</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background: #f5f6f7; font-family: 'Montserrat', sans-serif; margin: 0; }
+    header { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    .banner { height: 219px; display: flex; align-items: center; justify-content: center; }
+    .checkout-container { min-height: 80vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 12px; }
+    .checkout-card { background: #fff; border-radius: 32px; box-shadow: 0 6px 36px rgba(0,0,0,0.10); padding: 42px 38px 36px 38px; width: 500px; max-width: 100vw; display: flex; flex-direction: column; align-items: center; position: relative; }
+    .checkout-title { font-size: 2rem; font-weight: 700; margin-bottom: 10px; text-align: center; }
+    .back-btn { position: absolute; top: 0; right: 0; background: #F18701; color: #fff; border-radius: 0 32px 0 32px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; text-decoration: none; box-shadow: 0 3px 14px rgba(0,0,0,0.06); transition: background 0.2s; z-index: 2; }
+    .back-btn:hover { background: #e07600; }
+
+    .big-btn { background: #F18701; color: #fff; border: none; border-radius: 32px; font-size: 1.18rem; font-weight: 600; padding: 16px 24px; box-shadow: 0 4px 24px rgba(234,61,47,0.12); transition: background 0.2s; letter-spacing: .02em; cursor: pointer; margin-top: 18px; text-align: center; text-decoration: none; display: inline-block; }
+    .big-btn:hover { background: #e07600; }
+
+    .status-icon { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); font-size: 1.6rem; }
+    .status-success { background: #e7f7ec; color: #1b5e20; }
+    .status-error { background: #fde8e8; color: #b91c1c; }
+    .status-info { background: #eef2f7; color: #334155; }
+
+    .confirmation-text { font-size: 1.05rem; color: #4b5563; text-align: center; margin: 0 0 6px 0; }
+    .order-ref { font-weight: 700; color: #111827; }
+    .muted { color: #9ca3af; font-size: .95rem; }
+    .divider { width: 100%; height: 2px; background: #f0f0f0; margin: 16px 0 8px 0; border-radius: 2px; }
+
+    .btn-row { width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; transform: translateX(10px); }
+
+    @media (max-width: 640px) {
+      .checkout-card { padding: 20px 8px 24px 8px; border-radius: 18px; }
+      .banner { height: 90px; }
+      .back-btn { width: 38px; height: 38px; font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="banner">
+      <img src="images/banner.svg" alt="Kuisto Banner" style="max-height: 100%; width:auto;">
+    </div>
+  </header>
+
+  <main class="checkout-container">
+    <section class="checkout-card" aria-live="polite" aria-atomic="true">
+      <a class="back-btn" href="index.html" aria-label="Retour à l'accueil">←</a>
+
+      <div id="statusBadge" class="status-icon status-info" aria-hidden="true">⌛</div>
+      <h1 id="confirmation-title" class="checkout-title">Chargement…</h1>
+      <p id="confirmation-text" class="confirmation-text">Merci de patienter, nous récupérons les informations de votre commande.</p>
+      <div class="divider"></div>
+
+      <div id="confirmation-details" class="confirmation-text muted"></div>
+
+      <div class="btn-row"><a id="confirmation-cta" href="index.html" class="big-btn">Retour à l'accueil</a></div>
+    </section>
+  </main>
+
+  <script>
+  // -------- helpers base API (gitpod / local / prod) --------
+  function apiBase() {
+    const { origin } = window.location;
+    if (origin.includes(".gitpod.io")) return origin.replace("https://5173-", "https://8000-") + "/api";
+    if (/^https?:\/\/(localhost|127\.0\.0\.1):5173$/i.test(origin)) return "http://localhost:8000/api";
+    return "https://8000-ryuuu69-kuistofood2-qkjphmgb0l2.ws-eu120.gitpod.io/api";
+  }
+
+  // -------- DOM refs --------
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get('orderId');
+  const pi = params.get('payment_intent') || params.get('pi');
+  const redirectStatus = params.get('redirect_status'); // succeeded / failed / requires_payment_method
+
+  const titleEl = document.getElementById('confirmation-title');
+  const textEl = document.getElementById('confirmation-text');
+  const detailsEl = document.getElementById('confirmation-details');
+  const ctaEl = document.getElementById('confirmation-cta');
+  const badgeEl = document.getElementById('statusBadge');
+
+  function setBadge(type, symbol) {
+    badgeEl.className = 'status-icon ' + type;
+    badgeEl.textContent = symbol;
+  }
+  function clearCart() {
+    try { localStorage.removeItem("cart"); localStorage.removeItem("bigsmash_cart"); } catch(_) {}
+  }
+
+  async function captureIfNeeded() {
+    // Cas espèces : l'orderId est déjà connu
+    if (orderId && (!redirectStatus || redirectStatus === 'succeeded')) {
+      setBadge('status-success', '✓');
+      titleEl.textContent = 'Merci pour votre commande !';
+      textEl.innerHTML = `Votre commande <span class="order-ref">#${orderId}</span> a bien été prise en compte.`;
+      detailsEl.textContent = 'Vous recevrez une confirmation bientôt (SMS / e-mail).';
+      ctaEl.textContent = "Retour à l'accueil";
+      ctaEl.href = 'index.html';
+      clearCart();
+      return;
+    }
+
+    // Cas CB : Stripe nous renvoie payment_intent / redirect_status
+    if (!pi) {
+      setBadge('status-info', 'ℹ');
+      titleEl.textContent = 'Commande non trouvée';
+      textEl.textContent = "Impossible d'afficher la confirmation de commande.";
+      detailsEl.textContent = 'Contactez le restaurant si besoin.';
+      ctaEl.textContent = "Retour à l'accueil";
+      ctaEl.href = 'index.html';
+      return;
+    }
+
+    if (redirectStatus && redirectStatus !== 'succeeded') {
+      setBadge('status-error', '✕');
+      titleEl.textContent = 'Paiement échoué';
+      textEl.textContent = "Votre paiement n'a pas pu être validé.";
+      detailsEl.textContent = 'Merci de réessayer ou de choisir un autre moyen de paiement.';
+      ctaEl.textContent = 'Retourner au paiement';
+      ctaEl.href = 'checkout.html';
+      return;
+    }
+
+    // Ici : on a un PI (paiement CB) et le redirect est ok -> on CAPTURE côté API
+    try {
+      setBadge('status-info', '⌛');
+      titleEl.textContent = 'Validation de votre commande…';
+      textEl.textContent = "Nous finalisons la création de votre commande.";
+      detailsEl.textContent = '';
+
+      const res = await fetch(`${apiBase()}/orders/capture`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({ payment_intent_id: pi })
+      });
+
+      if (!res.ok) {
+        // Même si le webhook a déjà créé l'ordre, on peut recevoir une 4xx ici :
+        // on bascule en succès "générique" avec ref de paiement.
+        setBadge('status-success', '✓');
+        titleEl.textContent = 'Paiement accepté !';
+        textEl.textContent = 'Votre paiement a été validé et votre commande est en préparation.';
+        detailsEl.textContent = `Référence de paiement : ${pi}`;
+        ctaEl.textContent = "Retour à l'accueil";
+        ctaEl.href = 'index.html';
+        clearCart();
+        return;
+      }
+
+      const order = await res.json();
+      setBadge('status-success', '✓');
+      titleEl.textContent = 'Merci pour votre commande !';
+      textEl.innerHTML = `Votre commande <span class="order-ref">#${order.id}</span> a bien été prise en compte.`;
+      detailsEl.textContent = 'Vous recevrez une confirmation bientôt (SMS / e-mail).';
+      ctaEl.textContent = "Retour à l'accueil";
+      ctaEl.href = 'index.html';
+      clearCart();
+    } catch (e) {
+      // Fallback en succès "générique" si le réseau échoue mais que Stripe a bien payé
+      setBadge('status-success', '✓');
+      titleEl.textContent = 'Paiement accepté !';
+      textEl.textContent = 'Votre paiement a été validé. Si la commande n’apparaît pas, elle sera régularisée sous peu.';
+      detailsEl.textContent = `Référence de paiement : ${pi}`;
+      ctaEl.textContent = "Retour à l'accueil";
+      ctaEl.href = 'index.html';
+      clearCart();
+    }
+  }
+
+  // Lance aussitôt
+  captureIfNeeded();
+  </script>
+</body>
+</html>

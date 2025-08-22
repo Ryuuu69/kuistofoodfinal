@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuisto - Produits Montpellier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+      <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .bg-kuistoOrange { background-color: #F18701; }
+        
+        /* ———————————————————————————
+           VARIABLES GÉNÉRALES
+        ——————————————————————————— */
+        :root {
+            --hero-h: 219px;        /* hauteur du bandeau rouge */
+            --side-w: 211px;        /* largeur du menu vertical */
+            --gutter: 24px;         /* espacement latéral des produits */
+            --card-min: 340px;/* largeur minimale d'une carte produit */
+            --catalogue-offset: 10px; /* décale la zone principale vers la droite */
+            
+            /* Variables pour le composant carte produit */
+            --card-w: 370px;        /* largeur de la carte */
+            --card-h: 150px;        /* hauteur de la carte */
+            --thumb: 120px;          /* taille de l'image */
+            --btn: 48px;            /* taille du bouton + */
+            --gap: 22px;            /* espace entre cartes */
+            
+            --red: #E30613;
+            --kuisto-orange: #F18701;
+            --grey-text: #808080;
+            --grey-line: #d0d0d0;
+            --card-radius: 26px;
+            --bigsmash-white: #ffffff;
+            --bigsmash-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --bigsmash-radius: 20px;
+        }
+
+        /* Reset de base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+         /* --- HERO --- */
+        .hero {
+            position: fixed;
+            inset: 0 0 auto 0;
+            height: var(--hero-h);
+            background: #d81616;
+            box-shadow: 0 2px 6px rgba(0,0,0,.08);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero .banner-desktop { display: block; }
+        .hero .banner-mobile { display: none; }
+/* 2. Même couleur d’arrière-plan pour side-nav et catalogue */
+:root {
+  --bg-main: #f5f6f7;  /* ou la couleur que tu utilises pour le catalogue */
+}
+
+.side-nav,
+.catalogue {
+  background: var(--bg-main) !important;
+}
+      body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #f5f6f7;
+}
+
+.hero {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--hero-h);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+.hero .banner-desktop { display: block; }
+.hero .banner-mobile { display: none; }
+
+
+.side-nav {
+  position: fixed;
+  top: calc(var(--hero-h) + 16px);
+  left: 0;
+  width: var(--side-w);
+  bottom: 0;
+  background: #fff;
+  z-index: 900;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0,0,0,.06);
+}
+
+.side-nav ul {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+}
+.side-nav li {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 18px;
+  color: #000;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-bottom: 8px;
+}
+.side-nav li:hover,
+.side-nav li.active {
+  background: var(--kuisto-orange);
+  color: #fff;
+}
+
+.catalogue {
+  position: relative;
+  margin-left: var(--side-w);
+  padding-top: calc(var(--hero-h) + 1.5rem);
+  padding-inline: var(--gutter);
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+        @media (max-width: 767px) {
+  :root { --hero-h: 110px; --side-w: 0; }
+  .side-nav { display: none; }
+  .catalogue {
+    margin-left: 0;
+    padding-top: calc(var(--hero-h) + 1.1rem);
+    padding-inline: 4vw;
+  }
+  .hero {
+    height: var(--hero-h);
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    overflow: hidden;
+    justify-content: stretch;
+    align-items: flex-end;
+    background: #fff;
+  }
+  .hero .banner-desktop { display: none; }
+  .hero .banner-mobile { display: block; }
+}
+
+        /* ———————————————————————————
+           SECTIONS DE CATÉGORIES
+        ——————————————————————————— */
+        .cat {
+            padding-block: 2.5rem 1rem;
+            scroll-margin-top: calc(var(--hero-h) + 0.5rem);  /* pour les ancres */
+        }
+        
+        .cat + .cat {
+            border-top: 1px solid #efefef;  /* séparation fine entre sections */
+        }
+        
+        .cat h2 {
+            margin: 0 0 1.5rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        /* ———————————————————————————
+           TITRES DE SECTION
+        ——————————————————————————— */
+        .section-title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+            margin: 32px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-transform: uppercase;
+        }
+        
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--grey-line);
+        }
+         .product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 370px;
+  height: 150px;
+  background: #fff;
+  border-radius: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  overflow: hidden;
+  margin: 0;
+  transition: box-shadow 0.3s, border 0.3s;
+  border: 2.5px solid transparent;
+}
+
+.product-card.glow {
+  border: 2.5px solid #F18701 !important;
+  box-shadow: 0 0 0 0 #0000 !important;
+}
+
+.product-card .thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  margin-left: 17px;
+  margin-top: 17px;
+  margin-bottom: 17px;
+  margin-right: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+.product-card .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 120px;
+  margin-top: 17px;
+  min-width: 0;
+  position: relative;
+}
+
+.product-name {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.desc {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 11px;
+  color: #808080;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
+  min-height: calc(1.1em * 3);
+  white-space: normal;
+}
+
+.price-row {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  font-size: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.price-row .from {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 15px;
+  color: #000;
+  margin-right: 3px;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.price-row .value {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000;
+  display: inline-block;
+  position: relative;
+  top: -2px;
+}
+
+/* Bouton "+" noir (hors panier) */
+.add-btn-corner {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 50px;
+  height: 36px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 28px;
+  border-bottom-right-radius: 32px;
+  border-top-left-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s;
+}
+.add-btn-corner:hover {
+  background: #F18701;
+}
+
+/* Barre de quantité orange */
+.cart-quantity-bar {
+  width: 152px;
+  height: 29px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background: #F18701;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: none;
+  border: 2.5px solid #F18701;
+  padding: 0 8px;
+  z-index: 2;
+}
+.cart-quantity-bar button,
+.cart-quantity-bar a {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: none;
+}
+.cart-quantity-bar button:hover,
+.cart-quantity-bar a:hover {
+  background: inherit !important;
+  color: inherit !important;
+}
+.cart-qty {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 6px;
+}
+
+       
+
+        /* ————————————— LAYOUT PRODUITS ————————————— */
+        /* Grille de cartes produits */
+        
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-w), var(--card-w)));
+  gap: var(--gap);
+  justify-content: start; /* ou center si tu veux centrer quand il y a peu de colonnes */
+  /* Optionnel : limite largeurs pour ne pas laisser trop d'espace vide */
+  /* max-width: calc(3 * var(--card-w) + 2 * var(--gap)); */
+  /* margin: 0 auto; */
+}
+
+
+
+
+     
+        /* Boutons en bas à gauche - Desktop uniquement */
+        .desktop-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: calc(var(--side-w) / 2 - 60px); /* centré avec le menu */
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+    #cart-fab {
+  position: fixed;
+  left: 50%;
+  bottom: 122px;   /* espace de 30px sous l'icône */
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  background: #F18701;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(241,135,1,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  cursor: pointer;
+  font-size: 2rem;
+  border: 6px solid #fff;
+  transition: box-shadow 0.2s;
+}
+
+/* Icône panier */
+#cart-fab .cart-svg {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+}
+
+/* Badge montant – rectangle arrondi, position relevée */
+#cart-fab .cart-badge {
+  position: absolute;
+  right: -50px;
+  top: -15px;
+  background: #191919;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  border-radius: 6px;
+  min-width: 40px;
+  height: 24px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  pointer-events: none;
+  border: 0px solid #fff;
+}
+
+
+
+      #cart-bar {
+  display: none !important;
+
+
+
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            
+            /* État par défaut : fond rouge, icône blanche */
+            background: var(--red);
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            /* Au hover : fond blanc, icône rouge */
+            background: white;
+            color: var(--red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+        }
+
+      
+        /* mobile-popup : boutons “Accueil / Compte” toujours orange, pas rouges */
+.mobile-popup-buttons .desktop-btn {
+  background: #F18701 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
+}
+.mobile-popup-buttons .desktop-btn:hover {
+  background: #fff !important;
+  color: #F18701 !important;
+}
+.mobile-popup-buttons .desktop-btn svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+
+        .product-plus-btn {
+            background: #191919;
+            color: #fff;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .product-plus-btn:hover {
+            background: #F18701;
+        }
+        body.mobile-menu-active #cart-fab {
+  display: none !important;
+}
+
+
+        /* Masquer sur mobile */
+        @media (max-width: 768px) {
+            .desktop-buttons {
+                display: none;
+            }
+            
+            .product-card {
+                width: 100%;
+                max-width: var(--card-w);
+            }
+        }
+
+        /* Mise à jour des anciens styles pour compatibilité */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            gap: var(--gap);
+        }
+
+        /* Styles pour les anciens éléments (si présents) */
+        .title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 13px;
+            color: #000;
+            text-transform: uppercase;
+            margin: 0 0 4px;
+        }
+
+        .desc {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 11px;
+            color: var(--grey-text);
+            margin: 0;
+            display: block;
+            overflow: visible;
+            white-space: normal;
+        }
+
+        .price .label {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 15px;
+            color: #000;
+        }
+
+        .price .value {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+       /* overlay mobile */
+#mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 1000;
+}
+#mobile-menu-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* drawer mobile : centré horizontalement, posé vers le bas */
+#mobile-menu-drawer {
+  position: fixed;
+  left: 50%;
+  bottom: 60px; /* près du bas */
+  transform: translateX(-50%) scale(.95);
+  width: min(92vw, 320px);
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .25s ease, opacity .25s ease;
+  overflow: hidden;
+  z-index: 1001;
+}
+#mobile-menu-drawer.is-open {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+        @media (max-width: 767px) {
+  --hero-h: 110px; /* Hauteur pour mobile */
+}
+        /* ===== Responsive Mobile ===== */
+@media (max-width: 540px) {
+  .product-card {
+    width: 96vw;
+    min-width: 0;
+    padding: 18px 7vw 72px 7vw;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-card .thumb {
+    margin: 0 auto 12px auto;
+  }
+  .product-card .cart-quantity-bar,
+  .product-card .add-btn-corner {
+    right: 0;
+    bottom: 0;
+    left: auto;
+  }
+}
+
+        .mobile-popup-buttons .desktop-btn {
+  background: #F18701 !important;
+  color: #fff !important;
+}
+.mobile-popup-buttons .desktop-btn:hover {
+  background: #fff !important;
+  color: #F18701 !important;
+}
+
+        .price .value {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+        /* Cacher le bouton panier quand le menu mobile est ouvert */
+body.mobile-menu-active #cart-fab {
+  display: none !important;
+}
+        #mobile-menu-overlay.is-open ~ #cart-fab,
+#mobile-menu-drawer.is-open ~ #cart-fab,
+body.mobile-menu-active #cart-fab {
+  display: none !important;
+}
+
+        
+       
+          
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-montserrat">
+
+  <!-- HEADER FIXE AVEC BANNIÈRE DESKTOP & MOBILE -->
+  <header class="fixed left-0 top-0 w-full z-40 bg-kuistoOrange">
+    <!-- Bannière desktop (visible md et +) -->
+    <div
+      class="hidden md:block h-[219px] flex items-center justify-center relative"
+      style="box-shadow: 0 2px 6px rgba(0,0,0,.08);"
+    >
+      <img
+        src="images/banner.svg"
+        alt="Kuisto Banner"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <!-- Bannière mobile (visible < md) -->
+    <div
+      class="block md:hidden h-[110px] flex items-center justify-center relative overflow-hidden"
+      style="box-shadow: 0 2px 6px rgba(0,0,0,.08); border-bottom-left-radius:1rem; border-bottom-right-radius:1rem;"
+    >
+      <img
+        src="images/banner mobile.svg"
+        alt="Kuisto Banner mobile"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <!-- Bouton hamburger mobile ONLY -->
+    <button id="mobile-menu-toggle"
+      class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
+      aria-label="Menu">
+      <span id="hamburger-icon" class="block">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-7 h-7">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span id="close-icon" class="hidden">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+
+  <!-- MENU MOBILE : overlay + drawer + boutons -->
+  <div id="mobile-menu-overlay"
+     class="fixed inset-0 bg-black z-40 hidden transition-opacity duration-300"></div>
+  <nav id="mobile-menu-drawer"
+    class="fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
+    <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
+      <li class="mobile-menu-item active" data-cat="tacos">Smash Tacos</li>
+      <li class="mobile-menu-item" data-cat="smash-burgers">Smash Burgers</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Burgers Signature</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burgers</li>
+      <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
+      <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
+      <li class="mobile-menu-item" data-cat="sides">Sides</li>
+      <li class="mobile-menu-item" data-cat="salades">Salades</li>
+      <li class="mobile-menu-item" data-cat="boissons-desserts">Boissons & Desserts</li>
+    </ul>
+    <!-- Boutons attachés au pop-up (EN BAS) -->
+    <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
+      <button onclick="window.location.href='index.html'"
+        title="Accueil"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+      <button onclick="window.location.href='index.html'"
+        title="Mon compte"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MENU LATÉRAL DESKTOP -->
+  <nav class="side-nav sidebar-classic hidden md:block fixed left-0 h-full w-56 bg-white shadow">
+    <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
+      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Smash Tacos</li>
+      <li class="classic-menu-item" data-cat="smash-burgers" onclick="setActiveCategory('smash-burgers', false)">Smash Burgers</li>
+      <li class="classic-menu-item" data-cat="burgers-signature" onclick="setActiveCategory('burgers-signature', false)">Burgers Signature</li>
+      <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burgers</li>
+      <li class="classic-menu-item" data-cat="buckets" onclick="setActiveCategory('buckets', false)">Buckets</li>
+      <li class="classic-menu-item" data-cat="menus-bambino" onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
+      <li class="classic-menu-item" data-cat="sides" onclick="setActiveCategory('sides', false)">Sides</li>
+      <li class="classic-menu-item" data-cat="salades" onclick="setActiveCategory('salades', false)">Salades</li>
+      <li class="classic-menu-item" data-cat="boissons-desserts" onclick="setActiveCategory('boissons-desserts', false)">Boissons & Desserts</li>
+    </ul>
+  </nav>
+
+  <!-- CONTENU QUI DÉFILE -->
+  <main class="ml-0 md:ml-56 px-2 pt-[110px] md:pt-[219px] min-h-screen">
+    <!-- Section Tacos -->
+    
+      <section id="tacos" class="cat px-3 pt-5 pb-8">
+
+
+      <!-- ↑↑↑ -mt-10 fait “remonter” la carte blanche sous la bannière arrondie, effet carte qui flotte -->
+      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Smash Tacos</h2>
+      <div class="cards-grid" id="tacos-products">
+        <!-- Products will be populated by JavaScript -->
+      </div>
+    </section>
+<!-- Section Smash Burgers -->
+<section id="smash-burgers" class="cat">
+  <h2 class="section-title">SMASH BURGERS</h2>
+  <div class="cards-grid" id="smash-burgers-products"></div>
+</section>
+
+<!-- Section Burgers Signature -->
+<section id="burgers-signature" class="cat">
+  <h2 class="section-title">BURGERS SIGNATURES</h2>
+  <div class="cards-grid" id="burgers-signature-products"></div>
+</section>
+
+<!-- Section Menus Burgers -->
+<section id="menus-burgers" class="cat">
+  <h2 class="section-title">MENUS BURGERS</h2>
+  <div class="cards-grid" id="menus-burgers-products"></div>
+</section>
+
+<!-- Section Buckets -->
+<section id="buckets" class="cat">
+  <h2 class="section-title">BUCKETS</h2>
+  <div class="cards-grid" id="buckets-products"></div>
+</section>
+
+<!-- Section Menus Bambino -->
+<section id="menus-bambino" class="cat">
+  <h2 class="section-title">MENUS BAMBINO</h2>
+  <div class="cards-grid" id="menus-bambino-products"></div>
+</section>
+
+<!-- Section Sides -->
+<section id="sides" class="cat">
+  <h2 class="section-title">SIDES</h2>
+  <div class="cards-grid" id="sides-products"></div>
+</section>
+
+<!-- Section Salades -->
+<section id="salades" class="cat">
+  <h2 class="section-title">SALADES</h2>
+  <div class="cards-grid" id="salades-products"></div>
+</section>
+
+<!-- Section Boissons & Desserts -->
+<section id="boissons-desserts" class="cat">
+  <h2 class="section-title">BOISSONS & DESSERTS</h2>
+  <div class="cards-grid" id="boissons-desserts-products"></div>
+</section>
+
+</main>
+
+   
+
+    <!-- Exemple de grille de cartes (pour démonstration) -->
+    <div style="display: none;">
+        <div class="cards-grid">
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center" alt="BIG SALADES">
+                </div>
+                <div class="info">
+                    <h3>BIG SALADES</h3>
+                    <p class="desc">Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan</p>
+                    <span class="price">À partir de <strong>9,90 €</strong></span>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center" alt="BIG CHEESE">
+                </div>
+                <div class="info">
+                    <h3>BIG CHEESE</h3>
+                    <p class="desc">Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar</p>
+                    <span class="price">À partir de <strong>11,90 €</strong></span>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+        </div>
+    </div>
+
+<!-- Inclure d'abord les données produit (à mettre dans le <head> ou tout en haut du <body>) -->
+<script src="products-data.js"></script>
+<script src="cart-system.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script>
+// ========================
+// 1. Génération des cartes produit
+// ========================
+function createProductCard(product) {
+  const slug = product.slug;
+  // Compte toutes les variantes dans le panier
+  const cartQuantity = window.cartSystem ? window.cartSystem.getTotalQuantityForProduct(slug) : 0;
+
+  let minPrice = (product.options?.sizes?.length > 0)
+    ? Math.min(...product.options.sizes.map(s => s.price))
+    : product.price;
+
+  let priceHtml = `
+    <div class="price-row">
+      <span class="from">À partir de </span>
+      <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
+    </div>
+  `;
+
+  let actionButton = '';
+  if (cartQuantity > 0) {
+    actionButton = `
+      <div class="cart-quantity-bar">
+        <button class="cart-remove-btn" type="button"
+          title="Enlever un exemplaire"
+          data-action="remove" data-slug="${slug}">–</button>
+        <span class="cart-qty">${cartQuantity}</span>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn" title="Voir fiche produit">+</a>
+      </div>
+    `;
+  } else {
+    actionButton = `
+      <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
+    `;
+  }
+
+  const glow = cartQuantity > 0 ? 'glow' : '';
+  return `
+    <div class="product-card ${glow}" data-product-id="${slug}">
+      <div class="thumb">
+        <img src="${product.image}" alt="${product.name}">
+      </div>
+      <div class="info">
+        <div class="product-name">${product.name}</div>
+        <div class="desc">${product.description}</div>
+        ${priceHtml}
+      </div>
+      ${actionButton}
+    </div>
+  `;
+}
+
+// ========================
+// 2. Catégorisation & Rendu
+// ========================
+function getCategorySectionId(category) {
+  return category.toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/é/g, 'e')
+    .replace(/è/g, 'e')
+    .replace(/à/g, 'a')
+    .replace(/ç/g, 'c');
+}
+
+function renderAllProducts() {
+  const containers = [
+    'tacos-products', 
+    'smash-burgers-products',
+    'burgers-signature-products',
+    'menus-burgers-products',
+    'buckets-products', 
+    'menus-bambino-products',
+    'sides-products',
+    'salades-products',
+    'boissons-desserts-products'
+  ];
+  containers.forEach(containerId => {
+    const container = document.getElementById(containerId);
+    if (container) container.innerHTML = '';
+  });
+  products.forEach(product => {
+    const sectionId = getCategorySectionId(product.category) + '-products';
+    const container = document.getElementById(sectionId);
+    if (container) container.innerHTML += createProductCard(product);
+  });
+}
+
+// ========================
+// 3. Gestion événements cartes produit
+// ========================
+function handleProductCardEvents() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    const slug = card.dataset.productId;
+
+    // Bouton supprimer/diminuer
+    const removeBtn = card.querySelector('.cart-remove-btn');
+    if (removeBtn) {
+      removeBtn.onclick = function(e) {
+        e.preventDefault();
+        if (window.cartSystem) {
+          window.cartSystem.removeLastVariantOfProduct(slug);
+
+          // 💡 1. On rerender TOUT tout de suite (aucune carte individuelle à supprimer manuellement)
+          renderAllProducts();
+          handleProductCardEvents();
+
+          // 💡 2. On update le panier si besoin
+          if (typeof window.cartSystem.updateCartDisplay === "function") {
+            window.cartSystem.updateCartDisplay();
+          }
+        }
+      };
+    }
+    // Le "+" renvoie toujours vers produit.html (aucune action JS ici)
+  });
+}
+
+
+// ========================
+// 4. Gestion du bouton panier flottant
+// ========================
+function updateCartFabPrice() {
+  const cartFab = document.getElementById('cart-fab');
+  if (!cartFab || !window.cartSystem) return;
+  const badge = document.getElementById('cart-fab-price');
+  const total = window.cartSystem.getTotalPrice ? window.cartSystem.getTotalPrice() : 0;
+  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
+  // Affiche le bouton seulement si il y a au moins un produit
+  cartFab.style.display = (window.cartSystem.getTotalItems && window.cartSystem.getTotalItems() > 0) ? 'flex' : 'none';
+}
+
+// ========================
+// 5. Menu Mobile & Sync catégories
+// ========================
+document.addEventListener('DOMContentLoaded', () => {
+  renderAllProducts();
+  handleProductCardEvents();
+
+  // Met à jour le FAB/bouton panier au chargement
+  updateCartFabPrice();
+
+  // Gestion bouton panier
+  const cartFab = document.getElementById('cart-fab');
+  if (cartFab) {
+    cartFab.onclick = function() { window.location.href = 'panier.html'; };
+  }
+
+  // Menu mobile toggle
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+  let menuOpen = false;
+
+  function toggleMobileMenu(open) {
+    menuOpen = open;
+    if (open) {
+      mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
+      mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+      mobileMenuOverlay.classList.remove('hidden');
+      hamburgerIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      if (cartFab) cartFab.style.display = 'none';
+    } else {
+      mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
+      mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+      mobileMenuOverlay.classList.add('hidden');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      updateCartFabPrice();
+    }
+  }
+  if (mobileMenuToggle) mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
+  if (mobileMenuOverlay) mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
+  if (closeIcon) closeIcon.onclick = function () { toggleMobileMenu(false); };
+
+  // Gestion activation catégorie menu mobile
+  document.querySelectorAll('.mobile-menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+      item.classList.add('active');
+      const cat = item.dataset.cat;
+      const section = document.getElementById(cat);
+      if (section) {
+        const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+        const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+      toggleMobileMenu(false);
+    });
+  });
+
+  // Desktop/Sync menu
+  window.setActiveCategory = function (cat, isMobile) {
+    document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+    document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+    document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+    const section = document.getElementById(cat);
+    if (section) {
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    if (isMobile) toggleMobileMenu(false);
+  };
+
+  window.setActiveCategory('tacos', false);
+});
+
+// Re-render sur modification du panier dans d'autres onglets/tabs
+window.addEventListener('cartUpdated', () => {
+  renderAllProducts();
+  handleProductCardEvents();
+  updateCartFabPrice();
+});
+window.addEventListener('storage', () => {
+  renderAllProducts();
+  handleProductCardEvents();
+  updateCartFabPrice();
+});
+</script>
+
+
+<div id="cart-fab"
+     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
+     style="bottom:10px; transform:translateX(-50%);">
+  <!-- SVG Panier amélioré -->
+  <svg width="70" height="70" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="24" fill="#F18701"/>
+    <path d="M14 14h2l4 16h12l4-10H20" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="20" cy="36" r="2" fill="#fff"/>
+    <circle cx="32" cy="36" r="2" fill="#fff"/>
+  </svg>
+  <span class="cart-badge" id="cart-fab-price">5,50€</span>
+</div>
+  <!-- Floating icons bottom‑left (DESKTOP UNIQUEMENT) -->
+<div class="fixed bottom-4 left-4 z-[9999] flex space-x-3 hidden md:flex">
+  <!-- Accueil -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Accueil"
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </button>
+
+  <!-- Mon compte (redirige temporairement vers index.html) -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Mon compte"
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+  </button>
+</div>
+
+
+</body>
+</html>

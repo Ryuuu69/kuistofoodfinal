@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables globales pour les fiches produit */
+:root{
+    /* dimensions */
+    --card-radius:26px;   /* arrondi général de la fiche          */
+    --thumb-size:120px;   /* côté du carré image de gauche        */
+    --corner-size:78px;   /* carré noir "+" en bas à droite       */
+
+    /* couleurs */
+    --bg-card:#fff;
+    --bg-thumb:#f3f3f3;
+    --bg-corner:#000;
+
+    /* couleurs texte */
+    --c-title:#000;
+    --c-desc:#666;
+    --c-price:#000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Carte Points de Vente --- */
+.store-card {
+  position: relative;
+  border-radius: 28px;
+  background: #fff;
+  overflow: hidden;          /* cache le coin noir hors cadre */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.store-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+/* --- Coin flèche --- */
+.card-arrow {
+  position: absolute;
+  right: 0; 
+  bottom: 0;
+  width: 74px; 
+  height: 74px;          /* même taille que l'original */
+  background: #000;
+  border-top-left-radius: 28px;      /* même rayon que la carte   */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .3s ease, transform .3s ease;
+  text-decoration: none;
+}
+
+.card-arrow .icon {
+  width: 26px; 
+  height: 26px;
+  stroke: #fff;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+/* Hover optionnel */
+.store-card:hover .card-arrow { 
+  background: #F18701; 
+}
+.store-card:hover .card-arrow .icon { 
+  transform: translateX(4px); 
+}
+
+/* --- Fiche Produit ------------------------------------------------ */
+.product-card{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    padding:22px calc(var(--corner-size) + 22px) 22px 22px; /* place pour le coin noir */
+    background:var(--bg-card);
+    border-radius:var(--card-radius);
+    box-shadow:0 4px 12px rgba(0,0,0,.07);
+    overflow:hidden; /* masque la partie du coin noir qui dépasse */
+}
+
+/* --- Image carrée ---------------------------------------- */
+.thumb{
+    flex-shrink:0;
+    width:var(--thumb-size);
+    height:var(--thumb-size);
+    background:var(--bg-thumb);
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.thumb img{
+    width:100%; height:100%;
+    object-fit:cover;
+    border-radius:16px;
+}
+
+/* --- Texte ------------------------------------------------ */
+.info{ flex:1; }
+
+.title{
+    margin:0 0 4px;
+    font-size:1rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    color:var(--c-title);
+    text-transform:uppercase;
+}
+
+.desc{
+    margin:0;
+    font-size:.85rem;
+    line-height:1.25rem;
+    color:var(--c-desc);
+
+    /* Tronque à 2 lignes puis "…" */
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.price{
+    margin:14px 0 0;
+    font-size:.9rem;
+    color:var(--c-price);
+}
+.price strong{
+    font-size:1.4rem;
+    font-weight:700;
+}
+
+/* --- Coin noir "+" --------------------------------------- */
+.add{
+    position:absolute;
+    right:0; bottom:0;
+    width:var(--corner-size);
+    height:var(--corner-size);
+    background:var(--bg-corner);
+    border:none;
+    border-top-left-radius:var(--card-radius); /* arrondi identique à la carte */
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .3s ease;
+}
+.add .ico{
+    width:32px; height:32px;
+    stroke:#fff;
+    stroke-width:2.5;
+    fill:none;
+    stroke-linecap:round;
+}
+
+/* --- Effet hover (change le coin en rouge) --------------- */
+.product-card:hover .add{ background:#F18701; }
+
+/* --- Responsive (mobile) --------------------------------- */
+@media (max-width:600px){
+    :root{
+        --thumb-size:90px;
+        --corner-size:60px;
+        --card-radius:20px;
+    }
+    .product-card{
+        flex-direction:column;
+        align-items:flex-start;
+
+        padding:22px;
+        padding-bottom:calc(var(--corner-size) + 22px); /* toujours de la place pour le coin */
+    }
+}
+
+/* Utilities pour line-clamp */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+/* Hover effects */
+.hover-lift:hover {
+  transform: translateY(-2px);
+}

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuisto - Mon Panier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f6f7;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .panier-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px 20px;
+        }
+
+        .panier-card {
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.10);
+            padding: 42px 38px 36px 38px;
+            width: 540px;
+            max-width: 98vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .panier-header {
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .panier-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0 0 16px 0;
+        }
+
+        .continue-shopping {
+            text-align: center;
+        }
+
+        .continue-shopping a {
+            color: #F18701;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .continue-shopping a:hover {
+            text-decoration: underline;
+        }
+
+        .panier-content {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .panier-item {
+            display: flex;
+            align-items: center;
+            background: #fafbfc;
+            border-radius: 24px;
+            margin-bottom: 16px;
+            padding: 12px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .panier-item-img {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            margin-right: 18px;
+            object-fit: cover;
+        }
+
+        .panier-item-details {
+            flex: 1;
+        }
+
+        .panier-item-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.12rem;
+            margin-bottom: 2px;
+        }
+
+        .panier-item-desc {
+            font-size: 0.85rem;
+            color: #A3A3A3;
+            margin-bottom: 4px;
+        }
+
+        .panier-item-options {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .panier-item-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-left: 12px;
+            min-width: 66px;
+            text-align: right;
+        }
+
+        .panier-item-qtybar {
+            display: flex;
+            align-items: center;
+            margin-left: 18px;
+            gap: 5px;
+        }
+
+        .panier-btn {
+            background: #F18701;
+            color: #fff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+      #cart-bar {
+  display: none !important;
+
+        .panier-btn:hover {
+            background: #e07600;
+        }
+
+        .panier-btn.remove {
+            font-size: 1rem;
+        }
+
+        .panier-qty {
+            display: inline-block;
+            min-width: 24px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .big-btn {
+            background: #F18701;
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.18rem;
+            font-weight: 600;
+            padding: 20px 0;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 4px 24px rgba(234,61,47,0.12);
+            transition: background 0.2s;
+            letter-spacing: .02em;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .big-btn:hover {
+            background: #e07600;
+        }
+
+        .clear-btn {
+            background: #808080;
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 0;
+            width: 100%;
+            max-width: 100%;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            background: #666666;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-cart-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-cart h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .empty-cart p {
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        /* Desktop buttons */
+        .desktop-buttons {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            display: flex;
+            gap: 14px;
+            z-index: 1000;
+        }
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            background: #F18701;
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            background: white;
+            color: #F18701;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header avec bannière -->
+    <header class="bg-white shadow-sm">
+        <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
+            <a href="index.html">
+                <img 
+                    src="images/banner.svg" 
+                    alt="Kuisto Banner" 
+                    class="w-full h-full object-cover cursor-pointer"
+                />
+            </a>
+        </div>
+    </header>
+
+<!-- PANIER CENTRÉ BIG SMASH STYLE -->
+<main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
+  <div id="cart-card"
+       class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[720px] mx-[322px] flex flex-col relative">
+
+    <!-- Titre + retour -->
+    <div class="flex items-center justify-between mb-8 relative">
+      <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Mon panier</h1>
+      <a href="produits.html"
+         class="absolute -top-10 -right-7 bg-[#F18701] text-white rounded-bl-[32px] rounded-tr-[32px]
+            w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#F18701]">
+        ←
+      </a>
+    </div>
+
+    <!-- Liste produits dynamiques -->
+    <div id="cart-items-container" class="divide-y"></div>
+
+    <!-- Message panier vide -->
+    <div class="empty-cart text-center" id="empty-cart-message" style="display: none;">
+      <div class="empty-cart-icon text-4xl mb-3">🛒</div>
+      <h3 class="text-xl font-semibold mb-2 text-gray-600">Votre panier est vide</h3>
+      <p class="text-gray-500 mb-6">Découvrez nos délicieux produits Kuisto</p>
+      <a href="produits.html" class="bg-[#F18701] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#e07600] inline-block">
+        Voir nos produits
+      </a>
+    </div>
+
+    <!-- Validation du panier -->
+    <button id="validate-cart-btn"
+            class="mx-auto mt-8 w-full max-w-[400px] bg-[#F18701] hover:bg-[#e07600] text-white text-lg font-bold rounded-full py-4 shadow transition-all">
+      VALIDER LE PANIER <span id="cart-validate-total">(0,00€)</span>
+    </button>
+  </div>
+</main>
+
+<!-- Fin du bloc panier, supprimez les anciens éléments relatifs au panier ici -->
+
+    <!-- Boutons Desktop en bas à gauche -->
+    <div class="desktop-buttons">
+        <button class="desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </button>
+        <button class="desktop-btn" title="Mon compte">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </button>
+    </div>
+
+ <!-- Scripts -->
+<script src="products-data.js"></script>
+<script src="cart-system.js"></script>
+<script>
+function formatProductOptions(options, slug) {
+  if (!options) return '';
+  const parts = [];
+
+  // Taille
+  if (options.size?.name) parts.push(options.size.name);
+
+  // Burger (menus) avec delta
+  if (options.burger?.name) {
+    const d = (typeof options.burger.priceDelta === 'number' && options.burger.priceDelta > 0)
+      ? ` (+${options.burger.priceDelta.toFixed(2).replace('.', ',')}€)` : '';
+    parts.push(`Burger : ${options.burger.name}${d}`);
+  }
+
+  // Nombre de viandes
+  if (options.meatCount) {
+    if (typeof options.meatCount === 'object' && options.meatCount.label) {
+      parts.push(options.meatCount.label);
+    } else if (typeof options.meatCount === 'number') {
+      parts.push(options.meatCount > 1 ? `${options.meatCount} viandes` : `${options.meatCount} viande`);
+    }
+  }
+
+  // Viandes
+  if (options.meats && typeof options.meats === 'object') {
+    const meatsArr = Object.values(options.meats).map(m => m?.name).filter(Boolean);
+    if (meatsArr.length) parts.push(`Viande(s) : ${meatsArr.join(', ')}`);
+  }
+
+  // Boisson(s) — 1 (options.drink) et/ou plusieurs (options.drinks pour buckets)
+  const drinkNames = [];
+  if (options.drink?.name) drinkNames.push(options.drink.name);
+  if (options.drinks) {
+    const vals = Array.isArray(options.drinks) ? options.drinks : Object.values(options.drinks);
+    vals.forEach(d => { if (d?.name) drinkNames.push(d.name); });
+  }
+  if (drinkNames.length) {
+    parts.push(`${drinkNames.length > 1 ? 'Boissons' : 'Boisson'} : ${drinkNames.join(', ')}`);
+  }
+
+  // Sauces
+  if (options.sauces && typeof options.sauces === 'object') {
+    const saucesArr = Object.values(options.sauces).map(s => s?.name).filter(Boolean);
+    if (saucesArr.length) parts.push(`Sauce(s) : ${saucesArr.join(', ')}`);
+  }
+
+  // Suppléments
+  if (options.supplements && typeof options.supplements === 'object') {
+    const supplementsArr = Object.values(options.supplements)
+      .filter(s => Number(s.quantity) > 0)
+      .map(s => s.name + (s.quantity > 1 ? ` ×${s.quantity}` : ''));
+    if (supplementsArr.length) parts.push(`Supplément : ${supplementsArr.join(', ')}`);
+  }
+
+  // Retraits ("Sans ...") – résout les index numériques via la définition produit
+  if (options.remove) {
+    const productDef = (typeof findProductBySlug === 'function') ? findProductBySlug(slug) : null;
+    const removeDefs = productDef?.options?.remove || null;
+    const removed = [];
+
+    Object.entries(options.remove)
+      .filter(([_, v]) => v === true)
+      .forEach(([key]) => {
+        let name = key;
+        if (removeDefs && !isNaN(parseInt(key, 10))) {
+          const idx = parseInt(key, 10);
+          name = removeDefs[idx]?.name || key;
+        }
+        if (name.toLowerCase().startsWith('sans ')) name = name.substring(5);
+        removed.push(name);
+      });
+
+    if (removed.length) parts.push(`Sans ${removed.join(', ')}`);
+  }
+
+  // Petit creux
+  if (options.petitCreux?.name) parts.push(`Petit creux : ${options.petitCreux.name}`);
+
+  return parts.join(' – ');
+}
+
+
+function renderCart() {
+  if (window.cartSystem) {
+    window.cartSystem.cart = window.cartSystem.loadCart();
+  }
+  const cart = window.cartSystem ? window.cartSystem.cart : [];
+  const container = document.getElementById('cart-items-container');
+  const emptyMessage = document.getElementById('empty-cart-message');
+  const validateBtn = document.getElementById('validate-cart-btn');
+  const validateTotal = document.getElementById('cart-validate-total');
+  container.innerHTML = '';
+
+  if (!cart || cart.length === 0) {
+    if (emptyMessage) emptyMessage.style.display = 'block';
+    if (validateBtn)   validateBtn.style.display   = 'none';
+    return;
+  }
+  if (emptyMessage) emptyMessage.style.display = 'none';
+  if (validateBtn)   validateBtn.style.display   = 'block';
+
+  cart.forEach(item => {
+    const optText = formatProductOptions(item.options, item.slug);
+    const decSym = item.quantity > 1 ? '−' : '×';
+
+    // Correction prix : supporte sides à tailles !
+    let prixUnitaire;
+    if (item.options && item.options.size && item.options.size.price != null) {
+      prixUnitaire = item.options.size.price;
+    } else {
+      prixUnitaire = item.basePrice ?? item.product?.price ?? item.price ?? 0;
+    }
+    let prixTotal = prixUnitaire * item.quantity;
+
+    const row = document.createElement('div');
+    row.className = 'flex items-center justify-between border-b py-4';
+    row.innerHTML = `
+      <div class="flex-1">
+        <div class="font-medium">${item.name}</div>
+        ${optText ? `<span class="cart-options block italic text-gray-500">${optText}</span>` : ''}
+
+        <div class="text-sm text-gray-500">
+  Prix unitaire : ${
+    typeof item.basePrice === 'number'
+      ? item.basePrice.toFixed(2).replace('.', ',')
+      : (
+          item.options && item.options.size && typeof item.options.size.price === 'number'
+            ? item.options.size.price.toFixed(2).replace('.', ',')
+            : '0,00'
+        )
+  }€
+</div>
+
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
+                data-action="decrease" data-slug="${item.slug}">${decSym}</button>
+        <span>${item.quantity}</span>
+        <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
+                data-action="increase" data-slug="${item.slug}">+</button>
+      </div>
+      <div class="font-semibold w-24 text-right">${
+  typeof item.totalPrice === 'number'
+    ? item.totalPrice.toFixed(2).replace('.', ',')
+    : (
+        item.options && item.options.size && typeof item.options.size.price === 'number'
+          ? (item.options.size.price * item.quantity).toFixed(2).replace('.', ',')
+          : '0,00'
+      )
+}€</div>
+
+    `;
+    container.appendChild(row);
+  });
+
+  if (validateTotal) {
+    const totalPrice = typeof window.cartSystem?.getTotalPrice === 'function'
+      ? window.cartSystem.getTotalPrice()
+      : 0;
+    validateTotal.textContent = `(${totalPrice.toFixed(2).replace('.', ',')}€)`;
+  }
+
+  container.querySelectorAll('[data-action]').forEach(btn => {
+    btn.onclick = () => {
+      const action = btn.dataset.action;
+      const slug   = btn.dataset.slug;
+      if (!window.cartSystem) return;
+      if (action === 'increase') window.cartSystem.increaseQuantity(slug);
+      if (action === 'decrease') window.cartSystem.decreaseQuantity(slug);
+      renderCart();
+    };
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+window.addEventListener('storage', e => { if (e.key === 'bigsmash_cart') renderCart(); });
+window.addEventListener('cartUpdated', renderCart);
+document.getElementById("validate-cart-btn")?.addEventListener("click", function() {
+  window.location.href = "checkout.html";
+});
+
+</script>
+</body>
+</html>

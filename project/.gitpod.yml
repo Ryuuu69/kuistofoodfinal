@@ -1,0 +1,18 @@
+image: gitpod/workspace-full
+
+tasks:
+  - init: |
+      cd backend
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt python-dotenv requests
+      cp .env.example .env || true
+      echo "⚠️ Mets à jour backend/.env avec ta DATABASE_URL et ADMIN_TOKEN"
+      alembic upgrade head || true
+      python seed_menu.py || true
+  - command: |
+      cd backend
+      uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+ports:
+  - port: 8000
+    onOpen: open-preview

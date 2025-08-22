@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuisto - Produit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIABLES CSS BIGSMASH ===== */
+        :root {
+            --kuisto-orange: #F18701;
+            --bigsmash-dark: #191919;
+            --bigsmash-gray: #808080;
+            --bigsmash-light-gray: #f4f4f4;
+            --bigsmash-white: #FFFFFF;
+            --bigsmash-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            --bigsmash-shadow-hover: 0 8px 32px rgba(0,0,0,0.13);
+            --bigsmash-radius: 32px;
+            --bigsmash-radius-small: 24px;
+        }
+
+        .font-montserrat { 
+            font-family: Montserrat, sans-serif; 
+        }
+      .main-content,
+.bigsmash-product-card {
+  margin-top: 219px;  /* hauteur bannière desktop */
+}
+       /* ===== HEADER IMAGE BANNIÈRE ===== */
+.main-header {
+  width: 100vw;
+  background: var(--bigsmash-white);
+  box-shadow: var(--bigsmash-shadow);              /* ombre sous la bannière */
+  border-bottom-left-radius: var(--bigsmash-radius);  /* arrondi bas gauche */
+  border-bottom-right-radius: var(--bigsmash-radius); /* arrondi bas droite */
+  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l'ombre */
+  position: relative;                                /* pour garantir que l'ombre s'affiche bien */
+  z-index: 10;
+}
+.banner-img {
+  display: block;
+  width: 100%;
+  height: 219px;       /* ajuste à la hauteur exacte souhaitée */
+  object-fit: cover;
+  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l'image si besoin */
+  border-bottom-right-radius: var(--bigsmash-radius-small);
+}
+
+        /* ===== FOND DE PAGE GRISÉ (MODAL-LIKE) ===== */
+        .bigsmash-page-container {
+            min-height: 100vh;
+            background: var(--bigsmash-light-gray);
+            padding-top: 40px;
+            padding-bottom: 200px; /* Place pour le bouton sticky */
+        }
+   
+
+        /* ===== BOUTON RETOUR ===== */
+        .bigsmash-back-button-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .bigsmash-back-btn {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--bigsmash-dark);
+            padding: 12px 20px;
+            border-radius: var(--bigsmash-radius-small);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .bigsmash-back-btn:hover {
+            background: var(--bigsmash-white);
+            transform: translateX(-4px);
+            box-shadow: var(--bigsmash-shadow);
+        }
+
+        /* ===== CARTE PRODUIT PRINCIPALE ===== */
+        .bigsmash-product-card {
+  margin: 30px auto 0;
+  width: calc(100vw - 680px);
+  max-width: 900px;
+
+  /* garde bien les autres styles : */
+  background: var(--bigsmash-white);
+  border-radius: var(--bigsmash-radius);
+  box-shadow: var(--bigsmash-shadow-hover);
+  padding: 32px;
+
+
+        }
+
+        /* ===== IMAGE PRODUIT ===== */
+        /* ===== IMAGE PRODUIT ===== */
+.bigsmash-product-image-container {
+  width: 770px;                 /* ou: width: calc(100vw - 680px); max-width: 900px; */
+  height: 250px;
+  margin: 0 auto 24px auto;
+  background-size: cover;       /* remplit sans déformer */
+  background-position: center;  /* centré */
+  background-repeat: no-repeat;
+  border-radius: var(--bigsmash-radius-small);
+  box-shadow: var(--bigsmash-shadow);
+}
+
+
+
+
+
+        /* ===== TITRES ET TEXTES ===== */
+        .bigsmash-product-category {
+            display: inline-block;
+            background: var(--kuisto-orange);
+            color: var(--bigsmash-white);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .bigsmash-product-title {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 36px;
+            color: var(--bigsmash-dark);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .bigsmash-product-description {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 27px;
+            color: var(--bigsmash-dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bigsmash-product-price {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 16px;
+            color: var(--bigsmash-dark);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        /* ===== CONTRÔLES QUANTITÉ ===== */
+        .bigsmash-quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .bigsmash-qty-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--kuisto-orange);
+            background: var(--bigsmash-white);
+            color: var(--kuisto-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .bigsmash-qty-btn:hover {
+            background: var(--kuisto-orange);
+            color: var(--bigsmash-white);
+            transform: scale(1.05);
+            box-shadow: var(--bigsmash-shadow);
+        }
+
+        .bigsmash-qty-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .bigsmash-quantity-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--bigsmash-dark);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* ===== SECTIONS OPTIONS ===== */
+        .bigsmash-options-section {
+            margin-bottom: 24px;
+        }
+
+        .bigsmash-options-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--bigsmash-dark);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .bigsmash-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        /* ===== CARTES OPTIONS (CARRÉES ARRONDIES) ===== */
+        .bigsmash-option-card {
+            width: 150px;
+            height: 150px;
+            background: var(--bigsmash-white);
+            border: none;
+            border-radius: var(--bigsmash-radius-small);
+            padding: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: var(--bigsmash-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .bigsmash-option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--bigsmash-shadow-hover);
+        }
+
+        .bigsmash-option-card.selected {
+            background: rgba(234, 61, 47, 0.05);
+        }
+
+        .bigsmash-option-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-top: 0;
+        }
+
+        .bigsmash-option-name {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--bigsmash-dark);
+            margin: 8px 0 4px 0;
+            text-align: center;
+        }
+
+        .bigsmash-option-price {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 16px;
+            color: var(--kuisto-orange);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        /* ===== CONTRÔLES OPTIONS ===== */
+        .bigsmash-option-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .bigsmash-option-qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--kuisto-orange);
+            color: var(--bigsmash-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .bigsmash-option-qty-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--bigsmash-shadow);
+        }
+
+        .bigsmash-option-qty-display {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--bigsmash-dark);
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* ===== INDICATEURS RADIO/CHECKBOX ===== */
+        .bigsmash-radio-indicator,
+        .bigsmash-checkbox-indicator {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.2s ease;
+        }
+
+        .bigsmash-checkbox-indicator {
+            border-radius: 4px;
+        }
+
+        .bigsmash-radio-dot,
+        .bigsmash-checkbox-check {
+            width: 12px;
+            height: 12px;
+            background: var(--kuisto-orange);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .bigsmash-checkbox-check {
+            border-radius: 2px;
+        }
+
+        .bigsmash-option-card.selected .bigsmash-radio-indicator,
+        .bigsmash-option-card.selected .bigsmash-checkbox-indicator {
+            border-color: var(--kuisto-orange);
+        }
+
+        .bigsmash-option-card.selected .bigsmash-radio-dot,
+        .bigsmash-option-card.selected .bigsmash-checkbox-check {
+            opacity: 1;
+        }
+
+        /* ===== CARTE STICKY AJOUTER AU PANIER ===== */
+        .bigsmash-add-to-cart-btn {
+            position: fixed;
+            left: 50%;
+            bottom: 32px;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 126px;
+            background: var(--bigsmash-red);
+            border: none;
+            border-radius: 63px;
+            box-shadow: var(--bigsmash-shadow-hover);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 20px;
+            z-index: 2000;
+        }
+
+        /* ===== CONTRÔLES QUANTITÉ DANS LA CARTE STICKY ===== */
+        .bigsmash-sticky-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .bigsmash-sticky-qty-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--bigsmash-white);
+            background: transparent;
+            color: var(--bigsmash-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .bigsmash-sticky-qty-btn:hover {
+            background: var(--bigsmash-white);
+            color: var(--bigsmash-red);
+            transform: scale(1.05);
+        }
+
+        .bigsmash-sticky-qty-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--bigsmash-white);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* ===== BOUTON PRINCIPAL AJOUTER AU PANIER ===== */
+        .bigsmash-main-add-btn {
+            width: 270px;
+            height: 40px;
+            background: var(--bigsmash-red);
+            border: 2px solid var(--bigsmash-white);
+            border-radius: 20px;
+            color: var(--bigsmash-white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bigsmash-main-add-btn:hover {
+            background: var(--bigsmash-white);
+            color: var(--bigsmash-red);
+            transform: scale(1.02);
+        }
+
+        /* ===== ICÔNES FLOTTANTES (TOUJOURS VISIBLES) ===== */
+        .bigsmash-desktop-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1003;
+        }
+
+        .bigsmash-desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--bigsmash-shadow-hover);
+            
+            /* État par défaut : fond rouge, icône blanche */
+            background: var(--kuisto-orange);
+            color: var(--bigsmash-white);
+        }
+
+        .bigsmash-desktop-btn:hover {
+            /* Au hover : fond blanc, icône rouge */
+            background: var(--bigsmash-white);
+            color: var(--kuisto-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .bigsmash-desktop-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+    
+
+        
+        /* ===== STYLES POUR LES ERREURS ===== */
+        .bigsmash-error-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bigsmash-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .bigsmash-error-content {
+            background: var(--bigsmash-white);
+            border-radius: var(--bigsmash-radius);
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--bigsmash-shadow-hover);
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .bigsmash-error-emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .bigsmash-error-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--bigsmash-dark);
+            margin-bottom: 16px;
+        }
+
+        .bigsmash-error-message {
+            font-size: 16px;
+            color: var(--bigsmash-gray);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+      #cart-bar.cart-bar[style*="position: fixed"] {
+    display: none !important;
+}
+     
+  
+
+
+        .bigsmash-error-btn {
+            background: var(--bigsmash-red);
+            color: var(--bigsmash-white);
+            border: none;
+            border-radius: var(--bigsmash-radius-small);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .bigsmash-error-btn:hover {
+            background: #d63384;
+            transform: translateY(-2px);
+            box-shadow: var(--bigsmash-shadow);
+        }
+      /* ==== ZONE STICKY (barre translucide) ==== */
+.bigsmash-cart-container {
+  position: fixed;
+  bottom: 0;                  /* colle la barre au bas de l'écran */
+  left: 490px;
+  right: 490px;
+  height: 125px;
+  background: rgba(255,255,255,0.85);
+  border-radius: var(--bigsmash-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;                   /* espace réduit */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  z-index: 2000;
+  padding: 0;
+}
+
+/* ==== CERCLÉS "–" et "+" ==== */
+.bigsmash-cart-container .bigsmash-sticky-qty-btn {
+  width: 32px;                /* réduit de 44 → 32 */
+  height: 32px;               /* réduit de 44 → 32 */
+  border-radius: 50%;
+  background: var(--kuisto-orange);
+  color: #000000;             /* icône toujours noire */
+  font-size: 16px;            /* réduit de 20 → 16 */
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ==== COMPTEUR (NOMBRE) ==== */
+.bigsmash-cart-container .bigsmash-sticky-qty-display {
+  color: #000000;             /* nombre en noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  font-size: 16px;            /* taille réduite à 16px */
+  line-height: 20px;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ==== BOUTON "Ajouter au panier" ==== */
+.bigsmash-cart-container .bigsmash-main-add-btn {
+  width: 270px;
+  height: 40px;
+  background: var(--kuisto-orange);
+  border: 2px solid var(--bigsmash-white);
+  border-radius: 20px;
+  
+  color: #000000;             /* texte noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.bigsmash-cart-container .bigsmash-main-add-btn:hover {
+  background: var(--bigsmash-white);
+  color: var(--kuisto-orange);
+  transform: scale(1.02);
+}
+
+/* ===== CACHER L'ANCIEN CONTAINER ===== */
+.bigsmash-add-to-cart-btn {
+  display: none !important;
+}
+      .bigsmash-quantity-container {
+  display: none !important;
+}
+    
+.bigsmash-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 150px);
+  grid-auto-rows: 150px;
+  column-gap: 11px;
+  row-gap: 11px;
+  justify-content: start;
+  margin: 0;
+}
+
+/* Pour 4 cartes ou plus, largeur fixe centrée */
+.bigsmash-options-grid--count-4,
+.bigsmash-options-grid--count-5,
+.bigsmash-options-grid--count-6,
+.bigsmash-options-grid--count-7,
+.bigsmash-options-grid--count-8,
+.bigsmash-options-grid--count-9,
+.bigsmash-options-grid--count-10 {
+  width: 633px;  /* 4*150 + 3*11 */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Pour 3, 2, 1 carte(s) tu gardes tes marges spéciales */
+.bigsmash-options-grid--count-3 {
+  grid-template-columns: repeat(3, 150px);
+  width: 478px; /* 3*150 + 2*11 */
+  margin-left: auto;
+  margin-right: auto;
+}
+.bigsmash-options-grid--count-2 {
+  grid-template-columns: repeat(2, 150px);
+  width: 311px; /* 2*150 + 1*11 */
+  margin-left: auto;
+  margin-right: auto;
+}
+.bigsmash-options-grid--count-1 {
+  grid-template-columns: 150px;
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Image dans la carte */
+.bigsmash-option-image {
+  width: 134px;
+  height: 70px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 4px;
+}
+
+/* Nom de l'option */
+.bigsmash-option-name {
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--bigsmash-dark);
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+/* Prix de l'option payante */
+.bigsmash-option-price {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--kuisto-orange);
+  text-align: center;
+  margin-bottom: auto;
+}
+
+/* Contrôles – 0 + */
+.bigsmash-option-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bigsmash-option-qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--kuisto-orange);
+  color: #000000;
+  font-size: 11px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+      /* Toujours EN DEHORS du media query : la bannière mobile est cachée par défaut */
+.banner-mobile { display: none; }
+
+@media (max-width: 700px) {
+  html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    background: #f7f7f7;
+    box-sizing: border-box;
+  }
+
+  .bigsmash-product-card,
+  .container,
+  .main-content {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 10px 0 20px 0;  /* Marge en haut, bas (place pour bouton fixé) */
+    border-radius: 0;
+    background: #fff;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  /* IMAGE PRODUIT bien centrée */
+  /* IMAGE PRODUIT – mobile */
+.bigsmash-product-image-container {
+  width: 90vw;
+  max-width: 480px;
+  height: 45vw;                 /* hauteur responsive (≈ 16/9) */
+  min-height: 180px;            /* garde une hauteur mini */
+  margin: 18px auto;
+  border-radius: 22px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+/* supprime entièrement .bigsmash-product-image-container img {...} */
+
+  
+
+  /* GRILLE OPTIONS : décalée à droite, mais jamais hors fiche */
+  .bigsmash-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 90vw;                /* largeur presque comme la fiche */
+    max-width: 480px;
+    margin: 0 auto 40px auto;   /* bien centrée */
+    padding-left: 30px;         /* décale le début des cartes sans sortir de la fiche */
+    box-sizing: border-box;
+    justify-content: start;
+  }
+
+  .bigsmash-option-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 120px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px 0 #0001;
+    box-sizing: border-box;
+  }
+
+  /* CACHE LES ICONES DESKTOP */
+  .bigsmash-desktop-btn,
+  .bigsmash-desktop-buttons {
+    display: none;
+  }
+
+  /* BOUTON PANIER : fixé en bas, centré sur la fiche */
+  .bigsmash-cart-container {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    width: 90vw;
+    max-width: 480px;
+    border-radius: 22px 22px 0 0;  /* top-left, top-right, bottom-right, bottom-left */
+    background: rgba(255,255,255,0.98);
+    box-shadow: 0 2px 12px 0 #0002;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  /* BOUTON PRINCIPAL AJOUT PANIER dans la barre */
+  .bigsmash-main-add-btn {
+    width: 90vw;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 20px;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === BANNIÈRE === */
+  .banner-desktop { display: none !important; }
+  .banner-mobile {
+    display: block !important;
+    width: 100%;
+    height: 120px; /* adapte la hauteur pour mobile */
+    object-fit: cover;
+    border-bottom-left-radius: var(--bigsmash-radius-small);
+    border-bottom-right-radius: var(--bigsmash-radius-small);
+  }
+}
+      .bigsmash-page-container {
+  margin-top: 219px; /* Desktop : hauteur de la bannière */
+}
+@media (max-width: 700px) {
+  .bigsmash-page-container {
+    margin-top: 120px; /* Mobile : hauteur de la bannière mobile */
+  }
+}
+
+
+      
+
+     
+
+
+
+    </style>
+<header class="fixed left-0 top-0 w-full z-40 bg-white">
+  <!-- Bannière desktop (fixe, visible uniquement sur desktop) -->
+  <img 
+    src="images/banner.svg" 
+    alt="Banner Kuisto" 
+    class="banner-img banner-desktop hidden md:block w-full h-[219px] object-cover"
+  />
+  <!-- Bannière mobile (fixe, visible uniquement sur mobile) -->
+  <img 
+    src="images/banner mobile.svg" 
+    alt="Banner Kuisto Mobile" 
+    class="banner-img banner-mobile block md:hidden w-full h-[110px] object-cover"
+  />
+</header>
+
+
+    <!-- Container principal -->
+    <div id="app">
+        <!-- Le contenu sera injecté ici par JavaScript -->
+    </div>
+    <script src="products-data.js"></script>
+<script src="cart-system.js"></script>
+    <script>
+class ProductPage {
+  constructor() {
+    this.product = null;
+    this.selectedOptions = {
+      supplements: {},
+      drink: null,
+      drinks: {},
+      remove: {},
+      size: null,
+      sauces: {},
+      burger: null,
+      burgerIndex: null,
+      petitCreux: null,
+      meats: {},
+      meatCount: 1
+    };
+    this.quantity = 1;
+    this.init();
+  }
+
+  // ====== INIT ======
+  init() {
+    const slug = new URLSearchParams(window.location.search).get('slug');
+    if (!slug) return this.showError("Aucun produit spécifié dans l'URL");
+
+    this.product = findProductBySlug(slug);
+    if (!this.product) return this.showError(`Produit "${slug}" introuvable`);
+
+    // ✅ Taille par défaut = 1ʳᵉ taille (évite 0,00€ + anneau actif direct)
+    if (this.product.options?.sizes?.length && !this.selectedOptions.size) {
+      this.selectedOptions.size = this.product.options.sizes[0];
+    }
+
+    this.render();
+    this.bindEvents();
+  }
+
+  // ====== UI ======
+  getSlugFromURL() { return new URLSearchParams(window.location.search).get('slug'); }
+
+  showError(message) {
+    document.getElementById('app').innerHTML = `
+      <div class="bigsmash-error-container">
+        <div class="bigsmash-error-content">
+          <div class="bigsmash-error-emoji">😕</div>
+          <h1 class="bigsmash-error-title">Oups !</h1>
+          <p class="bigsmash-error-message">${message}</p>
+          <a href="produits.html" class="bigsmash-error-btn">Retour à la liste des produits</a>
+        </div>
+      </div>
+    `;
+  }
+
+  render() {
+    document.title = `Kuisto - ${this.product.name}`;
+    document.getElementById('app').innerHTML = `
+      <div class="bigsmash-page-container">
+        <div class="bigsmash-back-button-container">
+          <a href="produits.html" class="bigsmash-back-btn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Retour
+          </a>
+        </div>
+
+        <div class="bigsmash-product-card">
+          <div class="bigsmash-product-image-container" style="background-image:url('${this.product.image}')"></div>
+
+          <span class="bigsmash-product-category">${this.product.category}</span>
+          <h1 class="bigsmash-product-title">${this.product.name}</h1>
+          <p class="bigsmash-product-description">${this.product.description}</p>
+
+          <div class="bigsmash-product-price">
+            ${this.renderProductPrice()}
+          </div>
+
+          <div class="bigsmash-quantity-container">
+            <button class="bigsmash-qty-btn" id="qty-minus">−</button>
+            <span class="bigsmash-quantity-display" id="quantity">${this.quantity}</span>
+            <button class="bigsmash-qty-btn" id="qty-plus">+</button>
+          </div>
+
+          ${this.renderOptions()}
+        </div>
+
+        <div class="bigsmash-cart-container">
+          <div class="bigsmash-sticky-qty-controls">
+            <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
+            <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
+            <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
+          </div>
+          <button class="bigsmash-main-add-btn" id="add-to-cart">
+            <span id="cart-btn-text">
+              Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
+            </span>
+          </button>
+        </div>
+
+        <div class="bigsmash-desktop-buttons">
+          <button class="bigsmash-desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </button>
+          <button class="bigsmash-desktop-btn" title="Mon compte">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  renderOptions() {
+    let html = '';
+
+    // Suppléments
+    if (this.product.options?.supplements?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
+            ${this.product.options.supplements.map((supplement, index) => `
+              <div class="bigsmash-option-card">
+                <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
+                <div class="bigsmash-option-name">${supplement.name}</div>
+                <div class="bigsmash-option-price">+${supplement.price.toFixed(2).replace('.', ',')} €</div>
+                <div class="bigsmash-option-controls">
+                  <button class="bigsmash-option-qty-btn supplement-minus" data-index="${index}">−</button>
+                  <span class="bigsmash-option-qty-display supplement-qty" data-index="${index}">0</span>
+                  <button class="bigsmash-option-qty-btn supplement-plus" data-index="${index}">+</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Tailles
+    if (this.product.options?.sizes?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis la taille</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.sizes.length}">
+            ${this.product.options.sizes.map((size, index) => `
+              <label class="bigsmash-option-card">
+                <input
+                  type="radio"
+                  name="side-size"
+                  value="${index}"
+                  class="sr-only size-radio"
+                  ${ (this.selectedOptions.size?.name === size.name) || (!this.selectedOptions.size && index===0) ? 'checked' : '' }>
+                ${size.image ? `<img src="${size.image}" alt="${size.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${size.name}</div>
+                <div class="bigsmash-option-price">${size.price.toFixed(2).replace('.', ',')} €</div>
+                <div class="bigsmash-radio-indicator"><div class="bigsmash-radio-dot"></div></div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Burgers
+    if (this.product.options?.burgerSelect?.length > 0) {
+      const baseBurgerPrice = this.product.options.burgerSelect[0]?.price || 0;
+      const currentIdx = this.selectedOptions.burgerIndex ?? 0;
+
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis ton burger</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${Math.min(4, this.product.options.burgerSelect.length)}" data-group="burgers">
+            ${this.product.options.burgerSelect.map((burger, idx) => `
+              <label class="bigsmash-option-card">
+                <input type="checkbox" class="sr-only burger-checkbox" data-index="${idx}" data-price="${burger.price}" data-image="${burger.image}" ${idx === currentIdx ? 'checked' : ''}>
+                ${burger.image ? `<img src="${burger.image}" alt="${burger.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${burger.name}</div>
+                <div class="bigsmash-option-price">
+                  ${burger.price > baseBurgerPrice ? `+${(burger.price - baseBurgerPrice).toFixed(2).replace('.', ',')} €` : 'Inclus'}
+                </div>
+                <div class="bigsmash-radio-indicator"><div class="bigsmash-radio-dot"></div></div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Petit creux
+    if (this.product.options?.petitCreuxSelect?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis ton petit creux</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.petitCreuxSelect.length}">
+            ${this.product.options.petitCreuxSelect.map((item, idx) => `
+              <label class="bigsmash-option-card">
+                <input type="radio" name="petitCreuxSelect" class="sr-only petit-creux-radio" data-index="${idx}" ${idx === 0 ? 'checked' : ''}>
+                ${item.image ? `<img src="${item.image}" alt="${item.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${item.name}</div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Tacos: nombre de viandes
+    if (this.product.options?.meatCounts?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis la taille de ton tacos</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.meatCounts.length}">
+            ${this.product.options.meatCounts.map((count) => `
+              <label class="bigsmash-option-card">
+                <input type="radio" name="meatCount" value="${count.value}" class="sr-only meat-count-radio" data-price="${count.price}" ${this.selectedOptions.meatCount === count.value ? 'checked' : ''}>
+                <div class="bigsmash-option-name">${count.label}</div>
+                <div class="bigsmash-option-price">${count.price.toFixed(2).replace('.', ',')} €</div>
+                <div class="bigsmash-radio-indicator"><div class="bigsmash-radio-dot"></div></div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Tacos: viandes
+    const nbViandes = this.selectedOptions.meatCount || 1;
+    if (this.product.options?.meats?.length > 0 && this.product.options?.meatCounts?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis ${nbViandes > 1 ? 'tes' : 'ta'} viande${nbViandes > 1 ? 's' : ''} (${nbViandes} max)</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.meats.length}">
+            ${this.product.options.meats.map((meat, idx) => `
+              <label class="bigsmash-option-card">
+                <input type="${nbViandes === 1 ? 'radio' : 'checkbox'}" name="meatSelect" class="sr-only meat-checkbox" data-index="${idx}" ${this.selectedOptions.meats[idx] ? 'checked' : ''}>
+                ${meat.image ? `<img src="${meat.image}" alt="${meat.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${meat.name}</div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Remove
+    if (this.product.options?.remove?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
+            ${this.product.options.remove.map((item, index) => `
+              <label class="bigsmash-option-card">
+                <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
+                <div class="bigsmash-checkbox-indicator"><div class="bigsmash-checkbox-check"></div></div>
+                ${item.image ? `<img src="${item.image}" alt="${item.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${item.name}</div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Sauces (min(4,n), pas de "Inclus")
+    if (this.product.options?.sauces?.length > 0) {
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">Choisis ta/tes sauce(s)</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${Math.min(4, this.product.options.sauces.length)}" data-group="sauces">
+            ${this.product.options.sauces.map((sauce, index) => `
+              <label class="bigsmash-option-card">
+                <input type="checkbox" class="sr-only sauce-checkbox" data-index="${index}" data-price="${sauce.price || 0}">
+                ${sauce.image ? `<img src="${sauce.image}" alt="${sauce.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${sauce.name}</div>
+                <div class="bigsmash-option-price">${sauce.price > 0 ? `+${sauce.price.toFixed(2).replace('.', ',')} €` : ''}</div>
+                <div class="bigsmash-radio-indicator"><div class="bigsmash-radio-dot"></div></div>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // ✅ Boissons (min(4,n), pas de "Inclus"). Bucket Duo = checkboxes (max 2), sinon radio
+    if (this.product.options?.drinks?.length > 0) {
+      const isBucketDuo = (this.product.slug === 'bucket-duo');
+      const title = isBucketDuo ? 'Choisis tes 2 boissons' : 'Choisis ta boisson';
+      const n = this.product.options.drinks.length;
+
+      html += `
+        <div class="bigsmash-options-section">
+          <h3 class="bigsmash-options-title">${title}</h3>
+          <div class="bigsmash-options-grid bigsmash-options-grid--count-${Math.min(4, n)}">
+            ${this.product.options.drinks.map((drink, index) => `
+              <label class="bigsmash-option-card">
+                <input
+                  type="${isBucketDuo ? 'checkbox' : 'radio'}"
+                  ${isBucketDuo ? '' : 'name="drink"'}
+                  ${isBucketDuo ? '' : `value="${index}"`}
+                  class="sr-only ${isBucketDuo ? 'drink-checkbox' : 'drink-radio'}"
+                  data-index="${index}"
+                  data-price="${drink.price || 0}">
+                ${drink.image ? `<img src="${drink.image}" alt="${drink.name}" class="bigsmash-option-image">` : ''}
+                <div class="bigsmash-option-name">${drink.name}</div>
+                <div class="bigsmash-option-price">${drink.price > 0 ? `+${drink.price.toFixed(2).replace('.', ',')} €` : ''}</div>
+                ${isBucketDuo ? '' : '<div class="bigsmash-radio-indicator"><div class="bigsmash-radio-dot"></div></div>'}
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    return html;
+  }
+
+  renderProductPrice() {
+    if ((this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burger) ||
+        this.product.options?.meatCounts?.length > 0) {
+      return `${this.calculateTotal().toFixed(2).replace('.', ',')} €`;
+    }
+    if (this.product.options?.sizes?.length > 0) {
+      const prices = this.product.options.sizes.map(s => s.price);
+      const min = Math.min(...prices);
+      const max = Math.max(...prices);
+      return (min !== max)
+        ? `À partir de ${min.toFixed(2).replace('.', ',')} €`
+        : `${min.toFixed(2).replace('.', ',')} €`;
+    }
+    return `${this.product.price.toFixed(2).replace('.', ',')} €`;
+  }
+
+  // ====== EVENTS ======
+  bindEvents() {
+    // Quantité
+    document.getElementById('qty-minus')?.addEventListener('click', () => { if (this.quantity > 1) { this.quantity--; this.updateDisplay(); }});
+    document.getElementById('qty-plus')?.addEventListener('click', () => { this.quantity++; this.updateDisplay(); });
+    document.getElementById('sticky-qty-minus')?.addEventListener('click', () => { if (this.quantity > 1) { this.quantity--; this.updateDisplay(); }});
+    document.getElementById('sticky-qty-plus')?.addEventListener('click', () => { this.quantity++; this.updateDisplay(); });
+
+    // Suppléments
+    document.querySelectorAll('.supplement-minus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = parseInt(btn.dataset.index);
+        const cur = this.selectedOptions.supplements[i] || 0;
+        if (cur > 0) { this.selectedOptions.supplements[i] = cur - 1; this.updateDisplay(); }
+      });
+    });
+    document.querySelectorAll('.supplement-plus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = parseInt(btn.dataset.index);
+        const cur = this.selectedOptions.supplements[i] || 0;
+        this.selectedOptions.supplements[i] = cur + 1; this.updateDisplay();
+      });
+    });
+
+    // Tailles – carte cliquable + allumage anneau + présélection fiable
+    (() => {
+      const radios = Array.from(document.querySelectorAll('.size-radio'));
+      if (!radios.length) return;
+
+      radios.forEach(radio => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (!card) return;
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('input,button,select,label,a')) return;
+          if (!radio.checked) {
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      });
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (!radio.checked) return;
+          const index = parseInt(radio.value, 10) || 0;
+          this.selectedOptions.size = this.product.options.sizes[index];
+          this.updateDisplay();
+        });
+      });
+
+      // forcer un checked au montage
+      let checked = radios.find(r => r.checked);
+      if (!checked) {
+        radios[0].checked = true;
+        checked = radios[0];
+      }
+      const idx = parseInt(checked.value, 10) || 0;
+      this.selectedOptions.size = this.product.options.sizes[idx];
+      this.updateDisplay();
+    })();
+
+    // Burgers (exclusif)
+    (() => {
+      const cbs = Array.from(document.querySelectorAll('.burger-checkbox'));
+      if (!cbs.length) return;
+      const ensureOne = () => {
+        let selected = cbs.find(cb => cb.checked);
+        if (!selected) { cbs[0].checked = true; selected = cbs[0]; }
+        const idx = parseInt(selected.dataset.index || '0', 10) || 0;
+        this.selectedOptions.burgerIndex = idx;
+        this.selectedOptions.burger = this.product.options.burgerSelect[idx];
+      };
+      cbs.forEach(cb => {
+        const card = cb.closest('.bigsmash-option-card');
+        if (card) {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('input,button,select,label,a')) return;
+            if (!cb.checked) cb.checked = true;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        }
+        cb.addEventListener('change', () => {
+          if (cb.checked) cbs.forEach(o => { if (o !== cb) o.checked = false; });
+          else if (!cbs.some(x => x.checked)) cb.checked = true;
+          ensureOne();
+          const img = cb.dataset.image;
+          const ctn = document.querySelector('.bigsmash-product-image-container');
+          if (ctn && img) ctn.style.backgroundImage = `url('${img}')`;
+          this.updateDisplay();
+        });
+      });
+      ensureOne();
+    })();
+
+    // Petit creux
+    if (this.product.options?.petitCreuxSelect?.length > 0 && !this.selectedOptions.petitCreux) {
+      this.selectedOptions.petitCreux = this.product.options.petitCreuxSelect[0];
+    }
+    document.querySelectorAll('.petit-creux-radio').forEach(r => {
+      r.addEventListener('change', () => {
+        const idx = parseInt(r.dataset.index);
+        this.selectedOptions.petitCreux = this.product.options.petitCreuxSelect[idx];
+        this.updateDisplay();
+      });
+    });
+
+    // Nombre de viandes tacos
+    document.querySelectorAll('.meat-count-radio').forEach(radio => {
+      const card = radio.closest('.bigsmash-option-card');
+      if (card) {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('input,button,select,label,a')) return;
+          radio.checked = true;
+          radio.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      }
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return;
+        document.querySelectorAll('.meat-count-radio').forEach(r => {
+          const c = r.closest('.bigsmash-option-card');
+          if (c) c.classList.toggle('selected', r === radio);
+        });
+        this.selectedOptions.meatCount = parseInt(radio.value, 10);
+        this.selectedOptions.meats = {};
+        this.render(); this.bindEvents(); this.updateDisplay();
+      });
+    });
+
+    // Viandes tacos
+    const nbViandes = (this.product.options?.meatCounts?.length ? (this.selectedOptions.meatCount || 1) : 1);
+    if (this.product.options?.meats?.length > 0) {
+      if (nbViandes === 1) {
+        document.querySelectorAll('.meat-checkbox').forEach((radio, idx) => {
+          radio.addEventListener('change', () => {
+            this.selectedOptions.meats = {};
+            if (radio.checked) this.selectedOptions.meats[idx] = true;
+            this.updateDisplay();
+          });
+        });
+      } else {
+        document.querySelectorAll('.meat-checkbox').forEach((checkbox, idx) => {
+          checkbox.addEventListener('change', () => {
+            const checked = document.querySelectorAll('.meat-checkbox:checked');
+            if (checked.length > nbViandes) { checkbox.checked = false; return; }
+            this.selectedOptions.meats[idx] = checkbox.checked;
+            this.updateDisplay();
+          });
+        });
+      }
+    }
+
+    // Remove
+    document.querySelectorAll('.remove-checkbox').forEach(chk => {
+      chk.addEventListener('change', () => {
+        const i = parseInt(chk.dataset.index);
+        this.selectedOptions.remove[i] = chk.checked;
+        this.updateDisplay();
+      });
+    });
+
+    // Sauces (max 2 gratuites)
+    {
+      const MAX_FREE = 2;
+      const cbs = Array.from(document.querySelectorAll('.sauce-checkbox'));
+      const isFree = cb => (parseFloat(cb.dataset.price || '0') <= 0);
+      const countFree = () => cbs.filter(cb => cb.checked && isFree(cb)).length;
+      cbs.forEach(cb => {
+        const card = cb.closest('.bigsmash-option-card');
+        if (card) {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('input,button,select,label,a')) return;
+            cb.checked = !cb.checked;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        }
+        cb.addEventListener('change', () => {
+          const idx = parseInt(cb.dataset.index, 10);
+          if (cb.checked && isFree(cb) && countFree() > MAX_FREE) {
+            cb.checked = false; this.selectedOptions.sauces[idx] = false; this.updateDisplay(); return;
+          }
+          this.selectedOptions.sauces[idx] = cb.checked;
+          this.updateDisplay();
+        });
+      });
+    }
+
+    // Boissons
+    const isBucketDuo = (this.product.slug === 'bucket-duo');
+
+    if (isBucketDuo) {
+      // ✅ checkboxes, max 2
+      const checks = Array.from(document.querySelectorAll('.drink-checkbox'));
+      checks.forEach(cb => {
+        const card = cb.closest('.bigsmash-option-card');
+        if (card) {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('input,button,select,label,a')) return;
+            cb.checked = !cb.checked;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        }
+        cb.addEventListener('change', () => {
+          const idx = parseInt(cb.dataset.index || '0', 10);
+          const total = checks.filter(x => x.checked).length;
+          if (total > 2) { cb.checked = false; return; }
+          this.selectedOptions.drinks[idx] = cb.checked
+            ? { name: this.product.options.drinks[idx].name, price: this.product.options.drinks[idx].price || 0 }
+            : false;
+          this.updateDisplay();
+        });
+      });
+    } else {
+      // ✅ radio (une seule boisson)
+      document.querySelectorAll('.drink-radio').forEach(radio => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (card) {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('input,button,select,label,a')) return;
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        }
+        radio.addEventListener('change', () => {
+          if (!radio.checked) return;
+          const index = parseInt(radio.value, 10);
+          this.selectedOptions.drink = this.product.options.drinks[index];
+          this.updateDisplay();
+        });
+      });
+    }
+
+    // Ajouter
+    document.getElementById('add-to-cart')?.addEventListener('click', () => this.addToCart());
+  }
+
+  // ====== REFRESH ======
+  updateDisplay() {
+    const q = document.getElementById('quantity');
+    const qs = document.getElementById('sticky-quantity');
+    if (q) q.textContent = this.quantity;
+    if (qs) qs.textContent = this.quantity;
+
+    Object.keys(this.selectedOptions.supplements).forEach(i => {
+      const el = document.querySelector(`.supplement-qty[data-index="${i}"]`);
+      if (el) el.textContent = this.selectedOptions.supplements[i] || 0;
+    });
+
+    const mark = sel => document.querySelectorAll(sel).forEach(input => {
+      const card = input.closest('.bigsmash-option-card');
+      if (card) card.classList.toggle('selected', !!input.checked);
+    });
+    mark('.burger-checkbox'); mark('.petit-creux-radio');
+    mark('.meat-checkbox');   mark('.sauce-checkbox');
+    mark('.remove-checkbox'); mark('.drink-radio');
+    mark('.drink-checkbox');  mark('.size-radio');
+    mark('.meat-count-radio');
+
+    let block = false;
+    if (this.product.options?.meats && this.product.options?.meatCounts) {
+      const nb = this.selectedOptions.meatCount || 1;
+      const picked = Object.values(this.selectedOptions.meats||{}).filter(Boolean).length;
+      if (picked !== nb) block = true;
+    }
+
+    const total = this.calculateTotal();
+    const txt = document.getElementById('cart-btn-text');
+    const btn = document.getElementById('add-to-cart');
+    if (txt) txt.textContent = total>0 ? `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €` : 'Ajouter au panier';
+    if (btn) {
+      btn.disabled = block || total<=0;
+      btn.classList.toggle('bigsmash-btn-disabled', block || total<=0);
+      btn.style.display = total>0 ? 'flex' : 'none';
+    }
+  }
+
+  // ====== PRIX ======
+  calculateTotal() {
+    let basePrice = this.product.price;
+
+    if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) {
+      basePrice = this.selectedOptions.size.price;
+    }
+
+    if (this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burger) {
+      const prixBurger = Number(this.selectedOptions.burger.price || 0);
+      let supplementMenu = 2.5;
+      if (this.product.slug === 'menu-combo') supplementMenu = 5.0;
+      basePrice = prixBurger + supplementMenu;
+    }
+
+    if (this.product.options?.meatCounts?.length > 0 && this.selectedOptions.meatCount) {
+      const mc = this.product.options.meatCounts.find(m => m.value === this.selectedOptions.meatCount);
+      if (mc) basePrice = mc.price;
+    }
+
+    let total = basePrice * this.quantity;
+
+    if (this.product.options?.supplements?.length > 0) {
+      Object.keys(this.selectedOptions.supplements).forEach(i => {
+        const qty = this.selectedOptions.supplements[i] || 0;
+        if (qty > 0) total += this.product.options.supplements[i].price * qty * this.quantity;
+      });
+    }
+
+    if (this.product.options?.sauces?.length > 0 && this.selectedOptions.sauces) {
+      Object.keys(this.selectedOptions.sauces).forEach(i => {
+        if (this.selectedOptions.sauces[i]) {
+          const s = this.product.options.sauces[i];
+          if (s && s.price > 0) total += s.price * this.quantity;
+        }
+      });
+    }
+
+    // Boissons : Bucket Duo (multi) vs autres (radio)
+    if (this.product.slug === 'bucket-duo') {
+      Object.values(this.selectedOptions.drinks || {}).forEach(d => { if (d && d.price > 0) total += d.price * this.quantity; });
+    } else if (this.selectedOptions.drink?.price > 0) {
+      total += this.selectedOptions.drink.price * this.quantity;
+    }
+
+    if (this.selectedOptions.petitCreux?.price > 0) total += this.selectedOptions.petitCreux.price * this.quantity;
+
+    return total;
+  }
+
+  // ====== PANIER ======
+  addToCart() {
+    if (this.product.options?.meats && this.product.options?.meatCounts) {
+      const nb = this.selectedOptions.meatCount || 1;
+      const picked = Object.values(this.selectedOptions.meats||{}).filter(Boolean).length;
+      if (picked !== nb) { alert(`Merci de sélectionner ${nb} viande${nb>1?'s':''} pour votre tacos.`); return; }
+    }
+
+    const options = {
+      supplements:{}, sauces:{}, meats:{}, drink:null, drinks:{},
+      remove: this.selectedOptions.remove,
+      size: this.selectedOptions.size ? { name:this.selectedOptions.size.name, price:this.selectedOptions.size.price ?? 0 } : null,
+      burger: this.selectedOptions.burger ? {
+        index: this.selectedOptions.burgerIndex ?? 0,
+        name: this.selectedOptions.burger.name,
+        price: this.selectedOptions.burger.price ?? 0,
+        priceDelta: (this.selectedOptions.burger.price ?? 0) - (this.product.options.burgerSelect?.[0]?.price ?? 0)
+      } : null,
+      petitCreux: this.selectedOptions.petitCreux ? { name:this.selectedOptions.petitCreux.name, price:this.selectedOptions.petitCreux.price ?? 0 } : null
+    };
+
+    // Boissons
+    if (this.product.slug === 'bucket-duo') {
+      Object.keys(this.selectedOptions.drinks||{}).forEach(k => {
+        const d = this.selectedOptions.drinks[k]; if (d) options.drinks[k] = { name:d.name, price:d.price||0 };
+      });
+    } else if (this.selectedOptions.drink) {
+      options.drink = { name:this.selectedOptions.drink.name, price:this.selectedOptions.drink.price ?? 0 };
+    }
+
+    // Suppléments / sauces / viandes
+    Object.keys(this.selectedOptions.supplements||{}).forEach(i => {
+      const qty = this.selectedOptions.supplements[i];
+      if (qty>0){ const s=this.product.options.supplements[i]; options.supplements[i]={name:s.name, price:s.price, quantity:qty}; }
+    });
+    Object.keys(this.selectedOptions.sauces||{}).forEach(i => {
+      if (this.selectedOptions.sauces[i]){ const s=this.product.options.sauces[i]; options.sauces[i]={name:s.name, price:s.price}; }
+    });
+    Object.keys(this.selectedOptions.meats||{}).forEach(i => {
+      if (this.selectedOptions.meats[i]){ const m=this.product.options.meats[i]; options.meats[i]={name:m.name}; }
+    });
+
+    // basePrice cohérent
+    let basePrice = this.product.price;
+    if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) basePrice = this.selectedOptions.size.price;
+    if (this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burger) {
+      let supplementMenu = 2.5; if (this.product.slug === "menu-combo") supplementMenu = 5.0;
+      basePrice = (this.selectedOptions.burger.price ?? 0) + supplementMenu;
+    }
+    if (this.product.options?.meatCounts?.length > 0 && this.selectedOptions.meatCount) {
+      const mc = this.product.options.meatCounts.find(m => m.value === this.selectedOptions.meatCount);
+      if (mc) basePrice = mc.price;
+    }
+
+    if (window.cartSystem) window.cartSystem.addToCart(this.product, this.quantity, options, basePrice);
+    else { console.error('Système de panier non disponible'); alert('Erreur: Système de panier non disponible'); }
+  }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => { new ProductPage(); });
+</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        >
+</body>
+</html>

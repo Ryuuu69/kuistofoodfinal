@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuisto - Admin Commandes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    body { background:#f5f6f7; font-family:'Montserrat', sans-serif; }
+    h1 { font-weight:700; }
+  </style>
+</head>
+<body>
+  <!-- Header avec bannière (inchangé) -->
+  <header class="bg-white shadow-sm">
+    <div class="h-[219px] flex items-center justify-center relative" style="box-shadow:0 2px 6px rgba(0,0,0,.08);">
+      <a href="index.html">
+        <img src="images/banner.svg" alt="Kuisto Banner" class="w-full h-full object-cover cursor-pointer"/>
+      </a>
+    </div>
+  </header>
+
+  <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
+    <div id="orders-card" class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[900px] mx-auto flex flex-col relative">
+      <div class="flex items-center justify-between mb-8 relative">
+        <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Administration des commandes</h1>
+        <!-- Bouton retour : mêmes classes/position qu’avant -->
+        <a href="index.html"
+           class="absolute -top-10 -right-7 bg-[#F18701] text-white rounded-bl-[32px] rounded-tr-[32px] w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#F18701]">←</a>
+      </div>
+
+      <!-- Barre outils ajoutée : filtre & son -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div class="flex items-center gap-2">
+          <label for="status-filter" class="text-sm text-gray-600">Filtrer par statut :</label>
+          <select id="status-filter" class="border rounded px-2 py-1 text-sm">
+            <option value="active" selected>Actives</option>
+            <option value="all">Toutes</option>
+            <option value="pending">En attente</option>
+            <option value="preparing">En préparation</option>
+            <option value="ready">Prêt</option>
+            <option value="delivered">Livré</option>
+            <option value="cancelled">Annulé</option>
+          </select>
+        </div>
+        <button id="toggle-sound"
+                class="text-sm px-3 py-1 rounded bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition">
+          🔔 Son activé
+        </button>
+      </div>
+
+      <div id="admin-message" class="mb-4"></div>
+      <div id="orders-container" class="w-full space-y-4 overflow-y-auto max-h-[60vh]"></div>
+    </div>
+  </main>
+
+  <!-- (optionnel) fichier pour définir window.ADMIN_TOKEN ou window.API_BASE_OVERRIDE -->
+  <script src="admin-config.js" defer></script>
+
+  <script>
+    /* ===================== API BASE (comme avant) ===================== */
+    function buildApiBaseFromGitpod(host) {
+      if (!host.includes("gitpod.io")) return null;
+      // même workspace/zone : 5173- -> 8000-
+      return `https://${host.replace(/^5173-/, "8000-")}/api`;
+    }
+    const API_BASE =
+      (window.API_BASE_OVERRIDE ? String(window.API_BASE_OVERRIDE) : null) ||
+      buildApiBaseFromGitpod(location.host) ||
+      "https://8000-ryuuu69-kuistofood2-qkjphmgb0l2.ws-eu120.gitpod.io/api";
+
+    /* ===================== TOKEN ADMIN (comme avant) ===================== */
+    function getAdminToken() {
+      if (window.ADMIN_TOKEN) return String(window.ADMIN_TOKEN).trim();
+      const t = prompt("Token admin ?");
+      window.ADMIN_TOKEN = (t || "").trim();
+      return window.ADMIN_TOKEN;
+    }
+
+    /* ===================== CONST ===================== */
+    const STATUSES = ["pending","preparing","ready","delivered","cancelled"];
+    const STATUS_LABELS = {
+      pending: "En attente",
+      preparing: "En préparation",
+      ready: "Prêt",
+      delivered: "Livré",
+      cancelled: "Annulé"
+    };
+    const fmtEur = v => (v==null ? "0.00€" : (Number(v)||0).toFixed(2) + "€");
+
+    /* ===================== UI helper ===================== */
+    function showMsg(html) {
+      document.getElementById("admin-message").innerHTML = html || "";
+    }
+
+    /* ===================== PRODUITS (cache) ===================== */
+    const PRODUCT_CACHE = new Map(); // id -> product
+    async function loadProductsMapOnce() {
+      if (PRODUCT_CACHE.size) return;
+      try {
+        const res = await fetch(`${API_BASE}/products/`, { mode: "cors" });
+        if (!res.ok) throw 0;
+        const list = await res.json();
+        for (const p of list || []) {
+          if (p && typeof p.id === "number") PRODUCT_CACHE.set(p.id, p);
+        }
+      } catch (_) { /* silencieux */ }
+    }
+    const productFromCache = id => PRODUCT_CACHE.get(id);
+    const productNameFromCache = id => (PRODUCT_CACHE.get(id)?.name) || null;
+    const productCategoryNameFromCache = id => (PRODUCT_CACHE.get(id)?.category?.name) || null;
+
+    /* ===================== FETCH ===================== */
+    async function fetchOrders() {
+      const token = getAdminToken();
+      if (!token) { showMsg('<span class="text-red-600 font-bold">Token admin manquant.</span>'); return []; }
+      showMsg("Chargement des commandes…");
+      try {
+        const res = await fetch(`${API_BASE}/orders/`, {
+          headers: { "X-Admin-Token": token },
+          mode: "cors",
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const orders = await res.json();
+        showMsg("");
+        return orders;
+      } catch (e) {
+        showMsg('<span class="text-red-600">Erreur: ' + (e.message || e) + '</span>');
+        return [];
+      }
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      const token = getAdminToken();
+      if (!token) return;
+      try {
+        await fetch(`${API_BASE}/orders/${orderId}`, {
+          method: "PATCH",
+          headers: { "Content-Type":"application/json", "X-Admin-Token": token },
+          mode: "cors",
+          body: JSON.stringify({ status })
+        });
+      } catch (e) {
+        console.warn("updateOrderStatus error:", e);
+      } finally {
+        setTimeout(displayOrders, 300);
+      }
+    }
+
+    /* ===================== GROUPER par nom d’option ===================== */
+    function groupChoicesByOptionName(choices) {
+      // conserve l’ordre d’apparition
+      const order = [];
+      const map = {};
+      for (const c of (choices || [])) {
+        const key = c?.option_name || "Options";
+        if (!map[key]) { map[key] = []; order.push(key); }
+        map[key].push(c);
+      }
+      return { order, map };
+    }
+
+    /* ===================== SON NOUVELLE COMMANDE ===================== */
+    let soundEnabled = true;
+    let audioCtx = null;
+    function playNewOrderSound(times = 1) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const start = audioCtx.currentTime;
+        for (let i=0; i<times; i++){
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = "sine";
+          o.frequency.value = 880;
+          g.gain.setValueAtTime(0, start + i*0.35);
+          g.gain.linearRampToValueAtTime(0.25, start + i*0.35 + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, start + i*0.35 + 0.32);
+          o.connect(g).connect(audioCtx.destination);
+          o.start(start + i*0.35);
+          o.stop(start + i*0.35 + 0.35);
+        }
+      } catch (_) {}
+    }
+    // Débloque le son au premier clic si besoin
+    window.addEventListener("click", () => {
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    }, { once:true });
+
+    // Bouton toggle
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("toggle-sound");
+      if (btn){
+        btn.addEventListener("click", () => {
+          soundEnabled = !soundEnabled;
+          btn.textContent = soundEnabled ? "🔔 Son activé" : "🔕 Son coupé";
+          btn.classList.toggle("bg-emerald-100", soundEnabled);
+          btn.classList.toggle("text-emerald-700", soundEnabled);
+          btn.classList.toggle("bg-gray-200", !soundEnabled);
+          btn.classList.toggle("text-gray-600", !soundEnabled);
+        });
+      }
+    });
+
+    /* ===================== RENDER ===================== */
+    function renderItem(it) {
+      const fallbackName = productNameFromCache(it.product_id);
+      const label = it.product_name_snapshot || fallbackName || `#${it.product_id}`;
+
+      const unit  = it.base_price_snapshot != null
+        ? ` <span class="text-xs text-gray-500">(${fmtEur(it.base_price_snapshot)}/u)</span>` : "";
+
+      const catName = productCategoryNameFromCache(it.product_id);
+      const catLine = catName ? `<div class="text-xs text-gray-500">Catégorie : ${catName}</div>` : "";
+
+      const line  = it.item_total != null
+        ? `<div class="text-xs text-gray-600 mt-1">Total ligne : <b>${fmtEur(it.item_total)}</b></div>` : "";
+
+      const choices = Array.isArray(it.choice_options) ? it.choice_options : [];
+
+      let groupedHtml = "";
+      if (choices.length) {
+        const { order, map } = groupChoicesByOptionName(choices);
+        groupedHtml = order.map(name => {
+          const items = map[name].map(c => {
+            const pm = Number(c.choice_price_modifier_snapshot || 0);
+            const pmTxt = pm ? ` (<span class="font-medium">${pm>0?'+':''}${fmtEur(pm)}</span>)` : "";
+            return `<li>${c.choice_name_snapshot || 'Option'}${pmTxt}</li>`;
+          }).join("");
+          const count = map[name].length;
+          return `
+            <div class="mt-1">
+              <div class="text-xs font-semibold text-gray-700">${name}${count>1?` <span class="text-gray-500">(${count})</span>`:""}</div>
+              <ul class="ml-5 list-disc text-sm text-gray-600">${items}</ul>
+            </div>
+          `;
+        }).join("");
+      }
+
+      return `
+        <div class="py-1">
+          <div><b>${it.quantity} x ${label}</b>${unit}</div>
+          ${catLine}
+          ${groupedHtml}
+          ${line}
+        </div>
+      `;
+    }
+
+    function orderCard(order) {
+      const created = order.created_at ? new Date(order.created_at).toLocaleString("fr-FR") : "";
+      const itemsHTML = (order.order_items || []).map(renderItem).join("");
+      const feeHtml = order.fee != null ? `<span class="text-xs text-gray-500 ml-2">Frais : ${fmtEur(order.fee)}</span>` : "";
+
+      const chips = `
+        ${order.delivery_mode ? `<span class="text-xs px-2 py-0.5 rounded-full border border-gray-200 bg-gray-50 mr-1">${order.delivery_mode === 'delivery' ? 'Livraison' : order.delivery_mode}</span>` : ""}
+        ${order.payment_mode  ? `<span class="text-xs px-2 py-0.5 rounded-full border border-amber-200 bg-amber-50 text-amber-700">${order.payment_mode === 'cb' ? 'Carte bancaire' : 'Espèces'}</span>` : ""}
+      `;
+
+      const address = order.address ? `
+        <div class="text-sm text-gray-700 mt-1">
+          <span class="inline-block mr-1">📍</span>${order.address}
+        </div>` : "";
+
+      return `
+        <div class="border border-gray-200 rounded-xl p-5 bg-[#FAFAFA] shadow-sm">
+          <div class="flex flex-wrap items-center justify-between mb-2">
+            <span class="font-bold text-lg">#${order.id} - ${order.name} ${order.phone ? `(<span class="text-gray-600">${order.phone}</span>)` : ""}</span>
+            <span class="text-xs text-gray-500">${created}</span>
+          </div>
+
+          <div class="mb-2">
+            ${chips}
+            ${address}
+          </div>
+
+          <div class="mb-2">
+            ${itemsHTML || "<div class='text-sm text-gray-500'>Aucun article</div>"}
+          </div>
+
+          <div class="flex items-center justify-between mt-3">
+            <div>
+              <span class="font-bold text-[#F18701]">${fmtEur(order.total)}</span>
+              ${feeHtml}
+            </div>
+            <div class="flex items-center gap-2">
+              <select class="status-select border rounded px-2 py-1 text-sm" data-id="${order.id}">
+                ${STATUSES.map(s => `<option value="${s}" ${order.status===s?"selected":""}>${STATUS_LABELS[s]}</option>`).join("")}
+              </select>
+              <span class="text-xs text-gray-400">Statut</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ======= Nouveau : filtre + alerte sonore quand nouvelles commandes ======= */
+    let lastSeenActiveIds = new Set();
+    let firstLoad = true;
+
+    async function displayOrders() {
+      await loadProductsMapOnce();
+      const orders = await fetchOrders();
+
+      // Détection nouvelles commandes (actives seulement)
+      const activeNow = orders.filter(o => o.status !== "delivered" && o.status !== "cancelled");
+      const newOnes = activeNow.filter(o => !lastSeenActiveIds.has(o.id));
+      if (!firstLoad && newOnes.length > 0) {
+        // bip 1 à 3 fois max
+        playNewOrderSound(Math.min(newOnes.length, 3));
+      }
+      lastSeenActiveIds = new Set(activeNow.map(o => o.id));
+      firstLoad = false;
+
+      // Filtre UI
+      const filter = document.getElementById("status-filter")?.value || "active";
+      let toDisplay = orders;
+      if (filter === "active") {
+        toDisplay = orders.filter(o => o.status !== "delivered" && o.status !== "cancelled");
+      } else if (filter !== "all") {
+        toDisplay = orders.filter(o => o.status === filter);
+      }
+
+      const cont = document.getElementById("orders-container");
+      cont.innerHTML = toDisplay.length
+        ? toDisplay.map(orderCard).join("")
+        : "<div class='text-center text-gray-500 mt-8'>Aucune commande à afficher.</div>";
+
+      cont.querySelectorAll(".status-select").forEach(sel => {
+        sel.addEventListener("change", function(){ updateOrderStatus(this.dataset.id, this.value); });
+      });
+    }
+
+    /* ===================== Init ===================== */
+    window.addEventListener("DOMContentLoaded", async () => {
+      try { await fetch(`${API_BASE}/health`, { mode:"cors" }); } catch {}
+      // Filtre change -> re-render
+      document.getElementById("status-filter")?.addEventListener("change", displayOrders);
+      displayOrders();
+      setInterval(displayOrders, 15000);
+    });
+  </script>
+</body>
+</html>
