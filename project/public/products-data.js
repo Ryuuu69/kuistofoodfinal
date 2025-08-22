@@ -2,23 +2,23 @@
 // Pour ajouter un produit, il suffit de compléter ce tableau
 // -- Options centralisées pour réutilisation --
 const sauceOptions = [
-  { name: "Blanche", price: 0.50, image: "images/sauce-blanche.svg" },
-  { name: "Smoky", price: 0.50, image: "images/sauce-smoky.svg" },
-  { name: "Chili Thaï", price: 0.50, image: "images/chili-thai.svg" },
-  { name: "Mayo Truffe", price: 0.50, image: "images/mayo-truffe.svg" },
-  { name: "Fromagère", price: 0.50, image: "images/fromagere.svg" },
-  { name: "Mayonnaise", "price": 0, "image": "images/mayo.svg" },
-  { name: "Ketchup", "price": 0, "image": "images/ketchup.svg" },
-  { name: "Algérienne", "price": 0, "image": "images/algerienne.svg" },
-  { name: "Biggy", "price": 0, "image": "images/biggy.svg" },
-  { name: "Barbecue", "price": 0, "image": "images/bbq.svg" },
-  { name: "Samouraï", "price": 0, "image": "images/samourai.svg" },
-  { name: "Curry", "price": 0, "image": "images/curry.svg" },
-  { name: "Andalouse", "price": 0, "image": "images/andalouse.svg" },
-  { name: "Poivre", "price": 0, "image": "images/poivre.svg" },
-  { name: "Marocaine", "price": 0, "image": "images/marocaine.svg" },
-  { name: "Harissa", "price": 0, "image": "images/harissa.svg" },
-  { "name": "Moutarde", "price": 0, "image": "images/moutarde.svg" }
+  { name: "Blanche", price: 0.50, image: "/images/sauce-blanche.svg" },
+  { name: "Smoky", price: 0.50, image: "/images/sauce-smoky.svg" },
+  { name: "Chili Thaï", price: 0.50, image: "/images/chili-thai.svg" },
+  { name: "Mayo Truffe", price: 0.50, image: "/images/mayo-truffe.svg" },
+  { name: "Fromagère", price: 0.50, image: "/images/fromagere.svg" },
+  { name: "Mayonnaise", "price": 0, "image": "/images/mayo.svg" },
+  { name: "Ketchup", "price": 0, "image": "/images/ketchup.svg" },
+  { name: "Algérienne", "price": 0, "image": "/images/algerienne.svg" },
+  { name: "Biggy", "price": 0, "image": "/images/biggy.svg" },
+  { name: "Barbecue", "price": 0, "image": "/images/bbq.svg" },
+  { name: "Samouraï", "price": 0, "image": "/images/samourai.svg" },
+  { name: "Curry", "price": 0, "image": "/images/curry.svg" },
+  { name: "Andalouse", "price": 0, "image": "/images/andalouse.svg" },
+  { name: "Poivre", "price": 0, "image": "/images/poivre.svg" },
+  { name: "Marocaine", "price": 0, "image": "/images/marocaine.svg" },
+  { name: "Harissa", "price": 0, "image": "/images/harissa.svg" },
+  { "name": "Moutarde", "price": 0, "image": "/images/moutarde.svg" }
 
 ];
 

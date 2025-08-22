@@ -40,7 +40,7 @@
 <body>
   <header>
     <div class="banner">
-      <img src="images/banner.svg" alt="Kuisto Banner" style="max-height: 100%; width:auto;">
+      <img src="/images/banner.svg" alt="Kuisto Banner" style="max-height: 100%; width:auto;">
     </div>
   </header>
 
@@ -60,13 +60,11 @@
   </main>
 
   <script>
-  // -------- helpers base API (gitpod / local / prod) --------
-  function apiBase() {
-    const { origin } = window.location;
-    if (origin.includes(".gitpod.io")) return origin.replace("https://5173-", "https://8000-") + "/api";
-    if (/^https?:\/\/(localhost|127\.0\.0\.1):5173$/i.test(origin)) return "http://localhost:8000/api";
-    return "https://8000-ryuuu69-kuistofood2-qkjphmgb0l2.ws-eu120.gitpod.io/api";
-  }
+  // ==== API via proxy Netlify ====
+  const API_BASE = "/api";
+  const api = (p) => `${API_BASE}${p}`;
+
+
 
   // -------- DOM refs --------
   const params = new URLSearchParams(window.location.search);
@@ -129,12 +127,12 @@
       textEl.textContent = "Nous finalisons la création de votre commande.";
       detailsEl.textContent = '';
 
-      const res = await fetch(`${apiBase()}/orders/capture`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        mode: "cors",
-        body: JSON.stringify({ payment_intent_id: pi })
-      });
+      // après (via proxy Netlify)
+    const res = await fetch(api(`/orders/capture`), {
+      method: "POST",
+     headers: { "Content-Type": "application/json" },
+     body: JSON.stringify({ payment_intent_id: pi })
+   });
 
       if (!res.ok) {
         // Même si le webhook a déjà créé l'ordre, on peut recevoir une 4xx ici :
