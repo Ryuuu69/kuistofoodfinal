@@ -1,0 +1,3 @@
+/api/*   https://kuistofoodfinal.onrender.com/api/:splat   200
+/health  https://kuistofoodfinal.onrender.com/health       200
+/docs    https://kuistofoodfinal.onrender.com/docs         200
