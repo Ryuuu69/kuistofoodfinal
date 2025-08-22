@@ -1,0 +1,22 @@
+[build]
+  base    = "project"
+  publish = "dist"
+  command = "npm ci && npm run build"
+
+[[redirects]]
+  from = "/api/*"
+  to   = "https://kuistofoodfinal.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/health"
+  to   = "https://kuistofoodfinal.onrender.com/health"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/docs"
+  to   = "https://kuistofoodfinal.onrender.com/docs"
+  status = 200
+  force = true
