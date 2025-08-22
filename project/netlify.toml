@@ -20,3 +20,9 @@
   to   = "https://kuistofoodfinal.onrender.com/docs"
   status = 200
   force = true
+  
+[[redirects]]
+  from = "/openapi.json"
+  to   = "https://kuistofoodfinal.onrender.com/openapi.json"
+  status = 200
+  force = true

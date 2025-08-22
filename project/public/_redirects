@@ -1,3 +1,4 @@
 /api/*   https://kuistofoodfinal.onrender.com/api/:splat   200
 /health  https://kuistofoodfinal.onrender.com/health       200
 /docs    https://kuistofoodfinal.onrender.com/docs         200
+/openapi.json  https://kuistofoodfinal.onrender.com/openapi.json  200
