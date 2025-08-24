@@ -109,16 +109,20 @@
 
 /* Petit filet de sécurité contre un éventuel scroll horizontal */
 html, body { overflow-x: hidden; }
+    /* N’afficher qu’UNE bannière à la fois + donner la bonne hauteur */
+.banner-desktop { display: none; }
+.banner-mobile  { display: block; width:100%; height:110px; object-fit:cover; }
 
+@media (min-width:768px){
+  .banner-desktop { display:block; width:100%; height:219px; object-fit:cover; }
+  .banner-mobile  { display:none; }
+}
 
   </style>
 </head>
 <body>
-<header>
-  <div class="banner">
-    <img src="/images/banner.svg" alt="Kuisto Banner" style="max-height:100%; width:auto;">
-  </div>
-</header>
+<!-- Header fixe --> <header class="fixed left-0 top-0 w-full z-40" style="background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);"> <!-- Desktop --> <img src="/images/banner.svg" alt="Banner Kuisto" class="banner-desktop" decoding="async" /> <!-- Mobile --> <img src="/images/banner mobile.svg" alt="Banner Kuisto Mobile" class="banner-mobile" decoding="async" /> </header>
+
 
 <div class="checkout-container">
   <div class="checkout-card">

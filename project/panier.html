@@ -6,6 +6,9 @@
     <title>Kuisto - Mon Panier</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
+
     <style>
         body {
             background: #f5f6f7;
@@ -261,18 +264,27 @@
     </style>
 </head>
 <body>
-    <!-- Header avec bannière -->
-    <header class="bg-white shadow-sm">
-        <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
-            <a href="index.html">
-                <img 
-                    src="/images/banner.svg" 
-                    alt="Kuisto Banner" 
-                    class="w-full h-full object-cover cursor-pointer"
-                />
-            </a>
-        </div>
-    </header>
+    <!-- Header (identique à produit.html : desktop + mobile, fixe en haut) -->
+<header class="fixed left-0 top-0 w-full z-40 bg-white">
+  <!-- Desktop -->
+  <img
+    src="/images/banner.svg"
+    alt="Banner Kuisto"
+    class="banner-img banner-desktop hidden md:block w-full h-[219px] object-cover"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <!-- Mobile -->
+  <img
+    src="/images/banner mobile.svg"
+    alt="Banner Kuisto Mobile"
+    class="banner-img banner-mobile block md:hidden w-full h-[110px] object-cover"
+    fetchpriority="high"
+    decoding="async"
+  />
+</header>
+<!-- Espace pour compenser le header fixe (sinon le contenu passe dessous) -->
+<div class="h-[110px] md:h-[219px]"></div>
 
 <!-- PANIER CENTRÉ BIG SMASH STYLE -->
 <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">

@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kuisto - Confirmation de commande</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- préchargement des bannières -->
+<link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
+<link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
+
   <style>
     body { background: #f5f6f7; font-family: 'Montserrat', sans-serif; margin: 0; }
     header { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
@@ -35,14 +39,46 @@
       .banner { height: 90px; }
       .back-btn { width: 38px; height: 38px; font-size: 1.2rem; }
     }
+    /* === Bannière fixe identique à produit.html === */
+
+/* Mobile par défaut */
+.banner-desktop { display: none; }
+.banner-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
+
+/* Desktop >= 768px */
+@media (min-width: 768px) {
+  .banner-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
+  .banner-mobile  { display: none; }
+}
+
+/* Espace sous le header fixe (sinon il recouvre le contenu) */
+.kuisto-header-spacer { height: 219px; }
+@media (max-width: 767.98px) { .kuisto-header-spacer { height: 110px; } }
+
   </style>
 </head>
 <body>
-  <header>
-    <div class="banner">
-      <img src="/images/banner.svg" alt="Kuisto Banner" style="max-height: 100%; width:auto;">
-    </div>
-  </header>
+  <!-- Header fixe (comme produit.html) -->
+<header style="position:fixed; left:0; top:0; width:100%; z-index:40; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);">
+  <!-- Desktop -->
+  <img
+    src="/images/banner.svg"
+    alt="Banner Kuisto"
+    class="banner-desktop"
+    decoding="async"
+  />
+  <!-- Mobile -->
+  <img
+    src="/images/banner mobile.svg"
+    alt="Banner Kuisto Mobile"
+    class="banner-mobile"
+    decoding="async"
+  />
+</header>
+
+<!-- Espace pour compenser le header fixe -->
+<div class="kuisto-header-spacer"></div>
+
 
   <main class="checkout-container">
     <section class="checkout-card" aria-live="polite" aria-atomic="true">
