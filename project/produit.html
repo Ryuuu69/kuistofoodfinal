@@ -9,7 +9,11 @@
     <style>
         /* ===== VARIABLES CSS BIGSMASH ===== */
         :root {
-            --kuisto-orange: #F18701;
+            /* Thème Bordeaux */
+            --brand: #4B1F24;
+            --kuisto-orange: #4B1F24;            /* remplace l'orange par le bordeaux */
+            --bigsmash-red: #4B1F24;             /* unifie les boutons qui utilisaient "red" */
+
             --bigsmash-dark: #191919;
             --bigsmash-gray: #808080;
             --bigsmash-light-gray: #f4f4f4;
@@ -23,29 +27,30 @@
         .font-montserrat { 
             font-family: Montserrat, sans-serif; 
         }
-      .main-content,
-.bigsmash-product-card {
-  margin-top: 219px;  /* hauteur bannière desktop */
-}
-       /* ===== HEADER IMAGE BANNIÈRE ===== */
-.main-header {
-  width: 100vw;
-  background: var(--bigsmash-white);
-  box-shadow: var(--bigsmash-shadow);              /* ombre sous la bannière */
-  border-bottom-left-radius: var(--bigsmash-radius);  /* arrondi bas gauche */
-  border-bottom-right-radius: var(--bigsmash-radius); /* arrondi bas droite */
-  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l'ombre */
-  position: relative;                                /* pour garantir que l'ombre s'affiche bien */
-  z-index: 10;
-}
-.banner-img {
-  display: block;
-  width: 100%;
-  height: 219px;       /* ajuste à la hauteur exacte souhaitée */
-  object-fit: cover;
-  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l'image si besoin */
-  border-bottom-right-radius: var(--bigsmash-radius-small);
-}
+
+        .main-content,
+        .bigsmash-product-card {
+          margin-top: 219px;  /* hauteur bannière desktop */
+        }
+
+        /* ===== HEADER IMAGE BANNIÈRE ===== */
+        .main-header {
+          width: 100vw;
+          background: var(--bigsmash-white);
+          box-shadow: var(--bigsmash-shadow);
+          border-bottom-left-radius: var(--bigsmash-radius);
+          border-bottom-right-radius: var(--bigsmash-radius);
+          position: relative;
+          z-index: 10;
+        }
+        .banner-img {
+          display: block;
+          width: 100%;
+          height: 219px;
+          object-fit: cover;
+          border-bottom-left-radius: var(--bigsmash-radius-small);
+          border-bottom-right-radius: var(--bigsmash-radius-small);
+        }
 
         /* ===== FOND DE PAGE GRISÉ (MODAL-LIKE) ===== */
         .bigsmash-page-container {
@@ -54,7 +59,6 @@
             padding-top: 40px;
             padding-bottom: 200px; /* Place pour le bouton sticky */
         }
-   
 
         /* ===== BOUTON RETOUR ===== */
         .bigsmash-back-button-container {
@@ -88,35 +92,26 @@
 
         /* ===== CARTE PRODUIT PRINCIPALE ===== */
         .bigsmash-product-card {
-  margin: 30px auto 0;
-  width: calc(100vw - 680px);
-  max-width: 900px;
-
-  /* garde bien les autres styles : */
-  background: var(--bigsmash-white);
-  border-radius: var(--bigsmash-radius);
-  box-shadow: var(--bigsmash-shadow-hover);
-  padding: 32px;
-
-
+          margin: 30px auto 0;
+          width: calc(100vw - 680px);
+          max-width: 900px;
+          background: var(--bigsmash-white);
+          border-radius: var(--bigsmash-radius);
+          box-shadow: var(--bigsmash-shadow-hover);
+          padding: 32px;
         }
 
         /* ===== IMAGE PRODUIT ===== */
-        /* ===== IMAGE PRODUIT ===== */
-.bigsmash-product-image-container {
-  width: 770px;                 /* ou: width: calc(100vw - 680px); max-width: 900px; */
-  height: 250px;
-  margin: 0 auto 24px auto;
-  background-size: cover;       /* remplit sans déformer */
-  background-position: center;  /* centré */
-  background-repeat: no-repeat;
-  border-radius: var(--bigsmash-radius-small);
-  box-shadow: var(--bigsmash-shadow);
-}
-
-
-
-
+        .bigsmash-product-image-container {
+          width: 770px;
+          height: 250px;
+          margin: 0 auto 24px auto;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          border-radius: var(--bigsmash-radius-small);
+          box-shadow: var(--bigsmash-shadow);
+        }
 
         /* ===== TITRES ET TEXTES ===== */
         .bigsmash-product-category {
@@ -168,13 +163,14 @@
             margin-bottom: 24px;
         }
 
+        /* >>> Icônes “+ / –” toujours BLANCHES (fond bordeaux) */
         .bigsmash-qty-btn {
             width: 44px;
             height: 44px;
             border-radius: 50%;
             border: 2px solid var(--kuisto-orange);
-            background: var(--bigsmash-white);
-            color: var(--kuisto-orange);
+            background: var(--kuisto-orange);
+            color: #fff; /* + / – en blanc */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -183,14 +179,12 @@
             font-weight: bold;
             font-size: 20px;
         }
-
         .bigsmash-qty-btn:hover {
             background: var(--kuisto-orange);
-            color: var(--bigsmash-white);
+            color: #fff;
             transform: scale(1.05);
             box-shadow: var(--bigsmash-shadow);
         }
-
         .bigsmash-qty-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -205,10 +199,7 @@
         }
 
         /* ===== SECTIONS OPTIONS ===== */
-        .bigsmash-options-section {
-            margin-bottom: 24px;
-        }
-
+        .bigsmash-options-section { margin-bottom: 24px; }
         .bigsmash-options-title {
             font-size: 18px;
             font-weight: 700;
@@ -216,14 +207,13 @@
             margin-bottom: 16px;
             text-align: center;
         }
-
         .bigsmash-options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 12px;
         }
 
-        /* ===== CARTES OPTIONS (CARRÉES ARRONDIES) ===== */
+        /* ===== CARTES OPTIONS ===== */
         .bigsmash-option-card {
             width: 150px;
             height: 150px;
@@ -240,633 +230,255 @@
             justify-content: space-between;
             text-align: center;
         }
+        .bigsmash-option-card:hover { transform: translateY(-2px); box-shadow: var(--bigsmash-shadow-hover); }
+        .bigsmash-option-card.selected { background: rgba(75,31,36,.05); }
 
-        .bigsmash-option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--bigsmash-shadow-hover);
-        }
+        .bigsmash-option-image { width: 60px; height: 60px; border-radius: 16px; object-fit: cover; margin-top: 0; }
+        .bigsmash-option-name { font-weight: 400; font-size: 16px; line-height: 24px; color: var(--bigsmash-dark); margin: 8px 0 4px; text-align: center; }
+        .bigsmash-option-price { font-style: italic; font-weight: 600; font-size: 15px; line-height: 16px; color: var(--kuisto-orange); margin-bottom: 8px; text-align: center; }
 
-        .bigsmash-option-card.selected {
-            background: rgba(234, 61, 47, 0.05);
-        }
+        .bigsmash-option-controls { display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        .bigsmash-option-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            object-fit: cover;
-            margin-top: 0;
-        }
-
-        .bigsmash-option-name {
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 24px;
-            color: var(--bigsmash-dark);
-            margin: 8px 0 4px 0;
-            text-align: center;
-        }
-
-        .bigsmash-option-price {
-            font-style: italic;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 16px;
-            color: var(--kuisto-orange);
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        /* ===== CONTRÔLES OPTIONS ===== */
-        .bigsmash-option-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
+        /* >>> Icônes “+ / –” des cartes options en BLANC aussi */
         .bigsmash-option-qty-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: var(--kuisto-orange);
-            color: var(--bigsmash-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: bold;
-            font-size: 18px;
+            width: 32px; height: 32px; border-radius: 50%; border: none;
+            background: var(--kuisto-orange); color: #fff; /* blanc */
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease; font-weight: bold; font-size: 18px;
         }
+        .bigsmash-option-qty-btn:hover { transform: scale(1.05); box-shadow: var(--bigsmash-shadow); }
 
-        .bigsmash-option-qty-btn:hover {
-            transform: scale(1.05);
-            box-shadow: var(--bigsmash-shadow);
-        }
-
-        .bigsmash-option-qty-display {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--bigsmash-dark);
-            min-width: 24px;
-            text-align: center;
-        }
+        .bigsmash-option-qty-display { font-size: 16px; font-weight: 700; color: var(--bigsmash-dark); min-width: 24px; text-align: center; }
 
         /* ===== INDICATEURS RADIO/CHECKBOX ===== */
         .bigsmash-radio-indicator,
         .bigsmash-checkbox-indicator {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #e5e7eb;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            transition: all 0.2s ease;
+            width: 24px; height: 24px; border: 2px solid #e5e7eb; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.2s ease;
         }
-
-        .bigsmash-checkbox-indicator {
-            border-radius: 4px;
-        }
+        .bigsmash-checkbox-indicator { border-radius: 4px; }
 
         .bigsmash-radio-dot,
-        .bigsmash-checkbox-check {
-            width: 12px;
-            height: 12px;
-            background: var(--kuisto-orange);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .bigsmash-checkbox-check {
-            border-radius: 2px;
-        }
+        .bigsmash-checkbox-check { width: 12px; height: 12px; background: var(--kuisto-orange); border-radius: 50%; opacity: 0; transition: opacity .2s; }
+        .bigsmash-checkbox-check { border-radius: 2px; }
 
         .bigsmash-option-card.selected .bigsmash-radio-indicator,
-        .bigsmash-option-card.selected .bigsmash-checkbox-indicator {
-            border-color: var(--kuisto-orange);
-        }
-
+        .bigsmash-option-card.selected .bigsmash-checkbox-indicator { border-color: var(--kuisto-orange); }
         .bigsmash-option-card.selected .bigsmash-radio-dot,
-        .bigsmash-option-card.selected .bigsmash-checkbox-check {
-            opacity: 1;
-        }
+        .bigsmash-option-card.selected .bigsmash-checkbox-check { opacity: 1; }
 
         /* ===== CARTE STICKY AJOUTER AU PANIER ===== */
         .bigsmash-add-to-cart-btn {
-            position: fixed;
-            left: 50%;
-            bottom: 32px;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 126px;
-            background: var(--bigsmash-red);
-            border: none;
-            border-radius: 63px;
-            box-shadow: var(--bigsmash-shadow-hover);
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 20px;
-            z-index: 2000;
+            position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%);
+            width: 500px; height: 126px; background: var(--bigsmash-red);
+            border: none; border-radius: 63px; box-shadow: var(--bigsmash-shadow-hover);
+            display: flex; align-items: center; justify-content: space-around; padding: 0 20px; z-index: 2000;
         }
 
-        /* ===== CONTRÔLES QUANTITÉ DANS LA CARTE STICKY ===== */
-        .bigsmash-sticky-qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .bigsmash-sticky-qty-controls { display: flex; align-items: center; gap: 16px; }
 
         .bigsmash-sticky-qty-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
+            width: 44px; height: 44px; border-radius: 50%;
             border: 2px solid var(--bigsmash-white);
-            background: transparent;
-            color: var(--bigsmash-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: bold;
-            font-size: 24px;
+            background: transparent; color: #fff; /* blanc */
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all .2s ease; font-weight: bold; font-size: 24px;
         }
+        .bigsmash-sticky-qty-btn:hover { background: var(--bigsmash-white); color: var(--bigsmash-red); transform: scale(1.05); }
 
-        .bigsmash-sticky-qty-btn:hover {
-            background: var(--bigsmash-white);
-            color: var(--bigsmash-red);
-            transform: scale(1.05);
-        }
-
-        .bigsmash-sticky-qty-display {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--bigsmash-white);
-            min-width: 40px;
-            text-align: center;
-        }
+        .bigsmash-sticky-qty-display { font-size: 28px; font-weight: 700; color: var(--bigsmash-white); min-width: 40px; text-align: center; }
 
         /* ===== BOUTON PRINCIPAL AJOUTER AU PANIER ===== */
         .bigsmash-main-add-btn {
-            width: 270px;
-            height: 40px;
-            background: var(--bigsmash-red);
-            border: 2px solid var(--bigsmash-white);
-            border-radius: 20px;
-            color: var(--bigsmash-white);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 270px; height: 40px; background: var(--bigsmash-red);
+            border: 2px solid var(--bigsmash-white); border-radius: 20px;
+            color: #fff; /* texte blanc */
+            font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px;
+            cursor: pointer; transition: all .3s ease; display: flex; align-items: center; justify-content: center;
         }
-
-        .bigsmash-main-add-btn:hover {
-            background: var(--bigsmash-white);
-            color: var(--bigsmash-red);
-            transform: scale(1.02);
-        }
+        .bigsmash-main-add-btn:hover { background: var(--bigsmash-white); color: var(--bigsmash-red); transform: scale(1.02); }
 
         /* ===== ICÔNES FLOTTANTES (TOUJOURS VISIBLES) ===== */
         .bigsmash-desktop-buttons {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            gap: 12px;
-            z-index: 1003;
+            position: fixed; bottom: 20px; left: 20px; display: flex; gap: 12px; z-index: 1003;
         }
-
         .bigsmash-desktop-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: var(--bigsmash-shadow-hover);
-            
-            /* État par défaut : fond rouge, icône blanche */
-            background: var(--kuisto-orange);
-            color: var(--bigsmash-white);
+            width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all .3s ease;
+            box-shadow: var(--bigsmash-shadow-hover); background: var(--kuisto-orange); color: var(--bigsmash-white);
         }
+        .bigsmash-desktop-btn:hover { background: var(--bigsmash-white); color: var(--kuisto-orange); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.2); }
+        .bigsmash-desktop-btn svg { width: 24px; height: 24px; }
 
-        .bigsmash-desktop-btn:hover {
-            /* Au hover : fond blanc, icône rouge */
-            background: var(--bigsmash-white);
-            color: var(--kuisto-orange);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,.2);
-        }
-
-        .bigsmash-desktop-btn svg {
-            width: 24px;
-            height: 24px;
-        }
-
-    
-
-        
         /* ===== STYLES POUR LES ERREURS ===== */
         .bigsmash-error-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bigsmash-light-gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bigsmash-light-gray); display: flex; align-items: center; justify-content: center; z-index: 1000;
         }
-
         .bigsmash-error-content {
-            background: var(--bigsmash-white);
-            border-radius: var(--bigsmash-radius);
-            padding: 40px;
-            text-align: center;
-            box-shadow: var(--bigsmash-shadow-hover);
-            max-width: 400px;
-            margin: 20px;
+            background: var(--bigsmash-white); border-radius: var(--bigsmash-radius);
+            padding: 40px; text-align: center; box-shadow: var(--bigsmash-shadow-hover); max-width: 400px; margin: 20px;
         }
+        .bigsmash-error-emoji { font-size: 64px; margin-bottom: 20px; }
+        .bigsmash-error-title { font-size: 24px; font-weight: 700; color: var(--bigsmash-dark); margin-bottom: 16px; }
+        .bigsmash-error-message { font-size: 16px; color: var(--bigsmash-gray); margin-bottom: 24px; line-height: 1.5; }
 
-        .bigsmash-error-emoji {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        
-        .bigsmash-error-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--bigsmash-dark);
-            margin-bottom: 16px;
-        }
-
-        .bigsmash-error-message {
-            font-size: 16px;
-            color: var(--bigsmash-gray);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-      #cart-bar.cart-bar[style*="position: fixed"] {
-    display: none !important;
-}
-     
-  
-
+        #cart-bar.cart-bar[style*="position: fixed"] { display: none !important; }
 
         .bigsmash-error-btn {
-            background: var(--bigsmash-red);
-            color: var(--bigsmash-white);
-            border: none;
-            border-radius: var(--bigsmash-radius-small);
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            background: var(--bigsmash-red); color: var(--bigsmash-white);
+            border: none; border-radius: var(--bigsmash-radius-small);
+            padding: 12px 24px; font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all .3s ease; text-decoration: none; display: inline-block;
+        }
+        .bigsmash-error-btn:hover { background: #3c181c; transform: translateY(-2px); box-shadow: var(--bigsmash-shadow); }
+
+        /* ==== ZONE STICKY (barre translucide) ==== */
+        .bigsmash-cart-container {
+          position: fixed; bottom: 0; left: 490px; right: 490px; height: 125px;
+          background: rgba(255,255,255,0.85); border-radius: var(--bigsmash-radius);
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+          box-shadow: 0 -2px 8px rgba(0,0,0,0.05); z-index: 2000; padding: 0;
         }
 
-        .bigsmash-error-btn:hover {
-            background: #d63384;
-            transform: translateY(-2px);
-            box-shadow: var(--bigsmash-shadow);
+        /* ==== CERCLÉS "–" et "+" de la barre sticky ==== */
+        .bigsmash-cart-container .bigsmash-sticky-qty-btn {
+          width: 32px; height: 32px; border-radius: 50%;
+          background: var(--kuisto-orange); color: #fff; /* blanc */
+          font-size: 16px; line-height: 16px; display: flex; align-items: center; justify-content: center;
+          border: none; cursor: pointer; transition: transform .2s ease;
         }
-      /* ==== ZONE STICKY (barre translucide) ==== */
-.bigsmash-cart-container {
-  position: fixed;
-  bottom: 0;                  /* colle la barre au bas de l'écran */
-  left: 490px;
-  right: 490px;
-  height: 125px;
-  background: rgba(255,255,255,0.85);
-  border-radius: var(--bigsmash-radius);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;                   /* espace réduit */
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  z-index: 2000;
-  padding: 0;
-}
+        .bigsmash-cart-container .bigsmash-sticky-qty-btn:hover { transform: scale(1.05); }
 
-/* ==== CERCLÉS "–" et "+" ==== */
-.bigsmash-cart-container .bigsmash-sticky-qty-btn {
-  width: 32px;                /* réduit de 44 → 32 */
-  height: 32px;               /* réduit de 44 → 32 */
-  border-radius: 50%;
-  background: var(--kuisto-orange);
-  color: #000000;             /* icône toujours noire */
-  font-size: 16px;            /* réduit de 20 → 16 */
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
-  transform: scale(1.05);
-}
+        /* ==== COMPTEUR (NOMBRE) ==== */
+        .bigsmash-cart-container .bigsmash-sticky-qty-display {
+          color: #000; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 16px; line-height: 20px; min-width: 24px; text-align: center;
+        }
 
-/* ==== COMPTEUR (NOMBRE) ==== */
-.bigsmash-cart-container .bigsmash-sticky-qty-display {
-  color: #000000;             /* nombre en noir */
-  font-family: Montserrat, sans-serif;
-  font-weight: 700;
-  font-size: 16px;            /* taille réduite à 16px */
-  line-height: 20px;
-  min-width: 24px;
-  text-align: center;
-}
+        /* ==== BOUTON "Ajouter au panier" (texte blanc) ==== */
+        .bigsmash-cart-container .bigsmash-main-add-btn {
+          width: 270px; height: 40px; background: var(--kuisto-orange);
+          border: 2px solid var(--bigsmash-white); border-radius: 20px;
+          color: #fff; /* blanc demandé */
+          font-family: Montserrat, sans-serif; font-weight: 400; font-size: 13px; line-height: 20px;
+          display: flex; align-items: center; justify-content: center;
+          transition: background .3s ease, color .3s ease, transform .3s ease;
+        }
+        .bigsmash-cart-container .bigsmash-main-add-btn:hover {
+          background: var(--bigsmash-white); color: var(--kuisto-orange); transform: scale(1.02);
+        }
 
-/* ==== BOUTON "Ajouter au panier" ==== */
-.bigsmash-cart-container .bigsmash-main-add-btn {
-  width: 270px;
-  height: 40px;
-  background: var(--kuisto-orange);
-  border: 2px solid var(--bigsmash-white);
-  border-radius: 20px;
-  
-  color: #000000;             /* texte noir */
-  font-family: Montserrat, sans-serif;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 20px;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-}
-.bigsmash-cart-container .bigsmash-main-add-btn:hover {
-  background: var(--bigsmash-white);
-  color: var(--kuisto-orange);
-  transform: scale(1.02);
-}
+        /* ===== CACHER L'ANCIEN CONTAINER ===== */
+        .bigsmash-add-to-cart-btn { display: none !important; }
+        .bigsmash-quantity-container { display: none !important; }
 
-/* ===== CACHER L'ANCIEN CONTAINER ===== */
-.bigsmash-add-to-cart-btn {
-  display: none !important;
-}
-      .bigsmash-quantity-container {
-  display: none !important;
-}
-    
-.bigsmash-options-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 150px);
-  grid-auto-rows: 150px;
-  column-gap: 11px;
-  row-gap: 11px;
-  justify-content: start;
-  margin: 0;
-}
+        .bigsmash-options-grid {
+          display: grid; grid-template-columns: repeat(4, 150px); grid-auto-rows: 150px;
+          column-gap: 11px; row-gap: 11px; justify-content: start; margin: 0;
+        }
 
-/* Pour 4 cartes ou plus, largeur fixe centrée */
-.bigsmash-options-grid--count-4,
-.bigsmash-options-grid--count-5,
-.bigsmash-options-grid--count-6,
-.bigsmash-options-grid--count-7,
-.bigsmash-options-grid--count-8,
-.bigsmash-options-grid--count-9,
-.bigsmash-options-grid--count-10 {
-  width: 633px;  /* 4*150 + 3*11 */
-  margin-left: auto;
-  margin-right: auto;
-}
+        /* Pour 4 cartes ou plus, largeur fixe centrée */
+        .bigsmash-options-grid--count-4,
+        .bigsmash-options-grid--count-5,
+        .bigsmash-options-grid--count-6,
+        .bigsmash-options-grid--count-7,
+        .bigsmash-options-grid--count-8,
+        .bigsmash-options-grid--count-9,
+        .bigsmash-options-grid--count-10 {
+          width: 633px;  /* 4*150 + 3*11 */
+          margin-left: auto; margin-right: auto;
+        }
 
-/* Pour 3, 2, 1 carte(s) tu gardes tes marges spéciales */
-.bigsmash-options-grid--count-3 {
-  grid-template-columns: repeat(3, 150px);
-  width: 478px; /* 3*150 + 2*11 */
-  margin-left: auto;
-  margin-right: auto;
-}
-.bigsmash-options-grid--count-2 {
-  grid-template-columns: repeat(2, 150px);
-  width: 311px; /* 2*150 + 1*11 */
-  margin-left: auto;
-  margin-right: auto;
-}
-.bigsmash-options-grid--count-1 {
-  grid-template-columns: 150px;
-  width: 150px;
-  margin-left: auto;
-  margin-right: auto;
-}
+        /* Pour 3, 2, 1 carte(s) */
+        .bigsmash-options-grid--count-3 { grid-template-columns: repeat(3, 150px); width: 478px; margin-left: auto; margin-right: auto; }
+        .bigsmash-options-grid--count-2 { grid-template-columns: repeat(2, 150px); width: 311px; margin-left: auto; margin-right: auto; }
+        .bigsmash-options-grid--count-1 { grid-template-columns: 150px; width: 150px; margin-left: auto; margin-right: auto; }
 
-/* Image dans la carte */
-.bigsmash-option-image {
-  width: 134px;
-  height: 70px;
-  border-radius: 16px;
-  object-fit: cover;
-  margin-bottom: 4px;
-}
+        /* Image dans la carte */
+        .bigsmash-option-image { width: 134px; height: 70px; border-radius: 16px; object-fit: cover; margin-bottom: 4px; }
 
-/* Nom de l'option */
-.bigsmash-option-name {
-  font-family: Montserrat, sans-serif;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 10px;
-  color: var(--bigsmash-dark);
-  text-align: center;
-  margin-bottom: 2px;
-}
+        /* Nom de l'option */
+        .bigsmash-option-name {
+          font-family: Montserrat, sans-serif; font-weight: 400; font-size: 10px; line-height: 10px;
+          color: var(--bigsmash-dark); text-align: center; margin-bottom: 2px;
+        }
 
-/* Prix de l'option payante */
-.bigsmash-option-price {
-  font-family: Montserrat, sans-serif;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 10px;
-  color: var(--kuisto-orange);
-  text-align: center;
-  margin-bottom: auto;
-}
+        /* Prix de l'option payante */
+        .bigsmash-option-price {
+          font-family: Montserrat, sans-serif; font-weight: 600; font-size: 10px; line-height: 10px;
+          color: var(--kuisto-orange); text-align: center; margin-bottom: auto;
+        }
 
-/* Contrôles – 0 + */
-.bigsmash-option-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+        /* Contrôles – 0 + */
+        .bigsmash-option-controls { display: flex; align-items: center; gap: 8px; }
+        .bigsmash-option-qty-btn {
+          width: 32px; height: 32px; border-radius: 50%;
+          background: var(--kuisto-orange); color: #fff; font-size: 11px; line-height: 17px;
+          display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
+        }
 
-.bigsmash-option-qty-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--kuisto-orange);
-  color: #000000;
-  font-size: 11px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-      /* Toujours EN DEHORS du media query : la bannière mobile est cachée par défaut */
-.banner-mobile { display: none; }
+        /* Toujours EN DEHORS du media query : la bannière mobile est cachée par défaut */
+        .banner-mobile { display: none; }
 
-@media (max-width: 700px) {
-  html, body {
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    background: #f7f7f7;
-    box-sizing: border-box;
-  }
+        @media (max-width: 700px) {
+          html, body {
+            overflow-x: hidden; margin: 0; padding: 0; width: 100vw; background: #f7f7f7; box-sizing: border-box;
+          }
 
-  .bigsmash-product-card,
-  .container,
-  .main-content {
-    width: 100vw;
-    max-width: 100vw;
-    margin: 0 auto;
-    padding: 10px 0 20px 0;  /* Marge en haut, bas (place pour bouton fixé) */
-    border-radius: 0;
-    background: #fff;
-    box-sizing: border-box;
-    position: relative;
-  }
+          .bigsmash-product-card,
+          .container,
+          .main-content {
+            width: 100vw; max-width: 100vw; margin: 0 auto; padding: 10px 0 20px 0;
+            border-radius: 0; background: #fff; box-sizing: border-box; position: relative;
+          }
 
-  /* IMAGE PRODUIT bien centrée */
-  /* IMAGE PRODUIT – mobile */
-.bigsmash-product-image-container {
-  width: 90vw;
-  max-width: 480px;
-  height: 45vw;                 /* hauteur responsive (≈ 16/9) */
-  min-height: 180px;            /* garde une hauteur mini */
-  margin: 18px auto;
-  border-radius: 22px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-/* supprime entièrement .bigsmash-product-image-container img {...} */
+          /* IMAGE PRODUIT – mobile */
+          .bigsmash-product-image-container {
+            width: 90vw; max-width: 480px; height: 45vw; min-height: 180px; margin: 18px auto;
+            border-radius: 22px; background-size: cover; background-position: center; background-repeat: no-repeat; overflow: hidden;
+          }
 
-  
+          /* GRILLE OPTIONS mobile */
+          .bigsmash-options-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+            width: 90vw; max-width: 480px; margin: 0 auto 40px auto; padding-left: 30px;
+            box-sizing: border-box; justify-content: start;
+          }
 
-  /* GRILLE OPTIONS : décalée à droite, mais jamais hors fiche */
-  .bigsmash-options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    width: 90vw;                /* largeur presque comme la fiche */
-    max-width: 480px;
-    margin: 0 auto 40px auto;   /* bien centrée */
-    padding-left: 30px;         /* décale le début des cartes sans sortir de la fiche */
-    box-sizing: border-box;
-    justify-content: start;
-  }
+          .bigsmash-option-card {
+            width: 100%; min-width: 0; min-height: 120px; margin: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: #fff; border-radius: 16px; box-shadow: 0 2px 10px 0 #0001; box-sizing: border-box;
+          }
 
-  .bigsmash-option-card {
-    width: 100%;
-    min-width: 0;
-    min-height: 120px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px 0 #0001;
-    box-sizing: border-box;
-  }
+          /* CACHE LES ICONES DESKTOP */
+          .bigsmash-desktop-btn, .bigsmash-desktop-buttons { display: none; }
 
-  /* CACHE LES ICONES DESKTOP */
-  .bigsmash-desktop-btn,
-  .bigsmash-desktop-buttons {
-    display: none;
-  }
+          /* BOUTON PANIER : fixé en bas, centré sur la fiche */
+          .bigsmash-cart-container {
+            position: fixed; left: 50%; transform: translateX(-50%); bottom: 0px;
+            width: 90vw; max-width: 480px; border-radius: 22px 22px 0 0;
+            background: rgba(255,255,255,0.98); box-shadow: 0 2px 12px 0 #0002; z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto; padding: 10px 0; margin: 0;
+          }
 
-  /* BOUTON PANIER : fixé en bas, centré sur la fiche */
-  .bigsmash-cart-container {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0px;
-    width: 90vw;
-    max-width: 480px;
-    border-radius: 22px 22px 0 0;  /* top-left, top-right, bottom-right, bottom-left */
-    background: rgba(255,255,255,0.98);
-    box-shadow: 0 2px 12px 0 #0002;
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    padding: 10px 0;
-    margin: 0;
-  }
+          .bigsmash-main-add-btn {
+            width: 90vw; max-width: 400px; margin: 0 auto; border-radius: 20px; height: 44px;
+            font-size: 15px; font-weight: 500; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+          }
 
-  /* BOUTON PRINCIPAL AJOUT PANIER dans la barre */
-  .bigsmash-main-add-btn {
-    width: 90vw;
-    max-width: 400px;
-    margin: 0 auto;
-    border-radius: 20px;
-    height: 44px;
-    font-size: 15px;
-    font-weight: 500;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+          .banner-desktop { display: none !important; }
+          .banner-mobile {
+            display: block !important; width: 100%; height: 120px; object-fit: cover;
+            border-bottom-left-radius: var(--bigsmash-radius-small); border-bottom-right-radius: var(--bigsmash-radius-small);
+          }
+        }
 
-  /* === BANNIÈRE === */
-  .banner-desktop { display: none !important; }
-  .banner-mobile {
-    display: block !important;
-    width: 100%;
-    height: 120px; /* adapte la hauteur pour mobile */
-    object-fit: cover;
-    border-bottom-left-radius: var(--bigsmash-radius-small);
-    border-bottom-right-radius: var(--bigsmash-radius-small);
-  }
-}
-      .bigsmash-page-container {
-  margin-top: 219px; /* Desktop : hauteur de la bannière */
-}
-@media (max-width: 700px) {
-  .bigsmash-page-container {
-    margin-top: 120px; /* Mobile : hauteur de la bannière mobile */
-  }
-}
+        .bigsmash-page-container { margin-top: 219px; }
+        @media (max-width: 700px) { .bigsmash-page-container { margin-top: 120px; } }
+</style>
 
 
-      
-
-     
-
-
-
-    </style>
 <header class="fixed left-0 top-0 w-full z-40 bg-white">
   <!-- Bannière desktop (fixe, visible uniquement sur desktop) -->
   <img 
@@ -1608,6 +1220,6 @@ class ProductPage {
 // Init
 document.addEventListener('DOMContentLoaded', () => { new ProductPage(); });
 </script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        >
+ 
 </body>
 </html>

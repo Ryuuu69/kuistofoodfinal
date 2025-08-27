@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
-      <style>
+      <style> 
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .bg-kuistoOrange { background-color: #ffffff; }
         
@@ -29,13 +29,16 @@
             --gap: 22px;            /* espace entre cartes */
             
             --red: #E30613;
-            --kuisto-orange: #F18701;
+            --kuisto-orange: #4B1F24; /* remappé sur le bordeaux du thème */
             --grey-text: #808080;
             --grey-line: #d0d0d0;
             --card-radius: 26px;
             --bigsmash-white: #ffffff;
             --bigsmash-shadow: 0 4px 16px rgba(0,0,0,0.08);
             --bigsmash-radius: 20px;
+
+            /* Thème principal */
+            --brand: #4B1F24; /* Bordeaux */
         }
 
         /* Reset de base */
@@ -233,7 +236,7 @@
 }
 
 .product-card.glow {
-  border: 2.5px solid #F18701 !important;
+  border: 2.5px solid var(--brand) !important;
   box-shadow: 0 0 0 0 #0000 !important;
 }
 
@@ -331,16 +334,16 @@
   top: -2px;
 }
 
-/* Bouton "+" noir (hors panier) */
+/* Bouton "+" (hors panier) → thème bordeaux */
 .add-btn-corner {
   position: absolute;
   bottom: 0px;
   right: 0px;
   width: 50px;
   height: 36px;
-  background: #000;
+  background: var(--brand);
   color: #fff;
-  border: none;
+  border: 2px solid var(--brand);
   font-size: 28px;
   border-bottom-right-radius: 32px;
   border-top-left-radius: 32px;
@@ -350,27 +353,29 @@
   text-decoration: none;
   cursor: pointer;
   z-index: 2;
-  transition: background 0.3s;
+  transition: background .25s, color .25s, border-color .25s;
 }
-.add-btn-corner:hover {
-  background: #F18701;
+.add-btn-corner:hover{
+  background: #fff;              /* fond blanc */
+  color: var(--brand);           /* icône bordeaux */
+  border-color: var(--brand);
 }
 
-/* Barre de quantité orange */
+/* Barre de quantité → bordeaux */
 .cart-quantity-bar {
   width: 152px;
   height: 29px;
   position: absolute;
   bottom: 0px;
   right: 0px;
-  background: #F18701;
+  background: var(--brand);
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: none;
-  border: 2.5px solid #F18701;
+  border: 2.5px solid var(--brand);
   padding: 0 8px;
   z-index: 2;
 }
@@ -401,8 +406,6 @@
   margin: 0 6px;
 }
 
-       
-
         /* ————————————— LAYOUT PRODUITS ————————————— */
         /* Grille de cartes produits */
         
@@ -416,10 +419,6 @@
   /* margin: 0 auto; */
 }
 
-
-
-
-     
         /* Boutons en bas à gauche - Desktop uniquement */
         .desktop-buttons {
             position: fixed;
@@ -436,7 +435,7 @@
   transform: translateX(-50%);
   width: 90px;
   height: 90px;
-  background: #F18701;
+  background: var(--brand);
   border-radius: 50%;
   box-shadow: 0 8px 32px rgba(241,135,1,0.3), 0 2px 8px rgba(0,0,0,0.15);
   display: flex;
@@ -455,6 +454,11 @@
   height: 48px;
   color: #fff;
 }
+
+/* Fond du bouton (1er cercle) en bordeaux, roues (2e & 3e) en blanc */
+#cart-fab svg > circle:first-of-type { fill: var(--brand); }
+#cart-fab svg > circle:nth-of-type(2),
+#cart-fab svg > circle:nth-of-type(3) { fill: #fff; }
 
 /* Badge montant – rectangle arrondi, position relevée */
 #cart-fab .cart-badge {
@@ -519,15 +523,15 @@
         }
 
       
-        /* mobile-popup : boutons “Accueil / Compte” toujours orange, pas rouges */
+        /* mobile-popup : boutons “Accueil / Compte” → bordeaux (thème) */
 .mobile-popup-buttons .desktop-btn {
-  background: #F18701 !important;
+  background: var(--brand) !important;
   color: #fff !important;
   box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
 }
 .mobile-popup-buttons .desktop-btn:hover {
   background: #fff !important;
-  color: #F18701 !important;
+  color: var(--brand) !important;
 }
 .mobile-popup-buttons .desktop-btn svg {
   fill: currentColor !important;
@@ -545,7 +549,7 @@
         }
 
         .product-plus-btn:hover {
-            background: #F18701;
+            background: var(--brand);
         }
         body.mobile-menu-active #cart-fab {
   display: none !important;
@@ -678,12 +682,12 @@
 }
 
         .mobile-popup-buttons .desktop-btn {
-  background: #F18701 !important;
+  background: var(--brand) !important;
   color: #fff !important;
 }
 .mobile-popup-buttons .desktop-btn:hover {
   background: #fff !important;
-  color: #F18701 !important;
+  color: var(--brand) !important;
 }
 
         .price .value {
@@ -702,10 +706,18 @@ body.mobile-menu-active #cart-fab {
   display: none !important;
 }
 
+/* Boutons flottants bas-gauche (desktop) → forcés en bordeaux, sans toucher au JS */
+.fixed.bottom-4.left-4 button{
+  background: var(--brand) !important;
+  color:#fff !important;
+}
+.fixed.bottom-4.left-4 button:hover{
+  background:#fff !important;
+  color: var(--brand) !important;
+}
         
-       
-          
     </style>
+
 </head>
 <body class="min-h-screen bg-gray-50 font-montserrat">
 
@@ -735,7 +747,7 @@ body.mobile-menu-active #cart-fab {
     </div>
     <!-- Bouton hamburger mobile ONLY -->
     <button id="mobile-menu-toggle"
-      class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
+      class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#4B1F24] text-white rounded-full shadow-lg transition-all"
       aria-label="Menu">
       <span id="hamburger-icon" class="block">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-7 h-7">
@@ -1132,25 +1144,32 @@ window.addEventListener('storage', () => {
 
 
 <div id="cart-fab"
-     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
+     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#4B1F24] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
      style="bottom:10px; transform:translateX(-50%);">
-  <!-- SVG Panier amélioré -->
-  <svg width="70" height="70" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="24" fill="#F18701"/>
-    <path d="M14 14h2l4 16h12l4-10H20" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <circle cx="20" cy="36" r="2" fill="#fff"/>
-    <circle cx="32" cy="36" r="2" fill="#fff"/>
+  <!-- SVG Panier (fond bordeaux + 2 petits points/roues) -->
+  <svg width="70" height="70" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <!-- disque de fond (bordeaux) -->
+    <circle cx="24" cy="24" r="24" fill="#4B1F24"/>
+    <!-- chariot -->
+    <path d="M14 14h2l4 16h12l4-10H20"
+          stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- 2 petits points / roues -->
+<circle cx="20" cy="36" r="2" fill="#fff"/>
+<circle cx="32" cy="36" r="2" fill="#fff"/>
+
   </svg>
   <span class="cart-badge" id="cart-fab-price">5,50€</span>
 </div>
-  <!-- Floating icons bottom‑left (DESKTOP UNIQUEMENT) -->
+
+
+<!-- Floating icons bottom-left (DESKTOP UNIQUEMENT) -->
 <div class="fixed bottom-4 left-4 z-[9999] flex space-x-3 hidden md:flex">
   <!-- Accueil -->
   <button
     onclick="window.location.href='index.html'"
     title="Accueil"
-    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+    class="w-12 h-12 bg-[#4B1F24] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#4B1F24]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
     </svg>
   </button>
@@ -1159,12 +1178,13 @@ window.addEventListener('storage', () => {
   <button
     onclick="window.location.href='index.html'"
     title="Mon compte"
-    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+    class="w-12 h-12 bg-[#4B1F24] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#4B1F24]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
     </svg>
   </button>
 </div>
+
 
 
 </body>

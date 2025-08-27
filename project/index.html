@@ -1,114 +1,128 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuisto - Points de vente</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KROK - Points de vente</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet" />
 
-  <!-- préchargement des bannières (comme produit.html) -->
+  <!-- préchargement bannières -->
   <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
   <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
 
   <style>
+    :root{
+      --onyx: #0B0B0C;        /* texte principal / icônes */
+      --porcelain: #F5F2EB;   /* fond */
+      --champagne: #C2A66F;   /* accent discret */
+      --burgundy: #4B1F24;    /* CTA / hover / surfaces fortes */
+    }
+
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
-    .bg-kuistoOrange { background-color: #ffffff; }
-    
-    /* Store card styles */
-    .store-card {
+
+    /* Store card */
+    .store-card{
       position: relative;
       border-radius: 28px;
       background: #fff;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      display: flex; align-items: center; gap: 1rem;
       padding: 1.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
       cursor: pointer;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      transition: box-shadow .3s ease, transform .3s ease;
+      border: 1px solid rgba(11,11,12,.06); /* onyx 6% */
     }
-
-    .store-card:hover {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    .store-card:hover{
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,.10), 0 4px 6px -2px rgba(0,0,0,.05);
       transform: translateY(-2px);
     }
 
-    .card-arrow {
-      position: absolute;
-      right: 0; 
-      bottom: 0;
-      width: 56px; 
-      height: 56px;
-      background: #000;
-      border-top-left-radius: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .3s ease, transform .3s ease;
-      text-decoration: none;
-    }
+    /* Bouton flèche (coin carte) */
+.card-arrow{
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 56px; height: 56px;
+  background: #4B1F24;              /* Burgundy par défaut */
+  border: 1px solid #4B1F24;         /* comme les icônes */
+  border-top-left-radius: 28px;
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none;
+  transition: background .25s ease, border-color .25s ease;
+}
 
-    .card-arrow .icon {
-      width: 20px; 
-      height: 20px;
-      stroke: #fff;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-width: 2.5;
-    }
+.card-arrow .icon{
+  width:20px; height:20px;
+  stroke:#fff;                       /* blanc par défaut */
+  fill:none;
+  stroke-linecap:round; stroke-linejoin:round; stroke-width:2.5;
+  transition: stroke .25s ease;      /* inversion nette au hover */
+}
 
-    .store-card:hover .card-arrow { background: #F18701; }
-    .store-card:hover .card-arrow .icon { transform: translateX(4px); }
+/* Hover identique aux deux icônes en bas à gauche */
+.card-arrow:hover{
+  background:#fff;                   /* fond blanc au survol */
+  border-color:#4B1F24;              /* contour Burgundy */
+}
+.card-arrow:hover .icon{
+  stroke:#4B1F24;                    /* icône Burgundy */
+}
+
+    .card-arrow .icon{
+      width: 20px; height: 20px;
+      stroke: #fff; fill: none;
+      stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5;
+    }
+    .store-card:hover .card-arrow .icon{ transform: translateX(4px); }
+   
+
   </style>
 </head>
-<body class="bg-gray-50">
-  <!-- Header (identique à produit.html) -->
+
+<body class="bg-white">
+  <!-- Header -->
   <header class="fixed left-0 top-0 w-full z-40 bg-white">
     <!-- Desktop -->
     <img
       src="/images/banner.svg"
-      alt="Banner Kuisto"
+      alt="Bannière"
       class="banner-img banner-desktop hidden md:block w-full h-[219px] object-cover"
-      fetchpriority="high"
-      decoding="async"
+      fetchpriority="high" decoding="async"
     />
     <!-- Mobile -->
     <img
       src="/images/banner mobile.svg"
-      alt="Banner Kuisto Mobile"
+      alt="Bannière mobile"
       class="banner-img banner-mobile block md:hidden w-full h-[110px] object-cover"
-      fetchpriority="high"
-      decoding="async"
+      fetchpriority="high" decoding="async"
     />
   </header>
   <!-- espace pour compenser le header fixe -->
   <div class="h-[110px] md:h-[219px]"></div>
 
-  <!-- Main content -->
+  <!-- Main -->
   <main class="max-w-[1120px] mx-auto px-6 py-12">
     <!-- Section title -->
-    <h2 class="flex items-center gap-3 mb-6 font-montserrat font-medium text-[16px] leading-6 text-black">
+    <h2 class="flex items-center gap-3 mb-6 font-montserrat font-medium text-[16px] leading-6 text-[var(--onyx)]">
       NOS POINTS DE VENTE
-      <span class="flex-1 h-px bg-gray-300"></span>
+      <span class="flex-1 h-px bg-[color:rgba(11,11,12,.15)]"></span>
     </h2>
 
     <!-- Location card -->
     <div class="store-card" onclick="window.location.href='produits.html'">
-      <!-- Image thumbnail -->
+      <!-- Image -->
       <img
         src="/images/kuistopf.svg"
         alt="Restaurant Montpellier"
         class="w-[128px] h-[96px] object-cover object-center rounded-md shrink-0"
       />
 
-      <!-- Text content -->
+      <!-- Text -->
       <div>
-        <p class="font-montserrat text-[14px] leading-[16px] text-black">MONTPELLIER</p>
-        <p class="font-montserrat text-[14px] leading-[21px] text-[#808080]">121 Av. de Palavas, 34000 Montpellier</p>
-        <p class="font-montserrat text-[14px] leading-[21px] text-[#008000]">✓ Livraison à Domicile</p>
+        <p class="font-montserrat text-[14px] leading-[16px] text-[var(--onyx)]">MONTPELLIER</p>
+        <p class="font-montserrat text-[14px] leading-[21px] text-[color:rgba(11,11,12,.60)]">121 Av. de Palavas, 34000 Montpellier</p>
+        <p class="font-montserrat text-[14px] leading-[21px] text-[var(--champagne)]">✓ Livraison à Domicile</p>
       </div>
 
       <!-- Arrow corner -->
@@ -121,15 +135,23 @@
     </div>
   </main>
 
-  <!-- Floating icons bottom-left (Accueil & Mon compte) -->
+  <!-- Floating actions -->
   <div class="fixed bottom-4 left-4 z-[9999] flex space-x-3">
     <!-- Accueil -->
-    <button onclick="window.location.href='index.html'" title="Accueil" class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <button
+      onclick="window.location.href='index.html'"
+      title="Accueil"
+      class="w-12 h-12 bg-[var(--burgundy)] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[var(--burgundy)] border border-[var(--burgundy)]"
+    >
       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </button>
 
-    <!-- Mon compte (redirige temporairement vers index.html) -->
-    <button onclick="window.location.href='index.html'" title="Mon compte" class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <!-- Mon compte (temp: index) -->
+    <button
+      onclick="window.location.href='index.html'"
+      title="Mon compte"
+      class="w-12 h-12 bg-[var(--burgundy)] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[var(--burgundy)] border border-[var(--burgundy)]"
+    >
       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
     </button>
   </div>
