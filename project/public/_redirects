@@ -4,5 +4,5 @@
 /openapi.json  https://kuistofoodfinal.onrender.com/openapi.json  200
 # --- Stripe webhook : permet d'utiliser https://krokburger.fr/api/stripe/webhook dans Stripe ---
 /api/stripe/webhook   https://kuistofoodfinal.onrender.com/api/stripe/webhook   200
-/*  https://krokburger.fr/:splat  301!
+
 
