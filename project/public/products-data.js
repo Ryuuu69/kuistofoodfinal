@@ -6,25 +6,16 @@ const sauceOptions = [
   { name: "Smoky", price: 0.50, image: "/images/sauce-smoky.svg" },
   { name: "Chili Thaï", price: 0.50, image: "/images/chili-thai.svg" },
   { name: "Mayo Truffe", price: 0.50, image: "/images/mayo-truffe.svg" },
-  { name: "Fromagère", price: 0.50, image: "/images/fromagere.svg" },
   { name: "Mayonnaise", "price": 0, "image": "/images/mayo.svg" },
-  { name: "Ketchup", "price": 0, "image": "/images/ketchup.svg" },
-  { name: "Algérienne", "price": 0, "image": "/images/algerienne.svg" },
-  { name: "Biggy", "price": 0, "image": "/images/biggy.svg" },
-  { name: "Barbecue", "price": 0, "image": "/images/bbq.svg" },
-  { name: "Samouraï", "price": 0, "image": "/images/samourai.svg" },
-  { name: "Curry", "price": 0, "image": "/images/curry.svg" },
-  { name: "Andalouse", "price": 0, "image": "/images/andalouse.svg" },
-  { name: "Poivre", "price": 0, "image": "/images/poivre.svg" },
-  { name: "Marocaine", "price": 0, "image": "/images/marocaine.svg" },
-  { name: "Harissa", "price": 0, "image": "/images/harissa.svg" },
-  { "name": "Moutarde", "price": 0, "image": "/images/moutarde.svg" }
+  { name: "Ketchup", "price": 0, "image": "/images/ketchup.svg" }
+  
 
 ];
 
 const petitCreuxOptions = [
   { name: "Nuggets", price: 0, image: "images/nuggets.svg" },
-  { name: "Potatoes", price: 0, image: "images/potatoes.svg" },
+  { name: "Frites", price: 0, image: "images/frites.svg" },
+  { name: "Frites Cheddar", price: 0, image: "images/frites-cheddar.svg" },
   { name: "Onion Rings", price: 0, image: "images/oignons-rings.svg" },
   { name: "Tiramisu", price: 0, image: "images/tiramisu.svg" }
 ];
@@ -235,8 +226,8 @@ const products = [
   id: 42,
   name: "BABY SMASH CHEESE",
   slug: "cheese-burger",
-  category: "smash-burgers",
-  description: "Portion de fromage.",
+  category: "sides",
+  description: "Mini smash burger : bœuf, cheddar, pickles, oignons, sauce.",
   price: 2.90,
   image: "images/baby-smash-cheese.svg",
   options: {}
@@ -245,8 +236,8 @@ const products = [
   id: 43,
   name: "BABY SMASH DOUBLE CHEESE",
   slug: "double-cheese-burger",
-  category: "smash-burgers",
-  description: "Double portion de fromage.",
+  category: "sides",
+  description: "Mini double smash : 2 steaks, double cheddar, pickles, oignons, sauce.",
   price: 3.90,
   image: "images/double-cheese.svg",
   options: {}

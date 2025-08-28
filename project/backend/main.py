@@ -22,6 +22,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "https://krokburger.fr",
+        "https://www.krokburger.fr",
         "http://localhost:8000",
         "https://localhost:5173",
         "https://localhost:8000",

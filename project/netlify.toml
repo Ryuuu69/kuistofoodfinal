@@ -26,3 +26,4 @@
   to   = "https://kuistofoodfinal.onrender.com/openapi.json"
   status = 200
   force = true
+

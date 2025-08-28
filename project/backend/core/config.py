@@ -10,13 +10,13 @@ class Settings(BaseSettings):
 
     RESTAURANT_LAT: float = 43.606206
     RESTAURANT_LNG: float = 3.870316
-    DELIVERY_BASE_FEE: Decimal = Decimal("2.00")
-    DELIVERY_PER_KM_FEE: Decimal = Decimal("1.00")
+    DELIVERY_BASE_FEE: Decimal = Decimal("1.00")
+    DELIVERY_PER_KM_FEE: Decimal = Decimal("1.30")
     DELIVERY_MAX_KM: float = 8.0
 
     STRIPE_SECRET_KEY: str
     # --- AJOUTS POUR LE WEBHOOK ---
-    STRIPE_WEBHOOK_SECRET: str = ""              # whsec_... (obligatoire)
+    STRIPE_WEBHOOK_SECRET: str = "whsec_cSPgQdFPtsH03IBYZEgdl95NS3LMLkld"              # whsec_... (obligatoire)
     STRIPE_WEBHOOK_SECRET_2: Optional[str] = None  # si tu as une 2e destination (optionnel)
     # --------------------------------
 

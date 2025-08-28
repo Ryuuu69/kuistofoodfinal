@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://krokburger.fr/produits.html" />
+
       <style> 
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .bg-kuistoOrange { background-color: #ffffff; }
@@ -770,14 +772,12 @@ body.mobile-menu-active #cart-fab {
   <nav id="mobile-menu-drawer"
     class="fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
     <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
-      <li class="mobile-menu-item active" data-cat="tacos">Smash Tacos</li>
       <li class="mobile-menu-item" data-cat="smash-burgers">Smash Burgers</li>
       <li class="mobile-menu-item" data-cat="menus-burgers">Burgers Signature</li>
       <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burgers</li>
       <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
       <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
       <li class="mobile-menu-item" data-cat="sides">Sides</li>
-      <li class="mobile-menu-item" data-cat="salades">Salades</li>
       <li class="mobile-menu-item" data-cat="boissons-desserts">Boissons & Desserts</li>
     </ul>
     <!-- Boutons attachés au pop-up (EN BAS) -->
@@ -802,34 +802,23 @@ body.mobile-menu-active #cart-fab {
   <!-- MENU LATÉRAL DESKTOP -->
   <nav class="side-nav sidebar-classic hidden md:block fixed left-0 h-full w-56 bg-white shadow">
     <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
-      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Smash Tacos</li>
       <li class="classic-menu-item" data-cat="smash-burgers" onclick="setActiveCategory('smash-burgers', false)">Smash Burgers</li>
       <li class="classic-menu-item" data-cat="burgers-signature" onclick="setActiveCategory('burgers-signature', false)">Burgers Signature</li>
       <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burgers</li>
       <li class="classic-menu-item" data-cat="buckets" onclick="setActiveCategory('buckets', false)">Buckets</li>
       <li class="classic-menu-item" data-cat="menus-bambino" onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
       <li class="classic-menu-item" data-cat="sides" onclick="setActiveCategory('sides', false)">Sides</li>
-      <li class="classic-menu-item" data-cat="salades" onclick="setActiveCategory('salades', false)">Salades</li>
       <li class="classic-menu-item" data-cat="boissons-desserts" onclick="setActiveCategory('boissons-desserts', false)">Boissons & Desserts</li>
     </ul>
   </nav>
 
   <!-- CONTENU QUI DÉFILE -->
   <main class="ml-0 md:ml-56 px-2 pt-[110px] md:pt-[219px] min-h-screen">
-    <!-- Section Tacos -->
-    
-      <section id="tacos" class="cat px-3 pt-5 pb-8">
-
-
-      <!-- ↑↑↑ -mt-10 fait “remonter” la carte blanche sous la bannière arrondie, effet carte qui flotte -->
-      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Smash Tacos</h2>
-      <div class="cards-grid" id="tacos-products">
-        <!-- Products will be populated by JavaScript -->
-      </div>
-    </section>
+   
+       
 <!-- Section Smash Burgers -->
 <section id="smash-burgers" class="cat">
-  <h2 class="section-title">SMASH BURGERS</h2>
+  <h2 class="section-title text-2xl font-bold mb-4 mt-0">SMASH BURGER</h2>
   <div class="cards-grid" id="smash-burgers-products"></div>
 </section>
 
@@ -863,11 +852,6 @@ body.mobile-menu-active #cart-fab {
   <div class="cards-grid" id="sides-products"></div>
 </section>
 
-<!-- Section Salades -->
-<section id="salades" class="cat">
-  <h2 class="section-title">SALADES</h2>
-  <div class="cards-grid" id="salades-products"></div>
-</section>
 
 <!-- Section Boissons & Desserts -->
 <section id="boissons-desserts" class="cat">
