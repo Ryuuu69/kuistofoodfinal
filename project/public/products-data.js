@@ -15,7 +15,7 @@ const sauceOptions = [
 const petitCreuxOptions = [
   { name: "Nuggets", price: 0, image: "images/nuggets.svg" },
   { name: "Frites", price: 0, image: "images/frites.svg" },
-  { name: "Frites Cheddar", price: 0, image: "images/frites-cheddar.svg" },
+  { name: "Frites Cheddar", price: 0, image: "images/frites-chedar.svg" },
   { name: "Onion Rings", price: 0, image: "images/oignons-rings.svg" },
   { name: "Tiramisu", price: 0, image: "images/tiramisu.svg" }
 ];

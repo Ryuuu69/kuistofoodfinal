@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuisto - Produit</title>
+    <title>KROK BURGER - Produit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://krokburger.fr/produit.html" />
+    <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
     <style>
         /* ===== VARIABLES CSS BIGSMASH ===== */
         :root {
@@ -502,6 +504,8 @@
     </div>
     <script src="/products-data.js"></script>
 <script src="/cart-system.js"></script>
+<script src="/svg-boost.js" defer></script>
+
     <script>
 class ProductPage {
   constructor() {

@@ -1,7 +1,7 @@
 [build]
   base    = "project"
   publish = "dist"
-  command = "npm ci && npm run build"
+  command = "npm ci && npm run build && npx --yes svgo -f dist --config=.svgo.json"
 
 [[redirects]]
   from = "/api/*"
