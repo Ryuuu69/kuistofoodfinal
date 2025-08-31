@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import datetime, time, timedelta
 from zoneinfo import ZoneInfo
 from typing import Dict, Tuple, Optional
-from project.backend.core.config import settings
+from core.config import settings  # <- import corrigé
 
 WEEK = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
 def _parse_windows(raw: str) -> Dict[int, Tuple[time, time]]:
