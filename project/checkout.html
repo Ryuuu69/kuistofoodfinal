@@ -2,12 +2,28 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KROK BURGER - Validation de la commande</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>KROK Burger — Validation de la commande</title>
+  <meta name="description" content="Validez votre commande KROK Burger. Paiement sécurisé, livraison de nuit." />
+
+  <!-- Canonical & NOINDEX (page transactionnelle) -->
   <link rel="canonical" href="https://krokburger.fr/checkout.html" />
-  <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
+  <meta name="robots" content="noindex,nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="/favicon.ico" />
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Préchargement bannières (renomme banner mobile.svg -> banner-mobile.svg) -->
+  <link rel="preload" as="image" href="/images/banner.svg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner-mobile.svg" fetchpriority="high" />
+
+
  <style>
   /* ===== Thème KROK (bordeaux) ===== */
   :root{
@@ -632,8 +648,26 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   const ids=[...new Set(cart.map(it => Number(it.id || it.product_id)).filter(Boolean))];
   await Promise.all(ids.map(loadProductOptions));
 });
-</script>
 
+</script>
+<script>
+(async () => {
+  try {
+    const r = await fetch('/api/store/status', { cache: 'no-store' });
+    const s = await r.json();
+    if (!s.open) {
+      const btn = document.querySelector('#pay-button, #pay, [data-pay]'); // adapte le sélecteur
+      if (btn) { btn.disabled = true; btn.title = "Fermé actuellement"; }
+      const note = document.querySelector('#store-status') || document.createElement('div');
+      note.id = 'store-status'; note.style.margin = '10px 0';
+      note.textContent = s.next_open_at
+        ? "⏰ Les commandes rouvrent à " + new Date(s.next_open_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+        : "⏰ Les commandes sont fermées pour le moment.";
+      document.body.prepend(note);
+    }
+  } catch(e) { console.warn('Status store indisponible', e); }
+})();
+</script>
 
 </body>
 </html>

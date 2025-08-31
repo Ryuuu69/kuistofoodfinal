@@ -2,6 +2,7 @@ from typing import List, Optional, Dict, Any
 from decimal import Decimal
 import json
 import base64
+
 from crud.crud_operations import geocode_address, calculate_distance
 
 from fastapi import APIRouter, Depends, HTTPException, status, Body
@@ -9,6 +10,8 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from fastapi import APIRouter, Depends  # (laisse tel quel)
+from project.backend.deps.opening_guard import enforce_open_hours
 
 from api.deps import get_db, get_admin_token
 from schemas.schemas import OrderCreate, OrderUpdate, OrderResponse, OrderItemResponse
@@ -64,7 +67,12 @@ def map_order_to_response(order: Order) -> OrderResponse:
 
 
 # ---------------- CASH ----------------
-@router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=OrderResponse,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(enforce_open_hours)],  # fermeture hors horaires
+)
 async def create_order(order_in: OrderCreate, db: AsyncSession = Depends(get_db)):
     payload = order_in.model_copy(update={"delivery_mode": DeliveryMode.delivery})
     db_order_full = await order_crud.create(db, obj_in=payload)
@@ -154,7 +162,7 @@ def _decode_order_from_metadata(md: Dict[str, Any]) -> Dict[str, Any]:
     return json.loads(raw)
 
 
-@router.post("/stripe-intent")
+@router.post("/stripe-intent", dependencies=[Depends(enforce_open_hours)])  # fermeture hors horaires
 async def create_stripe_intent(order_in: OrderCreate, db: AsyncSession = Depends(get_db)):
     """
     - Calcule total au serveur (pricing centralisé)
@@ -169,6 +177,7 @@ async def create_stripe_intent(order_in: OrderCreate, db: AsyncSession = Depends
     # ---------- GÉO-FENCING & FRAIS (identique au CRUD) ----------
     radius_km = float(getattr(settings, "DELIVERY_MAX_KM", 8.0))
 
+    # Géocodage & distance
     try:
         if safe_payload.latitude and safe_payload.longitude:
             distance_km = calculate_distance(
@@ -176,10 +185,19 @@ async def create_stripe_intent(order_in: OrderCreate, db: AsyncSession = Depends
                 float(safe_payload.latitude), float(safe_payload.longitude),
             )
         else:
-            lat, lon = await geocode_address(safe_payload.address)
-            distance_km = calculate_distance(settings.RESTAURANT_LAT, settings.RESTAURANT_LNG, lat, lon)
+            coords = await geocode_address(safe_payload.address)
+            if not coords or len(coords) != 2:
+                raise HTTPException(status_code=400, detail="Adresse introuvable.")
+            lat, lon = coords
+            distance_km = calculate_distance(settings.RESTAURANT_LAT, settings.RESTAURANT_LNG, float(lat), float(lon))
+    except HTTPException:
+        raise
     except Exception:
         raise HTTPException(status_code=400, detail="Adresse invalide ou introuvable.")
+
+    # Distance incohérente / hors zone
+    if distance_km <= 0 or distance_km > 200:
+        raise HTTPException(status_code=400, detail="Adresse invalide (distance incohérente).")
 
     if distance_km > radius_km:
         raise HTTPException(
@@ -187,6 +205,14 @@ async def create_stripe_intent(order_in: OrderCreate, db: AsyncSession = Depends
             detail=f"Adresse hors zone de livraison ({distance_km:.1f} km > {radius_km:.1f} km)."
         )
 
+    # Sanity checks configuration
+    try:
+        if settings.DELIVERY_PER_KM_FEE <= 0 or settings.DELIVERY_BASE_FEE < 0:
+            raise HTTPException(status_code=500, detail="Delivery fee misconfigured")
+    except AttributeError:
+        raise HTTPException(status_code=500, detail="Delivery fee settings missing")
+
+    # Calcul des frais
     fee = (
         settings.DELIVERY_BASE_FEE
         + settings.DELIVERY_PER_KM_FEE * Decimal(str(distance_km))

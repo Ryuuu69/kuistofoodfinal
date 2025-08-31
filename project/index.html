@@ -1,16 +1,66 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KROK - Points de vente</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>KROK Burger Montpellier — Smash burgers, commande en ligne & livraison de nuit</title>
+  <meta name="description" content="KROK Burger à Montpellier : smash burgers, frites maison, options veggie. Commande en ligne et livraison nocturne." />
+
+  <!-- Canonical & indexation -->
+  <link rel="canonical" href="https://krokburger.fr/" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph (partage réseaux) -->
+  <meta property="og:title" content="KROK Burger Montpellier — Commande & Livraison" />
+  <meta property="og:description" content="Smash burgers à Montpellier. Commande en ligne, livraison de nuit." />
+  <meta property="og:url" content="https://krokburger.fr/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://krokburger.fr/images/logo.svg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="KROK Burger Montpellier — Commande & Livraison" />
+  <meta name="twitter:description" content="Smash burgers & livraison de nuit." />
+  <meta name="twitter:image" content="https://krokburger.fr/images/logo.svg" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet" />
 
-  <!-- préchargement bannières -->
-  <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
-  <link rel="canonical" href="https://krokburger.fr/" />
+  <!-- Tailwind (si nécessaire sur la page) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Préchargement bannières (fichier renommé sans espace) -->
+  <link rel="preload" as="image" href="/images/banner.svg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner-mobile.svg" fetchpriority="high" />
+    <!-- Données structurées Restaurant (SEO local) -->
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Restaurant",
+  "name":"KROK Burger",
+  "url":"https://krokburger.fr/",
+  "image":"https://krokburger.fr/images/banner.svg",
+  "telephone":"+33 748628652",
+  "address":{
+    "@type":"PostalAddress",
+    "streetAddress":"4 Rue Henri Guinier",
+    "addressLocality":"Montpellier",
+    "postalCode":"34000",
+    "addressCountry":"FR"
+  },
+  "servesCuisine":"Burger",
+  "priceRange":"€€",
+  "areaServed":"Montpellier",
+  "openingHoursSpecification":[
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Sunday"],"opens":"20:00","closes":"06:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Friday","Saturday"],"opens":"20:00","closes":"06:00"}
+  ]
+}
+</script>
 
 
   <style>
