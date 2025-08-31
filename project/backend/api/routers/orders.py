@@ -296,7 +296,11 @@ async def create_stripe_intent(order_in: OrderCreate, db: AsyncSession = Depends
 
 
 # ---------------- CARD: capture after redirect (creates order ONCE) ----------------
-@router.post("/capture", response_model=OrderResponse)
+@router.post(
+    "/capture",
+    response_model=OrderResponse,
+    dependencies=[Depends(enforce_open_hours)]  # ⬅️ bloque la création hors horaires
+)
 async def capture_payment(
     payload: Dict[str, Any] = Body(...),
     db: AsyncSession = Depends(get_db),

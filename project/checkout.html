@@ -651,23 +651,47 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
 </script>
 <script>
-(async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const r = await fetch('/api/store/status', { cache: 'no-store' });
-    const s = await r.json();
+    const res = await fetch('/api/store/status', { cache: 'no-store' });
+    const s = await res.json();
+
     if (!s.open) {
-      const btn = document.querySelector('#pay-button, #pay, [data-pay]'); // adapte le sélecteur
-      if (btn) { btn.disabled = true; btn.title = "Fermé actuellement"; }
-      const note = document.querySelector('#store-status') || document.createElement('div');
-      note.id = 'store-status'; note.style.margin = '10px 0';
-      note.textContent = s.next_open_at
-        ? "⏰ Les commandes rouvrent à " + new Date(s.next_open_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
-        : "⏰ Les commandes sont fermées pour le moment.";
-      document.body.prepend(note);
+      // 1) Désactiver les boutons de paiement / submit (ton bouton inclus)
+      const buttons = document.querySelectorAll('button.big-btn[type="submit"], button[type="submit"], input[type="submit"]');
+      buttons.forEach(b => {
+        b.disabled = true;
+        b.setAttribute('aria-disabled', 'true');
+        // petit style visuel si tu utilises Tailwind (sinon supprime)
+        b.classList.add('opacity-50');
+        b.classList.add('cursor-not-allowed');
+      });
+
+      // 2) Bloquer la soumission de TOUS les formulaires (Enter, etc.)
+      document.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert("⏰ Les commandes sont fermées pour le moment."
+              + (s.next_open_at ? " Réouverture à "
+                  + new Date(s.next_open_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : ""));
+      }, { capture: true });
+
+      // 3) Message d’info en haut de page
+      const note = document.createElement('div');
+      note.id = 'store-status';
+      note.role = 'status';
+      note.setAttribute('aria-live','polite');
+      note.style.margin = '10px 0';
+      note.textContent = "⏰ Les commandes sont fermées pour le moment."
+        + (s.next_open_at ? " Réouverture à "
+            + new Date(s.next_open_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : "");
+      (document.querySelector('[data-checkout-header]') || document.body).prepend(note);
     }
-  } catch(e) { console.warn('Status store indisponible', e); }
-})();
+  } catch (e) {
+    console.warn('Status boutique indisponible', e);
+  }
+});
 </script>
+
 
 </body>
 </html>
