@@ -1,7 +1,8 @@
+# project/backend/api/routers/store.py
 from fastapi import APIRouter
-from project.backend.utils.opening_hours import is_open_now_and_next
+from utils.opening_hours import is_open_now_and_next  # <-- import corrigé
 
-router = APIRouter(prefix="/store")
+router = APIRouter(prefix="/store", tags=["Store"])
 
 @router.get("/status")
 def store_status():
