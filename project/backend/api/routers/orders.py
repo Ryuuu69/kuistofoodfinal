@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from fastapi import APIRouter, Depends  # (laisse tel quel)
-from project.backend.deps.opening_guard import enforce_open_hours
+from deps.opening_guard import enforce_open_hours  # <- import corrigé
 
 from api.deps import get_db, get_admin_token
 from schemas.schemas import OrderCreate, OrderUpdate, OrderResponse, OrderItemResponse
