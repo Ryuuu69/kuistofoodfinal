@@ -4,10 +4,13 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
 
-# HTML : pas de cache agressif (toujours la dernière version)
-# (si tu as des routes HTML à la racine comme /, /produits.html, etc.)
+# HTML : toujours frais
+/ 
+  Cache-Control: public, max-age=0, must-revalidate
+
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
 # ---- EXCEPTIONS qui doivent se rafraîchir vite ----
 /images/banner.svg
   Cache-Control: public, max-age=300

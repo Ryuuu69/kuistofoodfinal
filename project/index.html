@@ -23,8 +23,8 @@
   <meta name="twitter:image" content="https://krokburger.fr/images/logo.svg" />
 
   <!-- Favicon -->
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="alternate icon" href="/favicon.ico" />
+  <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
+  <link rel="alternate icon" href="/favicon.ico?v=3" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,9 +33,11 @@
   <!-- Tailwind (si nécessaire sur la page) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Préchargement bannières (fichier renommé sans espace) -->
-  <link rel="preload" as="image" href="/images/banner.svg" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg" fetchpriority="high" />
+  <!-- Préchargement bannières (avec cache-busting) -->
+  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
+</head>
+
     <!-- Données structurées Restaurant (SEO local) -->
   <script type="application/ld+json">
 {

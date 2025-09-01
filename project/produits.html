@@ -35,9 +35,9 @@
   <!-- Tailwind (si nécessaire sur cette page) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Préchargement bannières (fichier renommé sans espace) -->
-  <link rel="preload" as="image" href="/images/banner.svg" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg" fetchpriority="high" />
+  <!-- Préchargement bannières (avec cache-busting) -->
+  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
 
 
       <style> 

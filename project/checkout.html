@@ -19,9 +19,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Préchargement bannières (renomme banner mobile.svg -> banner-mobile.svg) -->
-  <link rel="preload" as="image" href="/images/banner.svg" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg" fetchpriority="high" />
+  <!-- Préchargement bannières (avec cache-busting) -->
+  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
 
 
  <style>
