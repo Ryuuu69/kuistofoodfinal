@@ -36,8 +36,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Préchargement bannières (avec cache-busting) -->
-  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1-mobile.svg?v=3" fetchpriority="high" />
 
 
     <!-- Données structurées Restaurant (SEO local) -->
@@ -47,7 +47,7 @@
   "@type":"Restaurant",
   "name":"KROK Burger",
   "url":"https://krokburger.fr/",
-  "image":"https://krokburger.fr/images/banner.svg",
+  "image":"https://krokburger.fr/images/banner1.svg",
   "telephone":"+33 748628652",
   "address":{
     "@type":"PostalAddress",
@@ -141,16 +141,16 @@
   <header class="fixed left-0 top-0 w-full z-40 bg-white">
     <!-- Desktop -->
     <img
-      src="/images/banner.svg"
+      src="/images/banner1.svg"
       alt="Bannière"
-      class="banner-img banner-desktop hidden md:block w-full h-[219px] object-cover"
+      class="banner1-img banner1-desktop hidden md:block w-full h-[219px] object-cover"
       fetchpriority="high" decoding="async"
     />
     <!-- Mobile -->
     <img
-      src="/images/banner mobile.svg"
+      src="/images/banner1-mobile.svg"
       alt="Bannière mobile"
-      class="banner-img banner-mobile block md:hidden w-full h-[110px] object-cover"
+      class="banner1-img banner1-mobile block md:hidden w-full h-[110px] object-cover"
       fetchpriority="high" decoding="async"
     />
   </header>
@@ -169,7 +169,7 @@
     <div class="store-card" onclick="window.location.href='produits.html'">
       <!-- Image -->
       <img
-        src="/images/banner-mobile.svg"
+        src="/images/banner1-mobile.svg"
         alt="Restaurant Montpellier"
         class="w-[128px] h-[96px] object-cover object-center rounded-md shrink-0"
       />

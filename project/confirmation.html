@@ -20,8 +20,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Préchargement bannières (avec cache-busting) -->
-  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1-mobile.svg?v=3" fetchpriority="high" />
 
 
   <style>
@@ -34,7 +34,7 @@
 
     body { background: var(--bg); font-family: 'Montserrat', sans-serif; margin: 0; }
     header { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
-    .banner { height: 219px; display: flex; align-items: center; justify-content: center; }
+    .banner1 { height: 219px; display: flex; align-items: center; justify-content: center; }
 
     .checkout-container { min-height: 80vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 12px; }
     .checkout-card { background: #fff; border-radius: 32px; box-shadow: 0 6px 36px rgba(0,0,0,0.10); padding: 42px 38px 36px 38px; width: 500px; max-width: 100vw; display: flex; flex-direction: column; align-items: center; position: relative; }
@@ -63,16 +63,16 @@
 
     @media (max-width: 640px) {
       .checkout-card { padding: 20px 8px 24px 8px; border-radius: 18px; }
-      .banner { height: 90px; }
+      .banner1 { height: 90px; }
       .back-btn { width: 38px; height: 38px; font-size: 1.2rem; }
     }
 
     /* === Bannière fixe identique à produit.html === */
-    .banner-desktop { display: none; }
-    .banner-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
+    .banner1-desktop { display: none; }
+    .banner1-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
     @media (min-width: 768px) {
-      .banner-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
-      .banner-mobile  { display: none; }
+      .banner1-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
+      .banner1-mobile  { display: none; }
     }
 
     /* Espace sous le header fixe */
@@ -84,9 +84,9 @@
   <!-- Header fixe (comme produit.html) -->
   <header style="position:fixed; left:0; top:0; width:100%; z-index:40; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);">
     <!-- Desktop -->
-    <img src="/images/banner.svg" alt="Banner Kuisto" class="banner-desktop" decoding="async" />
+    <img src="/images/banner1.svg" alt="banner1 Kuisto" class="banner1-desktop" decoding="async" />
     <!-- Mobile -->
-    <img src="/images/banner mobile.svg" alt="Banner Kuisto Mobile" class="banner-mobile" decoding="async" />
+    <img src="/images/banner1-mobile.svg" alt="banner1 Kuisto Mobile" class="banner1-mobile" decoding="async" />
   </header>
 
   <!-- Espace pour compenser le header fixe -->

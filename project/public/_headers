@@ -12,9 +12,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 # ---- EXCEPTIONS qui doivent se rafraîchir vite ----
-/images/banner.svg
+/images/banner1.svg
   Cache-Control: public, max-age=300
-/images/banner-mobile.svg
+/images/banner1-mobile.svg
   Cache-Control: public, max-age=300
 
 /favicon.svg

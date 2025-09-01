@@ -23,8 +23,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Préchargement bannières (avec cache-busting) -->
-  <link rel="preload" as="image" href="/images/banner.svg?v=3" fetchpriority="high" />
-  <link rel="preload" as="image" href="/images/banner-mobile.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1.svg?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/banner1-mobile.svg?v=3" fetchpriority="high" />
 
 
   <style>
@@ -141,18 +141,18 @@
     .desktop-btn svg{width:24px;height:24px;}
 
     /* ===== Bannière header ===== */
-    .banner-img{width:100%;object-fit:cover;}
+    .banner1-img{width:100%;object-fit:cover;}
   </style>
 </head>
 <body>
   <!-- Header fixe (desktop + mobile) -->
   <header class="fixed left-0 top-0 w-full z-40 bg-white">
     <!-- Desktop -->
-    <img src="/images/banner.svg" alt="Banner Kuisto"
-         class="banner-img banner-desktop hidden md:block w-full h-[219px]" fetchpriority="high" decoding="async"/>
+    <img src="/images/banner1.svg" alt="banner1 Kuisto"
+         class="banner1-img banner1-desktop hidden md:block w-full h-[219px]" fetchpriority="high" decoding="async"/>
     <!-- Mobile -->
-    <img src="/images/banner mobile.svg" alt="Banner Kuisto Mobile"
-         class="banner-img banner-mobile block md:hidden w-full h-[110px]" fetchpriority="high" decoding="async"/>
+    <img src="/images/banner1-mobile.svg" alt="banner1 Kuisto Mobile"
+         class="banner1-img banner1-mobile block md:hidden w-full h-[110px]" fetchpriority="high" decoding="async"/>
   </header>
   <!-- Espace pour compenser le header fixe -->
   <div class="h-[110px] md:h-[219px]"></div>
